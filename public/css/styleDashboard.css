@@ -1,0 +1,40 @@
+.content-wrapper{
+    
+ background-color: rgb(152, 176, 184)!important;    
+
+}
+.main-header .navbar,.logo {
+    background-color: #0a0a0a!important;
+    height: 80px!important;
+
+    
+}
+.logo{
+ background-image: url("https://www.istvidanueva.edu.ec/images/Nombre_y_logo_para_Pag_Web.png")!important;
+
+ background-size: 120%!important;
+ background-repeat: no-repeat!important;
+ background-position: center!important;
+
+}
+.cerrarSession{
+    float: right!important;
+    margin-right: 2%!important;
+    margin-top: 20px!important;
+    color:white!important;
+    font-size: 18px!important;
+    padding: 6px!important;
+    transition: .3s!important;
+
+}
+.cerrarSession:hover{
+    background-color: rgb(65, 63, 63)!important;
+    transition: .3s!important;
+}
+.sidebar{
+    background-color: rgb(65, 63, 63)!important;
+    margin-top: 30px!important;
+}
+ .main-sidebar{
+    background-color: rgb(65, 63, 63)!important;
+}
