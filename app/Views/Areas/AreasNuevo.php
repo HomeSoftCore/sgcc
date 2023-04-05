@@ -1,4 +1,4 @@
-<!-- 
+
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -36,11 +36,11 @@
 			</div>
 		</div>
 	</section>
-</div> -->
+</div>
 
 
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
@@ -55,4 +55,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
