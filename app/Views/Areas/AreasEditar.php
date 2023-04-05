@@ -1,50 +1,30 @@
-<div class="content-wrapper">
-	<section class="content-header">
-		<h1>
-			Areas
-			<small><i class="fa fa-tags"></i></small>
-		</h1>
-	</section>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-					<div class="box-header with-border">
-						<h3 class="box-title">Editar Area</h3>
-					</div>
-					<div class="box-body">
-						<div class="row" style="margin-top: 15px;">
-							<div class="col-xs-12">
-								<?php
-								$base = base_url();
-								echo form_open('/AreasController/modificar'); //equivale al <form></form> en html
-								echo "<br>";
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Actualizar Area</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <form action="/AreasController/modificar" method="post" accept-charset="utf-8">
+							<div class="form-group">
+                                <label for="txtCodigo">C&oacute;digo de &Aacute;rea</label>
+                                <input type="text" disabled value="<?php echo $areas["AREID"] ?>" class="form-control" name="txtCodigo" placeholder="&aacute;rea">
+                            </div>
 
-								$codigo = 0;
-								foreach ($areas as $value) {
-									$codigo = $value['AREID'];
-									$areaNombre = $value['ARENOMBRE'];
-								}
+                            <div class="form-group">
+                                <label for="txtAreas">Digite el &Aacute;rea</label>
+                                <input type="text" value="<?php echo $areas["ARENOMBRE"] ?>" class="form-control" name="txtAreas" placeholder="&aacute;rea">
+                            </div>
+                            <button type="button" class="btn btn-light" onclick="location.href='<?php echo base_url();?>/AreasController'">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </form>            
+                    </div>
+                </div>
 
-								echo form_input(['name' => 'txtCodigo', 'readOnly' => 'true', 'class' => 'form-control', 'value' => $codigo]);
-								echo "<br>";
-
-								echo form_label('Área:', 'area'); //equivale al <label></label> en html
-								echo "<br>";
-
-
-								echo form_input(['name' => 'txtArea', 'placeholder' => 'Ingrese el Área', 'class' => 'form-control', 'value' => $areaNombre]);
-								echo "<br>";
-								echo form_button(['name' => 'btnGuardar', 'type' => 'submit', 'class' => 'btn btn-success', 'content' => 'Guardar']);
-								echo form_close();
-
-								?>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+            </div>
+        </div>
+    </div>
 </div>

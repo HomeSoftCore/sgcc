@@ -9,7 +9,7 @@
 
             </div>
             <div class="card-body">
-                <table id="advanced_table" class="table nowrap" data-paging="true" data-info="false" data-searching="true">
+                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
                     <thead>
                         <tr>
                             <th>Código</th>

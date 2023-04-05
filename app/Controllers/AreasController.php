@@ -9,21 +9,23 @@ class AreasController extends BaseController
 
 		$this->db =db_connect(); // loading database 
 		helper('form');
+
 	}
 	public function index()
 	{
 		$builder = $this->db->table("areas");
 		$builder->select('*');
 		$areas = $builder->get()->getResult();
-		$areas=array('areas'=>$areas);
+		// $areas=array('areas'=>$areas);
 		//metodo pager
 		$model = new AreasModel();
         $data = [
-            'areas' => $model->paginate(3),
+            'areas' => $model->paginate(10),
             'pager' => $model->pager,
 			'pagi_path' => 'sgcc/areas',
 			'content' => 'Areas/AreasListar'
         ];
+
 		//$estructura=view('Estructura/Encabezado').view('Areas/AreasListar',$areas).view('Estructura/pie');
 		// $estructura=	view('Estructura/Header').
 		// 				view('Estructura/Menu').
@@ -55,7 +57,7 @@ class AreasController extends BaseController
 		$data=array(
 			'ARENOMBRE'=>$request->getPostGet('txtAreas'),
 		);
-		//var_dump($data);
+
 		if($AreasModel->insert($data)===false){
 			var_dump($AreasModel->errors());
 		}
@@ -70,7 +72,7 @@ class AreasController extends BaseController
 
 		$AreasModel=new AreasModel($db);
 		$areas=$AreasModel->find($id);
-		$areas=array('areas'=>$areas);
+		//$areas=array('areas'=>$areas);
 		//var_dump($areas);
 		$data = [
 			'areas' => $areas,
@@ -92,8 +94,11 @@ class AreasController extends BaseController
 		$request=\Config\Services::request();
 		$data=array(
 			'AREID'=>$request->getPost('txtCodigo'),
-			'ARENOMBRE'=>$request->getPost('txtArea'),
+			'ARENOMBRE'=>$request->getPost('txtAreas'),
 		);
+		var_dump($data);
+		die();
+
 		$AREID=$request->getPost('txtCodigo');
 		if($AreasModel->update($AREID,$data)===false){
 			var_dump($AreasModel->errors());
