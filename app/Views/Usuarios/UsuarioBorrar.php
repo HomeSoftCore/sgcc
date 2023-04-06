@@ -1,86 +1,90 @@
-<div class="content-wrapper">
-            <section class="content-header">
-                <h1>
-                    Usuarios
-                    <small><i class="fa fa-tags"></i></small>
-                </h1>
-            </section>
-
-            <section class="content">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Eliminar Usuario</h3>
+            </div>
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="box box-danger">
-                            <div class="box-header with-border">
-                            <h3 class="box-title">Borrar Usuario</h3>
+                        <form action="<?php echo base_url(); ?>/UsuariosController/eliminar" method="post" accept-charset="utf-8">
+
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                  <label for="txtNombre">C&oacute;digo</label>
+                                  <input type="text" class="form-control" name="txtCodigo" readonly="true" value="<?php echo $usuarios["USUID"] ?>">
+                              </div>
                             </div>
-                            <div class="box-body">
-                                <div class="row" style="margin-top: 15px;">
-                                    <div class="col-xs-12">
-                <?php
-                $base = base_url();
-                echo form_open('UsuariosController/eliminar'); //equivale al <form></form> en html
-                echo "<br>";
+                          </div>
 
-               
-                foreach ($usuarios as $value) {
-                    $codigo = $value['USUID'];
-                    $codigoA = $value['PERID'];
-                    $USUNOMBRE = $value['USUNOMBRE'];
-                    $USUCEDULA = $value['USUCEDULA'];
-                    $USUCLAVE = $value['USUCLAVE'];
-                    $USUCORREO = $value['USUCORREO'];
-                    $USUESTADO = $value['USUESTADO'];
-                   
-                }
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtNombre">Digite el Nombre</label>
+                                  <input type="text" class="form-control" name="txtNombre" readonly="true" placeholder="nombres..." value="<?php echo $usuarios["USUNOMBRE"] ?>">
+                              </div>
 
-                echo form_input(array('name' => 'txtCodigo', 'readOnly' => 'true', 'class' => 'form-control', 'value' => $codigo));
-                echo "<br>";
-
-                echo form_label('Nombre:', 'Nombre'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtNombre', 'placeholder' => 'Ingrese el Nombre', 'class' => 'form-control', 'value' => $USUNOMBRE));
-                echo "<br>";
-
-                echo form_label('Cedula:', 'Fecha_Inicio'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtCedula', 'placeholder' => 'Ingrese la Cedula', 'class' => 'form-control', 'value' => $USUCEDULA));
-                echo "<br>";
-
-                echo form_label('Clave:', 'Clave'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('type' => 'paswword','name' => 'txtClave', 'placeholder' => 'Ingrese la Clave', 'class' => 'form-control', 'value' => $USUCLAVE));
-                echo "<br>";
-
-                echo form_label('Correo:', 'Correo'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtCorreo', 'placeholder' => 'Ingrese el Correo', 'class' => 'form-control', 'value'=> $USUCORREO));
-                echo "<br>";
-                echo form_label('Estado:', 'Estado'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtEstado', 'placeholder' => 'Ingrese el Estado', 'class'=>'form-control', 'value' => $USUESTADO));
-                echo "<br>";
-              
-               echo form_label('Perfiles:', 'cmbPerfiles');
-                echo "<select class='form-control' name='cmbPerfiles' id='cmbCiudad'>";
-                foreach($perfiles as $perfil){
-                  if($perfil->PERID==$codigoA){
-                   echo "<option value='" . $perfil->PERID . "'selected>" . $perfil->PERNOMBRE . "</option>";
-               }else{
-                      echo "<option value='" . $perfil->PERID . "'>" . $perfil->PERNOMBRE . "</option>";
-                  }
-                  
-               } 
-                echo "</select>";
-                echo "<br>";
-                echo form_button(array('name' => 'btnBorrar', 'type' => 'submit', 'class' => 'btn btn-danger', 'content' => 'ELIMINAR'));
-                echo form_close();
-
-                ?>
-          </div>
                             </div>
-                        </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCedula">Digite No. C&eacute;dula</label>
+                                  <input type="text" class="form-control" name="txtCedula" readonly="true" placeholder="c&eacute;dula..." value="<?php echo $usuarios["USUCEDULA"] ?>">
+                              </div>                               
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtClave">Digite Clave</label>
+                                  <input type="paswword" class="form-control" name="txtClave" readonly="true" placeholder="clave..." value="<?php echo $usuarios["USUCLAVE"] ?>">
+                              </div>  
+
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCorreo">Digite Correo</label>
+                                  <input type="text" class="form-control" name="txtCorreo" readonly="true" placeholder="correo..." value="<?php echo $usuarios["USUCORREO"] ?>">
+                              </div> 
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtEstado">Digite Estado</label>
+                                  <input type="text" class="form-control" name="txtEstado" readonly="true" placeholder="estado..." value="<?php echo $usuarios["USUESTADO"] ?>">
+                              </div>    
+
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="cmbPerfiles">Seleccione Perfil</label>
+                                  <?php 
+                                  
+                                    echo "<select class='form-control' readonly='true' name='cmbPerfiles' id='cmbPerfiles'>";
+                                    foreach($perfiles as $perfil)
+                                    {
+                                      if($perfil->PERID==$usuarios["PERID"] ) {
+                                        echo "<option value='" . $perfil->PERID . "'selected>" . $perfil->PERNOMBRE . "</option>";
+                                      }else{
+                                          echo "<option value='" . $perfil->PERID . "'>" . $perfil->PERNOMBRE . "</option>";
+                                      }
+                                    } 
+                                    echo "</select>";                               
+                                  
+                                  ?>
+                              </div>  
+                            </div>
+                          </div>
+                            <button type="button" class="btn btn-light" onclick="location.href='<?php echo base_url();?>/UsuariosController'">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>            
                     </div>
                 </div>
+
             </div>
-        </section>
+        </div>
     </div>
+</div>

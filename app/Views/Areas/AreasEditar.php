@@ -8,10 +8,11 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <form action="/AreasController/modificar" method="post" accept-charset="utf-8">
+                        <form action="<?php echo base_url(); ?>/AreasController/modificar" method="post" accept-charset="utf-8">
 							<div class="form-group">
                                 <label for="txtCodigo">C&oacute;digo de &Aacute;rea</label>
-                                <input type="text" disabled value="<?php echo $areas["AREID"] ?>" class="form-control" name="txtCodigo" placeholder="&aacute;rea">
+                                <!-- <input type="text" disabled value="<?php echo $areas["AREID"] ?>" class="form-control" name="txtCodigo" placeholder="&aacute;rea"> -->
+                                <?php echo form_input(array('name' => 'txtCodigo', 'readOnly' => 'true', 'placeholder' => 'C&oacute;digo', 'class'=>'form-control','value'=>$areas["AREID"])); ?>
                             </div>
 
                             <div class="form-group">

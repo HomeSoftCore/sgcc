@@ -1,67 +1,75 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Crear Usuario</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/UsuariosController/guardar" method="post" accept-charset="utf-8">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtNombre">Digite el Nombre</label>
+                                  <input type="text" class="form-control" name="txtNombre" placeholder="nombres...">
+                              </div>
 
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-            Usuario
-            <small><i class="fa fa-tags"></i></small>
-        </h1>
-    </section>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCedula">Digite No. C&eacute;dula</label>
+                                  <input type="text" class="form-control" name="txtCedula" placeholder="c&eacute;dula...">
+                              </div>                               
+                            </div>
+                          </div>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">CREAR NUEVO USUARIO</h3>
-		            </div>
-		            <div class="box-body">
-		        		<div class="row" style="margin-top: 15px;">
-		        			<div class="col-xs-12">
-                <?php
-                $base=base_url();
-                echo form_open('UsuariosController/guardar'); //equivale al <form></form> en html
-                
-                echo form_label('Nombre:', 'Nombre'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtNombre', 'placeholder' => 'Ingrese el Nombre', 'class'=>'form-control'));
-                echo "<br>";
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtClave">Digite Clave</label>
+                                  <input type="paswword" class="form-control" name="txtClave" placeholder="clave...">
+                              </div>  
 
-                echo form_label('Cedula:', 'Fecha_Inicio'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtCedula', 'placeholder' => 'Ingrese la Cedula', 'class'=>'form-control'));
-                echo "<br>";
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCorreo">Digite Correo</label>
+                                  <input type="text" class="form-control" name="txtCorreo" placeholder="correo...">
+                              </div> 
+                            </div>
+                          </div>
 
-                echo form_label('Clave:', 'Clave'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('type' => 'paswword','name' => 'txtClave', 'placeholder' => 'Ingrese la Clave', 'class'=>'form-control'));
-                echo "<br>";
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtEstado">Digite Estado</label>
+                                  <input type="text" class="form-control" name="txtEstado" placeholder="estado...">
+                              </div>    
 
-                echo form_label('Correo:', 'Correo'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtCorreo', 'placeholder' => 'Ingrese el Correo', 'class'=>'form-control'));
-                echo "<br>";
-                echo form_label('Estado:', 'Estado'); //equivale al <label></label> en html
-                echo "<br>";
-                echo form_input(array('name' => 'txtEstado', 'placeholder' => 'Ingrese el Estado', 'class'=>'form-control'));
-                echo "<br>";
-              
-                 echo form_label('Perfil:', 'cmbPerfiles');
-                echo "<select class='form-control' name='cmbPerfiles' id='cmbPerfiles'>";
-                foreach ($perfiles as $perfil){
-                  echo "<option value='".$perfil->PERID."'>".$perfil->PERNOMBRE."</option>";
-             }
-             echo "</select>";
-             echo "<br>";
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="cmbPerfiles">Seleccione Perfil</label>
+                                  <?php 
+                                  
+                                  echo "<select class='form-control' name='cmbPerfiles' id='cmbPerfiles'>";
+                                  foreach ($perfiles as $perfil){
+                                    echo "<option value='".$perfil->PERID."'>".$perfil->PERNOMBRE."</option>";
+                                  }
+                                  echo "</select>";                                
+                                  
+                                  ?>
+                              </div>  
+                            </div>
+                          </div>
+                            <button type="button" class="btn btn-light" onclick="location.href='<?php echo base_url();?>/UsuariosController'">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        </form>            
+                    </div>
+                </div>
 
-                echo form_button (array('name'=>'btnGuardar', 'type'=>'submit', 'class'=>'btn btn-success', 'content'=>'Guardar'));
-                echo form_close();
-
-                ?>
-       </div>
-		        		</div>
-		            </div>
-	          	</div>
-			</div>
-		</div>
-	</section>
+            </div>
+        </div>
+    </div>
 </div>

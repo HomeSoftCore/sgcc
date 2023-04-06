@@ -11,8 +11,7 @@ class AreasController extends BaseController
 		helper('form');
 
 	}
-	public function index()
-	{
+	public function index(){
 		$builder = $this->db->table("areas");
 		$builder->select('*');
 		$areas = $builder->get()->getResult();
@@ -26,27 +25,15 @@ class AreasController extends BaseController
 			'content' => 'Areas/AreasListar'
         ];
 
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasListar',$areas).view('Estructura/pie');
-		// $estructura=	view('Estructura/Header').
-		// 				view('Estructura/Menu').
-		// 				view('Areas/AreasListar',$data).
-		// 				view('Estructura/Footer');
-
 		$estructura=	view('Estructura/layout/index', $data);
         return $estructura;
 	}
 
-    public function nuevo()
-	{
+    public function nuevo(){
 		$data = [
 			'content' => 'Areas/AreasNuevo'
         ];
-		// $estructura=	view('Estructura/Header').
-		// 				view('Estructura/Menu').
-		// 				view('Areas/AreasNuevo').
-		// 				view('Estructura/Footer');
 
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasNuevo').view('Estructura/pie');
 		$estructura=	view('Estructura/layout/index', $data);
 		return $estructura;
 	}
@@ -72,20 +59,13 @@ class AreasController extends BaseController
 
 		$AreasModel=new AreasModel($db);
 		$areas=$AreasModel->find($id);
-		//$areas=array('areas'=>$areas);
-		//var_dump($areas);
+
 		$data = [
 			'areas' => $areas,
 			'content' => 'Areas/AreasEditar'
 		];
-		
-		// $estructura=	view('Estructura/Header').
-		// 				view('Estructura/Menu').
-		// 				view('Areas/AreasEditar',$data).
-		// 				view('Estructura/Footer');
 
 		$estructura=	view('Estructura/layout/index', $data);
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasEditar',$data).view('Estructura/pie');
 		return $estructura;			
 	}
 
@@ -96,8 +76,6 @@ class AreasController extends BaseController
 			'AREID'=>$request->getPost('txtCodigo'),
 			'ARENOMBRE'=>$request->getPost('txtAreas'),
 		);
-		var_dump($data);
-		die();
 
 		$AREID=$request->getPost('txtCodigo');
 		if($AreasModel->update($AREID,$data)===false){
@@ -114,15 +92,13 @@ class AreasController extends BaseController
 
 		$AreasModel=new AreasModel($db);
 		$areas=$AreasModel->find($id);
-		$areas=array('areas'=>$areas);
-		//var_dump($areas);
-		$data['areas']=$areas;
 		
-		$estructura=	view('Estructura/Header').
-		view('Estructura/Menu').
-		view('Areas/AreasBorrar',$data).
-		view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasBorrar',$data).view('Estructura/pie');
+		$data = [
+			'areas' => $areas,
+			'content' => 'Areas/AreasBorrar'
+		];
+		
+		$estructura=	view('Estructura/layout/index', $data);
 		return $estructura;		
 	}
 		
@@ -130,6 +106,7 @@ class AreasController extends BaseController
 		$request=\Config\Services::request();
 		$AreasModel=new AreasModel($db);
 		$id=$request->getPostGet('txtCodigo');
+
 		$areas=$AreasModel->find($id);
 		$areas=array('areas'=>$areas);
 		

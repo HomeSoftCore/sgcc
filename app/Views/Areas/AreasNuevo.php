@@ -7,7 +7,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <form action="/AreasController/guardar" method="post" accept-charset="utf-8">
+                        <form action="<?php echo base_url(); ?>/AreasController/guardar" method="post" accept-charset="utf-8">
                             <div class="form-group">
                                 <label for="txtAreas">Digite el &Aacute;rea</label>
                                 <input type="text" class="form-control" name="txtAreas" placeholder="&aacute;rea">
