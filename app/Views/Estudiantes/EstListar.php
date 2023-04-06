@@ -1,82 +1,50 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Administrar Estudiantes</h3>
+            <div class="card-header-right">
+                <button type="button" onclick="location.href='<?php echo base_url();?>/EstudianteController/nuevo'" class="btn btn-primary">Crear Estudiante</button>
+            </div>
 
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-            Estudiantes
-            <small><i class="fa fa-tags"></i></small>
-        </h1>
-    </section>
+            </div>
+            <div class="card-body">
+                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>C&eacute;dula</th>
+                            <th>Direcci&oacute;n</th>
+							<th>Tel&eacute;</th>
+                            <th>Correo</th>
+							<th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">Administrar Estudiantes</h3>
-		            </div>
-		            <div class="box-body">
-		        		<div class="row">
-		        			<div class="col-md-2">
-		        				 <a href="<?php echo base_url()?>/EstudianteController/nuevo" class="btn btn-primary btn-block" >
-		        					<i class="fa fa-user"></i>
-		        					Crear Estudiante
-                                </a>
-		        			</div>
-		        			
-		        		</div>
-		        		<div class="row" style="margin-top: 15px;">
-		        			<div class="col-xs-12">
-						    	<div class="table-responsive"> 
-							        <table id="example" class="table table-striped table-hover dt-responsive display nowrap" cellspacing="0">
-							            <thead>
-							            <tr>
-							                <th>Codigo</th>
-							                <th>Cedula</th>
-											<th>Nombre</th>
-											<th>Direccion</th>
-											<th>Telefono</th>
-											<th>Correo</th><th>Estado</th>
-							                <th>Acciones</th>
-							            </tr>
-							            </thead>
-                                        <?php
-										//var_dump($estudiantes);
-										
-										foreach ($estudiantes as $estudiante) {
-												
-                                        ?>
-                                        <tbody>
+                <tbody>                   
+                    <?php 
+                        foreach($estudiantes as $item) {
+                    ?>
+                    <tr>
+                        <td><?php echo $item->ESTID; ?></td>
+                        <td><?php echo $item->ESTNOMBRE; ?></td>
+                        <td><?php echo $item->ESTCEDULA; ?></td>
+                        <td><?php echo $item->ESTDIRECCION; ?></td>
+                        <td><?php echo $item->ESTTELEFONO; ?></td>
+                        <td><?php echo $item->ESTCORREO; ?></td>
+                        <td><?php echo $item->ESTESTADO; ?></td>
+                        <td>
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/EstudianteController/editar?id=<?php echo $item->ESTID;?>'" class="btn btn-icon btn-info"><i class="ik ik-edit"></i></button>
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/EstudianteController/borrar?id=<?php echo $item->ESTID;?>'" class="btn btn-icon btn-danger"><i class="ik ik-trash-2"></i></button>
+                        </td>
+                    </tr>
 
-                                            <tr>
-												<td><?php echo $estudiante->ESTID; ?></td>
-                                                <td><?php echo $estudiante->ESTCEDULA; ?></td>
-                                                <td><?php echo $estudiante->ESTNOMBRE; ?></td>
-                                                <td><?php echo $estudiante->ESTDIRECCION; ?></td>
-                                                <td><?php echo $estudiante->ESTTELEFONO; ?></td>
-                                                <td><?php echo $estudiante->ESTCORREO; ?></td>
-                                                <td><?php echo $estudiante->ESTESTADO; ?></td>
-                                                
-                                                
-                                                <td>                            
-                                                    <a class="btn btn-primary btn-xs" href="<?php echo base_url();?>/EstudianteController/editar?id=<?php echo $estudiante->ESTID;?>"><i class="fa fa-pencil"> Editar </i></a>
-                                                    <a class="btn btn-danger btn-xs" href="<?php echo base_url();?>/EstudianteController/borrar?id=<?php echo $estudiante->ESTID;?>"><i class="fa fa-trash"> Borrar </i></a>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                                }
-                                            ?>
-                                        </tbody>
-							        </table>
-									
-
-						        </div>
-		        			</div>
-		        		</div>
-		            </div>
-	          	</div>
-			</div>
-		</div>
-	</section>
-
-
+                    <?php } ?>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

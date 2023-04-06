@@ -1,67 +1,80 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Crear Estudiante</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/EstudianteController/guardar" method="post" accept-charset="utf-8">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtNombre">Digite el Nombre</label>
+                                  <input type="text" class="form-control" name="txtNombre" placeholder="nombres...">
+                              </div>
 
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-            Estudiantes
-            <small><i class="fa fa-tags"></i></small>
-        </h1>
-    </section>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCedula">Digite No. C&eacute;dula</label>
+                                  <input type="text" class="form-control" name="txtCedula" placeholder="c&eacute;dula...">
+                              </div>                               
+                            </div>
+                          </div>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">Crear Estudiante</h3>
-		            </div>
-		            <div class="box-body">
-		        		<div class="row" style="margin-top: 15px;">
-		        			<div class="col-xs-12">
-            <?php
-            echo form_open('/EstudianteController/guardar');
-            //<label></label>
-           
-               
-            echo form_label('Cedula:', 'Cedula'); 
-            echo "<br>";
-            echo form_input(array('name' => 'txtCedula',  'placeholder' => 'Ingrese la cedula', 'class' => 'form-control'));
-            echo "<br>";
-            echo form_label('Nombre:', 'Nombre'); 
-            echo "<br>";
-            echo form_input(array('name' => 'txtNombre',  'placeholder' => 'Ingrese el Nombre', 'class' => 'form-control'));
-            echo "<br>";
-            echo form_label('Dreccion:', 'Dreccion'); 
-            echo "<br>";
-            echo form_input(array('name' => 'txtDreccion',  'placeholder' => 'Ingrese la Direccion', 'class' => 'form-control'));
-            echo "<br>";
-            echo form_label('Telefono:', 'Telefono'); 
-            echo "<br>";
-            echo form_input(array('name' => 'txtTelefono',  'placeholder' => 'Ingrese el Telefono', 'class' => 'form-control'));
-            echo "<br>";
-            echo form_label('Correo:', 'Correo'); 
-            echo "<br>";
-            echo form_input(array('name' => 'txtCorreo',  'placeholder' => 'Ingrese el Correo', 'class' => 'form-control'));
-            echo "<br>";
-            echo form_label('Estado:', 'Estado'); 
-            echo "<br>";
-            $options = [
-              'ACTIVO'  => 'ACTIVO',
-              'INACTIVO'    => 'INACTIVO'
-            ];
-            $class = ['class'=>'form-control'];
-            echo form_dropdown('txtEstado', $options,'' ,$class);
-            echo "<br>";
-            
-            echo form_button(array('name'=>'btnGuardar','type'=>'submit','class'=>'btn btn-success','content'=>'Guardar'));
-            echo "<br>";
-            echo form_close();
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtDreccion">Digite Direcci&oacute;n</label>
+                                  <input type="text" class="form-control" name="txtDreccion" placeholder="direcci&oacute;...">
+                              </div>  
 
-            ?>
-     	</div>
-		        		</div>
-		            </div>
-	          	</div>
-			</div>
-		</div>
-	</section>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtTelefono">Digite Tel&eacute;fono</label>
+                                  <input type="phone" class="form-control" name="txtTelefono" placeholder="tel&eacute;fono...">
+                              </div> 
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCorreo">Digite Correo</label>
+                                  <input type="email" class="form-control" name="txtCorreo" placeholder="correo...">
+                              </div>    
+
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtEstado">Seleccione Estado</label>
+                                  <?php 
+                                  
+                                  $options = [
+                                    'ACTIVO'  => 'ACTIVO',
+                                    'INACTIVO'    => 'INACTIVO'
+                                  ];
+
+                                  echo "<select class='form-control' name='txtEstado' id='txtEstado'>";
+                                  foreach ($options as $item){
+                                    echo "<option value='".$item."'>".$item."</option>";
+                                  }
+                                  echo "</select>";                                
+                                  
+                                  ?>
+                              </div>  
+                            </div>
+                          </div>
+                            <button type="button" class="btn btn-light" onclick="location.href='<?php echo base_url();?>/EstudianteController'">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Crear</button>
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
