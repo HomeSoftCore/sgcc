@@ -11,19 +11,17 @@ class CursosController extends BaseController
 	}
 	public function index()
 	{
-
-
-		//metodo pager
 		$model = new CursosModel();
+
 		$data = [
-			'cursos' => $model->paginateCustom(3),
+			'cursos' => $model->paginateCustom(10),
 			'pager' => $model->pager,
-			'pagi_path' => 'sgcc/CursosController'
+			'pagi_path' => 'sgcc/cursos',
+			'content' => 'Cursos/CursoListar'
 		];
-    	$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Cursos/CursoListar',$data).
-						view('Estructura/Footer');
+
+		$estructura=	view('Estructura/layout/index', $data);
+
         return $estructura;
 
 	}

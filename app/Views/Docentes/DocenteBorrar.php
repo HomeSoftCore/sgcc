@@ -1,78 +1,95 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Eliminar Docente</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/DocentesController/eliminar" method="post" accept-charset="utf-8">
 
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-            Docentes
-            <small><i class="fa fa-tags"></i></small>
-        </h1>
-    </section>
+                        <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtNombre">C&oacute;digo</label>
+                                  <input type="text" class="form-control" name="txtCodigo" readonly="true" placeholder="codigo..." value="<?php echo $docentes["DOCID"] ?>">
+                              </div>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-danger">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">Borrar Docentes</h3>
-		            </div>
-		            <div class="box-body">
-		        		<div class="row" style="margin-top: 15px;">
-		        			<div class="col-xs-12">
-                <?php
-                $base = base_url();
-                echo form_open('DocentesController/eliminar'); //equivale al <form></form> en html
-                echo "<br>";
+                            </div>
+                          </div>
 
-               
-                foreach ($docentes as $value) {
-                    $codigo = $value['DOCID'];
-                    $DOCCEDULA = $value['DOCCEDULA'];
-                    $DOCNOMBRE = $value['DOCNOMBRE'];
-                    $DOCTITULO = $value['DOCTITULO'];
-                    $DOCTELEFONO = $value['DOCTELEFONO'];
-                    $DOCCORREO = $value['DOCCORREO'];
-                    $DOCESTADO = $value['DOCESTADO'];
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtNombre">Digite el Nombre</label>
+                                  <input type="text" class="form-control" name="txtNombre" readonly="true" placeholder="nombres..." value="<?php echo $docentes["DOCNOMBRE"] ?>">
+                              </div>
 
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCedula">Digite No. C&eacute;dula</label>
+                                  <input type="text" class="form-control" name="txtCedula" readonly="true" placeholder="c&eacute;dula..." value="<?php echo $docentes["DOCCEDULA"] ?>">
+                              </div>                               
+                            </div>
+                          </div>
 
-                }
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtTitulo">Digite Titulo</label>
+                                  <input type="text" class="form-control" name="txtTitulo" readonly="true" placeholder="titulo..." value="<?php echo $docentes["DOCTITULO"] ?>">
+                              </div>  
 
-                echo form_input(array('name' => 'txtCodigo', 'readOnly' => 'true', 'class' => 'form-control', 'value' => $codigo));
-                echo "<br>";
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtTelefono">Digite Tel&eacute;fono</label>
+                                  <input type="phone" class="form-control" name="txtTelefono" readonly="true" placeholder="tel&eacute;fono..." value="<?php echo $docentes["DOCTELEFONO"] ?>">
+                              </div> 
+                            </div>
+                          </div>
 
-                echo form_label('Cedula:', 'Cedula'); 
-                echo "<br>";
-                echo form_input(array('name' => 'txtCedula', 'readOnly' => 'true', 'placeholder' => 'Ingrese la cedula', 'class' => 'form-control', 'value' => $DOCCEDULA));
-                echo "<br>";
-                echo form_label('Nombre:', 'Nombre'); 
-                echo "<br>";
-                echo form_input(array('name' => 'txtNombre', 'readOnly' => 'true', 'placeholder' => 'Ingrese la cedula', 'class' => 'form-control', 'value' => $DOCNOMBRE));
-                echo "<br>";
-                echo form_label('Titulo:', 'Titulo'); 
-                echo "<br>";
-                echo form_input(array('name' => 'txtTitulo', 'readOnly' => 'true', 'placeholder' => 'Ingrese el titulo', 'class' => 'form-control', 'value' => $DOCTITULO));
-                echo "<br>";
-                echo form_label('Telefono:', 'Telefono'); 
-                echo "<br>";
-                echo form_input(array('name' => 'txtTelefono', 'readOnly' => 'true', 'placeholder' => 'Ingrese la cedula', 'class' => 'form-control', 'value' => $DOCTELEFONO));
-                echo "<br>";
-                echo form_label('Correo:', 'Correo'); 
-                echo "<br>";
-                echo form_input(array('name' => 'txtCorreo', 'readOnly' => 'true', 'placeholder' => 'Ingrese la cedula', 'class' => 'form-control', 'value' => $DOCCORREO));
-                echo "<br>";
-                echo form_label('Estado:', 'Estado'); 
-                echo "<br>";
-                echo form_input(array('name' => 'txtEstado', 'readOnly' => 'true', 'placeholder' => 'Ingrese la cedula', 'class' => 'form-control', 'value' => $DOCESTADO));
-                echo "<br>";
-                
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtCorreo">Digite Correo</label>
+                                  <input type="email" class="form-control" name="txtCorreo" readonly="true" placeholder="correo..." value="<?php echo $docentes["DOCCORREO"] ?>">
+                              </div>    
 
-                echo form_button(array('name' => 'btnBorrar', 'type' => 'submit', 'class' => 'btn btn-danger', 'content' => 'ELIMINAR'));
-                echo form_close();
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtEstado">Seleccione Estado</label>
+                                  <?php 
+                                  
+                                  $options = [
+                                    'ACTIVO'  => 'ACTIVO',
+                                    'INACTIVO'    => 'INACTIVO'
+                                  ];
 
-                ?>
-         </div>
-		        		</div>
-		            </div>
-	          	</div>
-			</div>
-		</div>
-	</section>
+                                  echo "<select class='form-control' readonly='true' name='txtEstado' id='txtEstado'>";
+                                  foreach ($options as $item){
+                                    if($docentes["DOCESTADO"]==$item) {
+                                      echo "<option value='" . $item . "'selected>" . $item . "</option>";
+                                    }else{
+                                        echo "<option value='" . $item . "'>" . $item . "</option>";
+                                    }
+                                  }
+                                  echo "</select>";                                
+                                  
+                                  ?>
+                              </div>  
+                            </div>
+                          </div>
+                            <button type="button" class="btn btn-light" onclick="location.href='<?php echo base_url();?>/DocentesController'">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

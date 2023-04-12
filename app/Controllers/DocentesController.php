@@ -9,55 +9,30 @@ class DocentesController extends BaseController
 		$this->db =db_connect(); // loading database 
 		helper('form');
 	}
-	public function index()
-	{
-		
-		
-			$builder = $this->db->table("docentes");
-			$builder->select('*');
-			$docentes = $builder->get()->getResult();
-			$docentes=array('docentes'=>$docentes);
-			
-			$estructura=	view('Estructura/Header').
-							view('Estructura/Menu').
-							view('Docentes/DocenteListar',$docentes).
-							view('Estructura/Footer');
-			return $estructura;
 
+	public function index(){
+		$builder = $this->db->table("docentes");
+		$builder->select('*');
+		$docentes = $builder->get()->getResult();
+		//$docentes=array('docentes'=>$docentes);
 
+        $data = [
+			'docentes' => $docentes,
+			'content' => 'Docentes/DocenteListar'
+        ];
 
-			/*//metodo pager
-		$model = new DocentesModel();
-		$data = [
-			'docentes' => $model->paginate(3),
-			'pager' => $model->pager,
-			'pagi_path' => 'sgcc/DocentesController'
-		];
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Docentes/DocenteListar',$data).
-						view('Estructura/Footer');
-        return $estructura;
-	}*/
-		}
-
-		
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;
+	}
 
     public function nuevo()
 	{
-        $builder = $this->db->table("docentes");
-		$builder->select('*');
-		$docentes = $builder->get()->getResult();
-		$docentes=array('docentes'=>$docentes);
-		
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Docentes/DocenteNuevo',$docentes).
-						view('Estructura/Footer');
+		$data = [
+			'content' => 'Docentes/DocenteNuevo'
+		];
 
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasNuevo').view('Estructura/pie');
-		return $estructura;
-		
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;	
 	}
 
     public function guardar(){
@@ -77,34 +52,23 @@ class DocentesController extends BaseController
 			var_dump($DocentesModel->errors());
 		}
 		
-		$builder = $this->db->table("docentes");
-		$builder->select("*");
-		$docentes = $builder->get()->getResult();
-		$docentes=array('docentes'=>$docentes);
-		
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Docentes/DocenteListar',$docentes).
-						view('Estructura/Footer');
-        return $estructura;
+		return redirect()->to(site_url('/DocentesController'));
 	}
 
 	public function editar(){
 		$request=\Config\Services::request();
-			$id=$request->getPostGet('id');
-	
-			$DocentesModel=new DocentesModel($db);
-			$docentes=$DocentesModel->find($id);
-			$docentes=array('docentes'=>$docentes);
-			//var_dump($areas);
-			$data['docentes']=$docentes;
-			
-			
-			$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Docentes/DocenteEditar',$data).
-						view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasEditar',$data).view('Estructura/pie');
+		$id=$request->getPostGet('id');
+
+		$DocentesModel=new DocentesModel($db);
+		$docentes=$DocentesModel->find($id);
+
+		$data = [
+			'docentes' => $docentes,
+			'content' => 'Docentes/DocenteEditar'
+		];
+
+		$estructura=	view('Estructura/layout/index', $data);
+
 		return $estructura;			
 	}
 
@@ -137,16 +101,14 @@ class DocentesController extends BaseController
 
 		$DocentesModel=new DocentesModel($db);
 		$docentes=$DocentesModel->find($id);
-		$docentes=array('docentes'=>$docentes);
-		//var_dump($areas);
-		$data['docentes']=$docentes;
-		
-		$estructura=	view('Estructura/Header').
-								view('Estructura/Menu').
-								view('Docentes/DocenteBorrar',$data).
-								view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasBorrar',$data).view('Estructura/pie');
-								return $estructura;	
+
+		$data = [
+			'docentes' => $docentes,
+			'content' => 'Docentes/DocenteBorrar'
+		];
+
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;	
 	}
 		
 	public function eliminar(){
