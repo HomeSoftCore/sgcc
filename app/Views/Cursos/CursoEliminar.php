@@ -2,7 +2,10 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-            <h3>Eliminar Curso</h3>
+              <h3>Eliminar Curso</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/CursosController'" class="btn btn-light">Cancelar</button>
+              </div>              
             </div>
             <div class="card-body">
                 <div class="row">
@@ -130,8 +133,13 @@
                               </div>  
                             </div>
                           </div>
-                            <button type="button" class="btn btn-light" onclick="location.href='<?php echo base_url();?>/CursosController'">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Eliminar</button>
+
+                          <div class="d-flex flex-column align-items-center">
+                            <div class="col-md-4">
+                              <button type="submit" class="btn btn-danger btn-block">Eliminar</button>
+                            </div>
+                          </div> 
+
                         </form>            
                     </div>
                 </div>
