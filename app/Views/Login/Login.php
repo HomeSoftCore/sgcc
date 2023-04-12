@@ -55,7 +55,7 @@
                                 </div>
                             </form>
                             <div class="register">
-                                <p>¿No tienes una cuenta? <a href="register.html"><span class="text-primary"><b>Registrate</b></span></a></p>
+                                <p>¿No tienes una cuenta? <a href="<?php echo base_url('EstudianteController/nuevoreg'); ?>"><span class="text-primary"><b>Registrate</b></span></a></p>
                             </div>
                         </div>
                     </div>

@@ -125,4 +125,64 @@ class EstudianteController extends BaseController
 
 		return redirect()->to(site_url('/EstudianteController'));	
 	}
+
+	public function nuevoreg(){
+		$data['validation'] = $this->validator;
+		$estructura =	view('Estudiantes/EstNuevoReg',$data);		
+
+		return $estructura;
+	}
+
+	public function guardarreg(){
+
+        $rules = [
+            'txtNombre' => 
+			[ 
+				'rules' => 'required',
+				'errors' => [
+					'required' => 'Campo Nombre es requerido'
+				]
+			],
+            'txtCedula' => 
+			[ 
+				'rules' => 'required|numeric|min_length[10]',
+				'errors' => [
+					'required' => 'Campo C&eacute;dula es requerido',
+					'min_length' => 'M&iacute;nimo 10 digitos...'
+				]
+			],		
+            'txtCorreo' => 
+			[ 
+				'rules' => 'required|valid_email',
+				'errors' => [
+					'required' => 'Campo Correo es requerido',
+					'valid_email' => 'Digite un correo valido...'
+				]
+			],				
+        ];
+
+		if ( $this->validate($rules) ) { 
+			$EstudianteModel= new EstudianteModel($db);
+			$request=\Config\Services::request();
+			$data=array(
+					
+					'ESTCEDULA'=>$request->getPostGet('txtCedula'),
+					'ESTNOMBRE'=>$request->getPostGet('txtNombre'),
+					'ESTDIRECCION'=>$request->getPostGet('txtDreccion'),
+					'ESTTELEFONO'=>$request->getPostGet('txtTelefono'),
+					'ESTCORREO'=>$request->getPostGet('txtCorreo'),
+					'ESTESTADO'=>$request->getPostGet('txtEstado'),
+			);
+			
+			if($EstudianteModel->insert($data)===false){
+				var_dump($EstudianteModel->errors());
+			}
+			return redirect()->to(site_url('/login'));
+		} else {
+			$data['validation'] = $this->validator;
+			$estructura =	view('Estudiantes/EstNuevoReg', $data);
+			return $estructura;
+		}
+
+	}
 }
