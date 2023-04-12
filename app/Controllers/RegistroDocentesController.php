@@ -12,42 +12,39 @@ class RegistroDocentesController extends BaseController
 	}
 	public function index()
 	{
-				//docentes
 		$registros = $this->db->table("registrodocente t1")
 							->select('*')
 							->join('docentes t2', 't1.DOCID  = t2.DOCID ')
 							->join('cursos t3', 't3.CURID  = t1.CURID ')
 							->get()->getResultArray();
-		$data['registros'] = $registros;
 
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('RegistroDocentes/Listar', $data).
-						view('Estructura/Footer');
-        return $estructura;
+		$data = [
+			'content' => 'RegistroDocentes/Listar',
+			'registros' => $registros
+        ];
+
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;		
 	}
 
 	public function nuevo()
 	{
-		//docentes
 		$docentes = $this->db->table("docentes")
 							->select('*')
 							->get()->getResultArray();
-		$data['docentes'] = $docentes;
-
-		//cursos
+		
 		$cursos = $this->db->table("cursos")
 						->select('*')
 						->get()->getResultArray();
-		$data['cursos'] = $cursos;
 
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('RegistroDocentes/Registrar', $data).
-						view('Estructura/Footer');
+		$data = [
+			'content' => 'RegistroDocentes/Registrar',
+			'cursos' => $cursos,
+			'docentes' => $docentes,
+        ];
 
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasNuevo').view('Estructura/pie');
-		return $estructura;
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;			
 	}
 
 

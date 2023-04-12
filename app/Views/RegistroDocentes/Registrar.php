@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
@@ -60,4 +60,55 @@
 			</div>
 		</div>
 	</section>
+</div> -->
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Asignar Curso a Docente</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/RegistroDocentesController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/RegistroDocentesController/guardar" method="post" accept-charset="utf-8">
+
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <label for="docente">Seleccione &Aacute;rea</label>
+                              <?php 
+                              
+                              echo "<select class='form-control' name='docente' id='docente'>";
+                              foreach ($areas as $item){
+                                if($cursos["AREID"]==$item->AREID) {
+                                  
+                                }else{
+                                    echo "<option value='" . $item->AREID . "'>" . $item->ARENOMBRE . "</option>";
+                                }                                    
+                              }
+                              echo "</select>";                                
+                              
+                              ?>
+                          </div>  
+                        </div>
+
+
+                          <div class="d-flex flex-column align-items-center">
+                            <div class="col-md-4">
+                              <button type="submit" class="btn btn-primary btn-block">Asignar</button>
+                            </div>
+                          </div>  
+
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
