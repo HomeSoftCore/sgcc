@@ -41,7 +41,7 @@
                         <div class="submenu-content">
                             <a href="<?php echo base_url('DocentesController'); ?>" class="menu-item">Administrar</a>
 
-                            <a href="<?php echo base_url('RegistroDocentesController'); ?>" class="menu-item">Registro</a>
+                            <a href="<?php echo base_url('RegistroDocentesController'); ?>" class="menu-item">Asignar Curso</a>
                         </div>
                     </div> 
                     
@@ -52,7 +52,7 @@
                         </div>
                     </div>  
                     
-                    <div class="nav-item has-sub">
+                    <!-- <div class="nav-item has-sub">
                         <a href="#"><i class="ik ik-command"></i><span>Matr&iacute;culas</span></a>
                         <div class="submenu-content">
                             <a href="<?php echo base_url('MatriculasController/pendientes'); ?>" class="menu-item">Pendientes</a>
@@ -117,7 +117,7 @@
                         <div class="submenu-content">
                             <a href="<?php echo base_url('CalificacionesItemsController'); ?>" class="menu-item">Administrar</a>
                         </div>
-                    </div>                     
+                    </div>                      -->
                 <?php endif; ?>
 
 
