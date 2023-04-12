@@ -9,7 +9,7 @@
                     <div class="col-md-12">
                         <form action="<?php echo base_url(); ?>/DocentesController/modificar" method="post" accept-charset="utf-8">
 
-                        <div class="row">
+                          <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
                                   <label for="txtNombre">C&oacute;digo</label>

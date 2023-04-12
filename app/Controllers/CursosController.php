@@ -9,8 +9,7 @@ class CursosController extends BaseController
 		$this->db =db_connect(); // loading database 
 		helper('form');
 	}
-	public function index()
-	{
+	public function index(){
 		$model = new CursosModel();
 
 		$data = [
@@ -25,24 +24,20 @@ class CursosController extends BaseController
         return $estructura;
 
 	}
-	public function nuevo()
-	{
+
+	public function nuevo(){
 		$builder = $this->db->table("areas");
 		$builder->select('AREID,ARENOMBRE');
 		$areas = $builder->get()->getResult();
-		$areas=array('areas'=>$areas);
-		
-		
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Cursos/CursoNuevo',$areas).
-						view('Estructura/Footer');
+		$data = [
+			'content' => 'Cursos/CursoNuevo',
+			'areas'=>$areas
+		];
 
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasNuevo').view('Estructura/pie');
+		$estructura=	view('Estructura/layout/index', $data);
 		return $estructura;
-
-
 	}
+
 	public function guardar(){
 		$CursosModel= new CursosModel($db);
 		$request=\Config\Services::request();
@@ -57,7 +52,6 @@ class CursosController extends BaseController
 			'CURESTADO'=>$request->getPostGet('txtEstado'),
 			
 		);
-		//var_dump($data);
 		if($CursosModel->save($data)===false){
 			var_dump($CursosModel->errors());
 		}
@@ -66,35 +60,34 @@ class CursosController extends BaseController
 
     public function editar(){
 		$request=\Config\Services::request();
+
 		if($request->getPostGet('id')){
         $id=$request->getPostGet('id');
-		
 		}else{
-			$id=$request->uri->getSegment(3);
-			
+			$id=$request->uri->getSegment(3);	
 		}
-		
+
 		$CursosModel=new CursosModel($db);
         $cursos=$CursosModel->find($id);
-		$cursos=array('cursos'=>$cursos);
-		//var_dump($estudiantes);
-		$builder = $this->db->table("areas");
-		$builder->select('AREID,ARENOMBRE');
-		$areas = $builder->get()->getResult();
-		$builder = $this->db->table("areas");
-		$builder->select('AREID,ARENOMBRE');
-		$areas = $builder->get()->getResult();
-		//$ciudades=array('ciudades'=>$ciudades);
-		$data['cursos']=$cursos;
-		$data['areas']=$areas;
+		// $cursos=array('cursos'=>$cursos);
 		
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Cursos/CursoEditar',$data).
-						view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasEditar',$data).view('Estructura/pie');
-						return $estructura;		
+		$builder = $this->db->table("areas");
+		$builder->select('AREID,ARENOMBRE');
+		$areas = $builder->get()->getResult();
+		$builder = $this->db->table("areas");
+		$builder->select('AREID,ARENOMBRE');
+		$areas = $builder->get()->getResult();
+			
+		$data = [
+			'content' => 'Cursos/CursoEditar',
+			'areas'=>$areas,
+			'cursos'=>$cursos
+		];
+
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;
 	}
+
 	public function modificar(){
 		$CursosModel= new CursosModel($db);
 		$request=\Config\Services::request();
@@ -118,48 +111,44 @@ class CursosController extends BaseController
 		
 	}
 	
-			public function borrar(){
-			$request=\Config\Services::request();
-			$id=$request->getPostGet('id');
+	public function borrar(){
+		$request=\Config\Services::request();
+		$id=$request->getPostGet('id');
 
-			$CursosModel=new CursosModel($db);
-			$cursos=$CursosModel->find($id);
-			$cursos=array('cursos'=>$cursos);
-			//var_dump($estudiantes);
+		$CursosModel=new CursosModel($db);
+		$cursos=$CursosModel->find($id);
 
-			$builder = $this->db->table("areas");
-			$builder->select('AREID,ARENOMBRE');
-			$areas = $builder->get()->getResult();
-			$builder = $this->db->table("areas");
-			$builder->select('AREID,ARENOMBRE');
-			$areas = $builder->get()->getResult();
-			//$ciudades=array('ciudades'=>$ciudades);
-			$data['cursos']=$cursos;
-			$data['areas']=$areas;
+		$builder = $this->db->table("areas");
+		$builder->select('AREID,ARENOMBRE');
+		$areas = $builder->get()->getResult();
+		$builder = $this->db->table("areas");
+		$builder->select('AREID,ARENOMBRE');
+		$areas = $builder->get()->getResult();
+		$data = [
+			'content' => 'Cursos/CursoEliminar',
+			'areas'=>$areas,
+			'cursos'=>$cursos
+		];
 
-			$estructura=	view('Estructura/Header').
-							view('Estructura/Menu').
-							view('Cursos/CursoEliminar',$data).
-							view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasBorrar',$data).view('Estructura/pie');
-								return $estructura;		
-		}	
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;							
+	}	
 		
-		public function eliminar(){
-			$request=\Config\Services::request();
-			$CursosModel=new CursosModel($db);
-			$id=$request->getPostGet('txtCodigo');
-			$cursos=$CursosModel->find($id);
-			$cursos=array('cursos'=>$cursos);
-			
-			if($CursosModel->delete($id)===false){
-				print_r($CursosModel->errors());
-			}else{
-				$CursosModel->purgeDeleted($id);
-			}
-			
-			return redirect()->to(site_url('/CursosController'));
-
-			}
+	public function eliminar(){
+		$request=\Config\Services::request();
+		$CursosModel=new CursosModel($db);
+		$id=$request->getPostGet('txtCodigo');
+		$cursos=$CursosModel->find($id);
+		$cursos=array('cursos'=>$cursos);
 		
-	}
+		if($CursosModel->delete($id)===false){
+			print_r($CursosModel->errors());
+		}else{
+			$CursosModel->purgeDeleted($id);
+		}
+		
+		return redirect()->to(site_url('/CursosController'));
+
+		}
+		
+}
