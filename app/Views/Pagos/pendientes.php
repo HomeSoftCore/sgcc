@@ -42,7 +42,7 @@
                                                 <th><?=$contador?></th>
                                                 <td><?=$pago['ESTNOMBRE']?></td>
                                                 <td><?=$pago['CURNOMBRE']?></td>
-                                                <td><?=$pago['pagoCuota']?></td>
+                                                <td><?=$pago['PAGCUOTA']?></td>
                                                 <td><?=$pago['PAGFECREGPAGO']?></td>
                                                 <td><?=$pago['FORMAPAGO']?></td>
                                                 <td><?=$pago['NUMDOCPAGO']?></td>

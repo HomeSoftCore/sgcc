@@ -51,7 +51,7 @@
                                                 <td style="text-align:center" ><?php echo $matricula['MATTIPPAGO']; ?></td>
                                                 <td style="text-align:center" >$<?php echo $matricula['CURPRECIO']; ?></td>
                                                 <td style="text-align:center" ><?php echo $matricula['MATCUOTAS']; ?></td>
-                                                <td style="text-align:center" >$<?php echo $matricula['pagoCuota'];?></td>
+                                                <td style="text-align:center" >$<?php echo $matricula['PAGCUOTA'];?></td>
                                                 <td style="text-align:center" ><?php echo $matricula['MATFECHA']; ?></td>
                                                 <td style="text-align:center" ><?php echo  $matricula['PAGFECREGPAGO']; ?></td>
                                                 <td style="text-align:center" ><?php echo $matricula['PAGESTADO']; ?></td>

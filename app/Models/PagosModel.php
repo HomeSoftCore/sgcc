@@ -15,7 +15,7 @@ class PagosModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['PAGID','MATID ','PAGFECHA','PAGFECREGPAGO','PAGESTADO', 'pagoCuota', 'FORMAPAGO', 'NUMDOCPAGO'];
+    protected $allowedFields = ['PAGID','MATID ','PAGFECHA','PAGFECREGPAGO','PAGESTADO', 'PAGCUOTA', 'FORMAPAGO', 'NUMDOCPAGO'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'CREATED_AT';

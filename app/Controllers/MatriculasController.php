@@ -40,19 +40,14 @@ class MatriculasController extends BaseController
 
 	public function pendientes()
 	{
-
-		//metodo pager
 		$model = new RegistroCursosModel();
 		$data = [
 			'matriculas' => $model->paginatePendientes(3),
 			'pager' => $model->pager,
-			'pagi_path' => 'sgcc/MatriculasController/pendientes'
+			'pagi_path' => 'sgcc/MatriculasController/pendientes',
+			'content' => 'Matriculas/pendientes'			
 		];
-		//$data['matriculas'] = $matriculasData;
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Matriculas/pendientes', $data).
-						view('Estructura/Footer');
+		$estructura=	view('Estructura/layout/index', $data);
         return $estructura;
 	}
 
@@ -74,15 +69,16 @@ class MatriculasController extends BaseController
 			$idCurso 		= $p['RCUID'];
 			$precioCurso 	= $p['CURPRECIO'];
 		}
-		$data['estudiante'] = $estudiante;
-		$data['idCurso'] 	= $idCurso;
-		$data['pendiente'] = $pendiente;
-		$data['precioCurso'] = $precioCurso;
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Matriculas/matricular',$data).
-						view('Estructura/Footer');
-		return $estructura;			
+
+		$data = [
+			'estudiante' => $estudiante,
+			'idCurso' => $idCurso,
+			'pendiente' => $pendiente,
+			'precioCurso' => $precioCurso,
+			'content' => 'Matriculas/matricular'			
+		];
+		$estructura=	view('Estructura/layout/index', $data);
+        return $estructura;		
 	}
 
 
@@ -123,7 +119,7 @@ class MatriculasController extends BaseController
 					'PAGFECHA' => $fecha,
 					'PAGFECREGPAGO' => date("Y-m-d",strtotime($fecha."+ ".$i." month")) ,
 					'PAGESTADO' => 'PENDIENTE',
-					'pagoCuota' => $valorCuota
+					'PAGCUOTA' => $valorCuota
 				);
 				$PagosModel->add($data);
 			}
@@ -133,7 +129,7 @@ class MatriculasController extends BaseController
 				'PAGFECHA' => $fecha,
 				'PAGFECREGPAGO' => $fecha,
 				'PAGESTADO' => 'PENDIENTE',
-				'pagoCuota' => $valorCuota
+				'PAGCUOTA' => $valorCuota
 			);
 			$PagosModel->add($data);
 		}

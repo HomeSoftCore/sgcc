@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\RegistroCursosModel;
+use App\Models\EstudianteModel;
 
 class MyCoursesController extends BaseController
 {
@@ -14,10 +15,16 @@ class MyCoursesController extends BaseController
 	{
 		$session=session();
 		$usuid=$session->get('usuId');
-		$builder = $this->db->query("select * from registrocursos as rg join cursos as c on c.CURID=rg.CURID where ESTID=$usuid");
+		$usuCedula=$session->get('usuCedula');
+
+		$EstudianteModel=new EstudianteModel($db);
+		$estudiante=$EstudianteModel->where('ESTCEDULA', $usuCedula)->first();
+		$estid = $estudiante['ESTID'];
+		
+		$builder = $this->db->query("select * from registrocursos as rg join cursos as c on c.CURID=rg.CURID where ESTID=$estid");
 		$registrocursos = $builder->getResult();
 
-		$builder = $this->db->query("select c.* from cursos as c where c.CURID not in (select rc.CURID from registrocursos as rc where ESTID='$usuid')");
+		$builder = $this->db->query("select c.* from cursos as c where c.CURID not in (select rc.CURID from registrocursos as rc where ESTID='$estid')");
 		$cursos = $builder->getResult();
 
         $data = [
@@ -36,10 +43,14 @@ class MyCoursesController extends BaseController
 		$request=\Config\Services::request();
 		$session=session();
 		$usuid=$session->get('usuId');
+		$usuCedula=$session->get('usuCedula');
+
+		$EstudianteModel=new EstudianteModel($db);
+		$estudiante=$EstudianteModel->where('ESTCEDULA', $usuCedula)->first();
 
 		 $data=array(
 			'CURID'=>$request->getPostGet('curid'),	
-			'ESTID'=>$usuid,	
+			'ESTID'=>$estudiante['ESTID'],	
 			'RCUFECHA'=> date('Y-m-d'),
 			'RCUESTADO'=>'ACTIVO',
 		);
