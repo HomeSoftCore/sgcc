@@ -14,24 +14,21 @@ class MyCoursesController extends BaseController
 	{
 		$session=session();
 		$usuid=$session->get('usuId');
-
-		
-
-
 		$builder = $this->db->query("select * from registrocursos as rg join cursos as c on c.CURID=rg.CURID where ESTID=$usuid");
 		$registrocursos = $builder->getResult();
 
 		$builder = $this->db->query("select c.* from cursos as c where c.CURID not in (select rc.CURID from registrocursos as rc where ESTID='$usuid')");
 		$cursos = $builder->getResult();
 
-		$data['registrocursos']=$registrocursos;
-		$data['cursos']=$cursos;
-		
-	    $estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('DashboardEstudiante/MyCoursesView',$data).
-						view('Estructura/Footer');
+        $data = [
+            'registrocursos' => $registrocursos,
+            'cursos' => $cursos,
+			'content' => 'DashboardEstudiante/MyCoursesView'
+        ];
+
+		$estructura=	view('Estructura/layout/index', $data);
         return $estructura;
+
 	}
 
 	public function matricular(){
