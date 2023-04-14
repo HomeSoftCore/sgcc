@@ -2,6 +2,6 @@
 ####### actualizaciones a realizar ###############
 **************************************************
 
-1.- en el menu DOCENTE cambiar REGISTRAR por ASIGNAR CURSO
-2.- cuando registra el curso al docente cargar la fecha actual por defecto
-3.- cuando registras el docente aparece un error (OK) 0:13m 
+1.- en el menu DOCENTE cambiar REGISTRAR por ASIGNAR CURSO OK
+2.- cuando registra el curso al docente cargar la fecha actual por defecto OK
+3.- cuando registras el docente aparece un error (OK)

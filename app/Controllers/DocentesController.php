@@ -129,10 +129,19 @@ class DocentesController extends BaseController
 
 	public function dashboardDocente()
 	{
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('DashboardDocente/DashboardDocente').
-						view('Estructura/Footer');
-        return $estructura;
+		// $estructura=	view('Estructura/Header').
+		// 				view('Estructura/Menu').
+		// 				view('DashboardDocente/DashboardDocente').
+		// 				view('Estructura/Footer');
+        // return $estructura;
+
+
+        $data = [
+			'content' => 'DashboardDocente/DashboardDocente'
+        ];
+
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;
+
 	}
 }

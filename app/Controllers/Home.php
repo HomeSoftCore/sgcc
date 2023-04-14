@@ -56,17 +56,17 @@ class Home extends BaseController {
 										->where('pagos.PAGFECHA <',$fechaActual )
 										->get()->getResultArray();
 		$session->set('totalPagosPendientes', count($totalPagosPendientes));
+
 		if ($estado == true) {
 			switch ($perfilId) {
 				case '1':
-					
 					return redirect('areas');
-					break;
-				case '3':
-					return redirect()->to(site_url('/DocentesController/dashboardDocente'));
 					break;
 				case '2':
 					return redirect()->to(site_url('/MyCoursesController'));
+					break;
+				case '3':
+					return redirect()->to(site_url('/DocentesController/dashboardDocente'));
 					break;
 				default:
 					return redirect()->to('login');

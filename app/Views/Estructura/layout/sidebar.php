@@ -120,6 +120,34 @@
                     </div>                      -->
                 <?php endif; ?>
 
+                <?php if (session('perfilId') === '2'): ?>
+
+                    <div class="nav-item has-sub">
+                        <a href="#"><i class="ik ik-command"></i><span>Mis Cursos</span></a>
+                        <div class="submenu-content">
+                            <a href="<?php echo base_url('MyCoursesController'); ?>" class="menu-item">Administrar</a>
+                        </div>
+                    </div>                   
+
+                <?php endif; ?>
+
+                <?php if (session('perfilId') === '3'): ?>
+
+                    <div class="nav-item has-sub">
+                        <a href="#"><i class="ik ik-command"></i><span>Calificaciónes</span></a>
+                        <div class="submenu-content">
+                            <a href="<?php echo base_url('RegistroCalificacionesController'); ?>" class="menu-item">Registrar</a>
+                        </div>
+                    </div>         
+                    
+                    <div class="nav-item has-sub">
+                        <a href="#"><i class="ik ik-command"></i><span>Asistencias</span></a>
+                        <div class="submenu-content">
+                            <a href="<?php echo base_url('AsistenciasController'); ?>" class="menu-item">Administrar</a>
+                        </div>
+                    </div>                         
+
+                <?php endif; ?>                
 
             </nav>
         </div>
