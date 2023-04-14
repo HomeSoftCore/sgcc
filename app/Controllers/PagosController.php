@@ -19,8 +19,8 @@ class PagosController extends BaseController
         $query = ("
         SELECT
             p.MATID, p.PAGFECREGPAGO, p.PAGESTADO, 
-            p.PAGESTADO, p.PAGCUOTA, p.FORMAPAGO, 
-            p.NUMDOCPAGO, p.PAGID,
+            p.PAGESTADO, p.PAGCUOTA, p.PAGFORMAPAGO as FORMAPAGO, 
+            p.PAGNUMDOCPAGO AS NUMDOCPAGO, p.PAGID,
             m.MATCUOTAS, c.CURNOMBRE, e.ESTNOMBRE
         FROM pagos as p
             LEFT JOIN matriculas m ON m.MATID = p.MATID

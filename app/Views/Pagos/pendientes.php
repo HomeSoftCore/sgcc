@@ -52,7 +52,7 @@
                                                     <td>
                                                         <button type="button" class="btn btn-warning btn-xs" 
                                                                 data-toggle="modal" 
-                                                                onclick="registrarPago(<?=$pago['pagoCuota']?>, <?=$pago['PAGID']?>, <?=$pago['MATCUOTAS']?>,<?=$pago['MATID']?>)"
+                                                                onclick="registrarPago(<?=$pago['PAGCUOTA']?>, <?=$pago['PAGID']?>, <?=$pago['MATCUOTAS']?>,<?=$pago['MATID']?>)"
                                                                 data-target="#modal-default">
                                                             <i class="fa fa-edit"> Registrar Pago</i>
                                                         </button>
