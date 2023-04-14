@@ -41,6 +41,7 @@ class RegistroDocentesController extends BaseController
 			'content' => 'RegistroDocentes/Registrar',
 			'cursos' => $cursos,
 			'docentes' => $docentes,
+			'fecha_actual' => date('Y-m-d')
         ];
 
 		$estructura=	view('Estructura/layout/index', $data);

@@ -33,7 +33,7 @@
                         <td><?php echo $registro['RDOFECHA']; ?></td>
                         <td><?php echo $registro['RDOESTADO']; ?></td>
                         <td>
-                            <button type="button" onclick="location.href='<?php echo base_url();?>/RegistroDocentesController/borrar?id=<?php echo $registro['RDOID'];?>'" class="btn btn-icon btn-danger"><i class="ik ik-trash-2"></i></button>
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/RegistroDocentesController/eliminar?id=<?php echo $registro['RDOID'];?>'" class="btn btn-icon btn-danger"><i class="ik ik-trash-2"></i></button>
                         </td>
                     </tr>
 
