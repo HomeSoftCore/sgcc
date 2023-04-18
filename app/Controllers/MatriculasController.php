@@ -119,7 +119,8 @@ class MatriculasController extends BaseController
 					'PAGFECHA' => $fecha,
 					'PAGFECREGPAGO' => date("Y-m-d",strtotime($fecha."+ ".$i." month")) ,
 					'PAGESTADO' => 'PENDIENTE',
-					'PAGCUOTA' => $valorCuota
+					'PAGCUOTA' => $valorCuota,
+					'PAGNUMCUOTA' => $i
 				);
 				$PagosModel->add($data);
 			}
@@ -129,7 +130,8 @@ class MatriculasController extends BaseController
 				'PAGFECHA' => $fecha,
 				'PAGFECREGPAGO' => $fecha,
 				'PAGESTADO' => 'PENDIENTE',
-				'PAGCUOTA' => $valorCuota
+				'PAGCUOTA' => $valorCuota,
+				'PAGNUMCUOTA' => $numeroCuotas
 			);
 			$PagosModel->add($data);
 		}

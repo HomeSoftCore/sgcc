@@ -64,7 +64,7 @@
                     <div class="nav-item has-sub">
                         <a href="#"><i class="ik ik-command"></i><span>Pagos</span></a>
                         <div class="submenu-content">
-                            <a href="<?php echo base_url('PagosController'); ?>" class="menu-item">Pendientes</a>
+                            <a href="<?php echo base_url('PagosController/indexPagoPendiente'); ?>" class="menu-item">Pendientes</a>
                         </div>
                     </div>   
                     

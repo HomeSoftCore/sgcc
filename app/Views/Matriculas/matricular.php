@@ -216,7 +216,7 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="numeroCuotas">No. de Cuota(s)</label>
-										<input type="number" class="form-control" name="numeroCuotas" value="1" placeholder="digite...">
+										<input type="number" class="form-control" name="numeroCuotas" value="1" min="1" placeholder="digite...">
 									</div>                              
 								</div>
 
