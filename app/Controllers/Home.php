@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\UsuariosModel;
 use App\Models\PagosModel;
+use App\Models\PerfilesModel;
 
 class Home extends BaseController {
 	// public function index() {
@@ -22,8 +23,6 @@ class Home extends BaseController {
 	}
 
 	public function auth() {
-		
-		
 		$session = session();
 		$request = \config\Services::request();
 		$UsuariosModel = new UsuariosModel($db);
@@ -56,6 +55,11 @@ class Home extends BaseController {
 										->where('pagos.PAGFECHA <',$fechaActual )
 										->get()->getResultArray();
 		$session->set('totalPagosPendientes', count($totalPagosPendientes));
+
+		// menu
+		$PerfilesModel = new PerfilesModel($db);
+		$menu = $PerfilesModel->getOptions($perfilId);
+		$session->set('menu', $menu);
 
 		if ($estado == true) {
 			switch ($perfilId) {
