@@ -8,3 +8,4 @@
 4.- seleccion de cuotas no debe seleccionar sino que colocar caja de texto para que usuario permita digitar
 5.- estado de la matricula siempre es pendiente
 6.- la fecha actual de la matricula debe estar precargado actual
+7.- numeros de cuotas al pagar se graba desde la base de datos

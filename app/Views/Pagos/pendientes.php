@@ -38,11 +38,18 @@
                             <td><?=$pago['NUMDOCPAGO']?></td>
                             <td><?=$pago['PAGESTADO']?></td>
                             <td>
-                                <button type="button" 
-                                    onclick="registrarPago(<?=$pago['PAGCUOTA']?>, <?=$pago['PAGID']?>, <?=$pago['PAGNUMCUOTA']?>,<?=$pago['MATID']?>)"
-                                    class="btn btn-primary"
-                                    data-toggle="modal"
-                                    data-target="#modal-default">Pagar</button>
+                                <?php if($pago['PAGESTADO'] == 'PENDIENTE') { ?> 
+                                    <button type="button" 
+                                        onclick="registrarPago(<?=$pago['PAGCUOTA']?>, <?=$pago['PAGID']?>, <?=$pago['PAGNUMCUOTA']?>,<?=$pago['MATID']?>)"
+                                        class="btn btn-primary"
+                                        data-toggle="modal"
+                                        data-target="#modal-default">Pagar
+                                    </button>
+                                <?php } else { ?>
+
+                                    <button type="button" onclick="location.href='<?php echo base_url();?>/PagosController/generarFactura?id=<?php echo $pago['PAGID'];?>'" class="btn btn-xs btn-success">Ver</button>
+
+                                <?php } ?>
 
                             </td>
                         </tr>

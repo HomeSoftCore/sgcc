@@ -72,10 +72,10 @@
         ?>
         <td style="text-align:center" ><?=$data['ESTNOMBRE']?></td>
         <td style="text-align:center" ><?=$data['CURNOMBRE']?></td>
-        <td style="text-align:center" >$ <?=$data['pagoCuota']?></td>
+        <td style="text-align:center" >$ <?=$data['PAGCUOTA']?></td>
         <td style="text-align:center" ><?=$data['PAGFECREGPAGO']?></td>
-        <td style="text-align:center" ><?=$data['FORMAPAGO']?></td>
-        <td style="text-align:center" ><?=$data['NUMDOCPAGO']?></td>
+        <td style="text-align:center" ><?=$data['PAGFORMAPAGO']?></td>
+        <td style="text-align:center" ><?=$data['PAGNUMDOCPAGO']?></td>
         <?php
         }
         ?>
