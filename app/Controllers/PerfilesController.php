@@ -12,50 +12,26 @@ class PerfilesController extends BaseController {
 	}
 
 	public function index() {
-		/*$builder = $this->db->table("perfiles");
-		$builder->select('*');
-		$perfiles = $builder->get()->getResult();
-		$perfiles = ['perfiles' => $perfiles];
-		*/
-		//metodo pager
-		/*$model = new PerfilesModel();
-		$data = [
-			'perfiles' => $model->paginate(3),
-			'pager' => $model->pager,
-			'pagi_path' => 'sgcc/PerfilesController'
-		];
-		$estructura = view('Estructura/Header') .
-			view('Estructura/Menu') .
-			view('Perfiles/PerfilListar', $data) .
-			view('Estructura/Footer');
-		return $estructura;*/
-
 		$builder = $this->db->table("perfiles");
 		$builder->select('*');
 		$perfiles = $builder->get()->getResult();
-		$perfiles = ['perfiles' => $perfiles];
-		$estructura = view('Estructura/Header') .
-			view('Estructura/Menu') .
-			view('Perfiles/PerfilListar', $perfiles) .
-			view('Estructura/Footer');
+		$data = [
+			'perfiles' => $perfiles,
+			'content' => 'Perfiles/PerfilListar'
+		];
+
+		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;
-
-
 
 	}
 
 	public function nuevo() {
-		$estructura = view('Estructura/Header') .
-			view('Estructura/Menu') .
-			view('Perfiles/PerfilNuevo') .
-			view('Estructura/Footer');
+		$data = [
+			'content' => 'Perfiles/PerfilNuevo'
+		];
 
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasNuevo').view('Estructura/pie');
+		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;
-		$builder = $this->db->table("perfiles");
-		$builder->select('*');
-		$perfiles = $builder->get()->getResult();
-		$perfiles = ['perfiles' => $perfiles];
 	}
 
 	public function guardar() {
@@ -72,32 +48,22 @@ class PerfilesController extends BaseController {
 			var_dump($PerfilesModel->errors());
 		}
 
-		$builder = $this->db->table("perfiles");
-		$builder->select("*");
-		$perfiles = $builder->get()->getResult();
-		$perfiles = ['perfiles' => $perfiles];
-		$estructura = view('Estructura/Header') .
-			view('Estructura/Menu') .
-			view('Perfiles/PerfilListar', $perfiles) .
-			view('Estructura/Footer');
-		return $estructura;
+		return redirect()->to(site_url('/PerfilesController'));	
 	}
 
 	public function editar() {
 		$request = \Config\Services::request();
 		$id = $request->getPostGet('id');
 
-		// Perfiles Model
 		$PerfilesModel = new PerfilesModel($db);
 		$perfiles = $PerfilesModel->find($id);
-		//var_dump($areas);
-		$data['perfiles'] = $perfiles;
 
-		$estructura = view('Estructura/Header') .
-			view('Estructura/Menu') .
-			view('Perfiles/PerfilEditar', $data) .
-			view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasEditar',$data).view('Estructura/pie');
+		$data = [
+			'perfiles' => $perfiles,
+			'content' => 'Perfiles/PerfilEditar'
+		];
+
+		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;
 	}
 
@@ -105,48 +71,38 @@ class PerfilesController extends BaseController {
 		$request = \Config\Services::request();
 		$id = $request->getPostGet('id');
 
-		// Perfiles Model
 		$PerfilesModel = new PerfilesModel($db);
 		$perfiles = $PerfilesModel->find($id);
-		//var_dump($areas);
-		$data['perfiles'] = $perfiles;
 
-		// Perfiles Opciones Model
 		$perfilesOpciones = $PerfilesModel->getOptions($id);
-		// $perfilesOpciones = $PerfilesModel->where('PERID', $id)->join('perfilesopciones as po', 'po.PERID = perfiles.PERID')->join('opciones as op', 'op.OPCID = po.OPCID')->findAll();
-		$data['perfilesOpciones'] = $perfilesOpciones;
 
-		// Opciones Model
 		$OpcionesModel = new OpcionesModel($db);
 		$opciones = $OpcionesModel->findAll();
 
-		$opcionesLimpias = [];
-		// Descartar las opciones que ya estan asignadas
-		foreach ($opciones as $opcion) {
-			if (!in_array($opcion['OPCID'], array_column($perfilesOpciones, 'OPCID'))) {
-				$opcionesLimpias[] = $opcion;
-			}
-		}
+		// $opcionesLimpias = [];
+		// foreach ($opciones as $opcion) {
+		// 	if (!in_array($opcion['OPCID'], array_column($perfilesOpciones, 'OPCID'))) {
+		// 		$opcionesLimpias[] = $opcion;
+		// 	}
+		// }
 
-		$data['opciones'] = $opcionesLimpias;
+		$data = [
+			'perfiles' => $perfiles,
+			'opciones' => $opciones,
+			'perfilesOpciones' => $perfilesOpciones,
+			'content' => 'Perfiles/PerfilAgregarOpciones'
+		];
 
-		$estructura = view('Estructura/Header') .
-			view('Estructura/Menu') .
-			view('Perfiles/PerfilAgregarOpciones', $data) .
-			view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasEditar',$data).view('Estructura/pie');
+		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;
 	}
 
 	public function modificar() {
 		$PerfilesModel = new PerfilesModel($db);
 		$request = \Config\Services::request();
-
-		$estado = $request->getPostGet('txtEstado') == '1' ? 'ACTIVO' : 'INACTIVO';
-
 		$data = [
 			'PERNOMBRE' => $request->getPostGet('txtNombre'),
-			'PERESTADO' => $estado,
+			'PERESTADO' => $request->getPostGet('txtEstado'),
 		];
 		
 		$PERID = $request->getPostGet('txtCodigo');
@@ -163,15 +119,13 @@ class PerfilesController extends BaseController {
 
 		$PerfilesModel = new PerfilesModel($db);
 		$perfiles = $PerfilesModel->find($id);
-		$perfiles = ['perfiles' => $perfiles];
-		//var_dump($areas);
-		$data['perfiles'] = $perfiles;
 
-		$estructura = view('Estructura/Header') .
-			view('Estructura/Menu') .
-			view('Perfiles/PerfilBorrar', $data) .
-			view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasBorrar',$data).view('Estructura/pie');
+		$data = [
+			'perfiles' => $perfiles,
+			'content' => 'Perfiles/PerfilBorrar'
+		];
+
+		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;
 	}
 
@@ -190,7 +144,4 @@ class PerfilesController extends BaseController {
 
 		return redirect()->to(site_url('/PerfilesController'));
 	}
-
-	//--------------------------------------------------------------------
-
 }

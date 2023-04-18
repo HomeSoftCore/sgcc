@@ -74,7 +74,6 @@ class PerfilesModel extends Model {
     }
 
 	public function getOptions($id = null) {
-//		$this->from($this->table . ' as pe', true);
 		$this->select('perfiles.PERID, perfiles.PERNOMBRE, perfiles.PERESTADO, op.OPCID, op.OPCNOMBRE, op.OPCESTADO, po.POPID, po.POPESTADO');
 		$this->join('perfilesopciones as po', 'perfiles.PERID = po.PERID');
 		$this->join('opciones as op', 'op.OPCID = po.OPCID');

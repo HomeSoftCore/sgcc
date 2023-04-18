@@ -1,54 +1,76 @@
-    <div class="content-wrapper">
-            <section class="content-header">
-                <h1>
-                    Perfiles
-                    <small><i class="fa fa-tags"></i></small>
-                </h1>
-            </section>
 
-            <section class="content">
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Eliminar Perfil</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/PerfilesController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="box box-danger">
-                            <div class="box-header with-border">
-                            <h3 class="box-title">Borrar Perfil</h3>
-                            </div>
-                            <div class="box-body">
-                                <div class="row" style="margin-top: 15px;">
-                                    <div class="col-xs-12">
-                    <?php
-                    $base = base_url();
-                    echo form_open('PerfilesController/eliminar'); //equivale al <form></form> en html
-                    echo "<br>";
+                        <form action="<?php echo base_url(); ?>/PerfilesController/eliminar" method="post" accept-charset="utf-8">
 
-                    $codigo=0;
-                    foreach($perfiles as $value){
-                        $codigo=$value['PERID'];
-                        $PERNOMBRE=$value['PERNOMBRE'];
-                        $PERESTADO=$value['PERESTADO'];
-                    }
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtCodigo">C&oacute;digo</label>
+                                <input type="text" class="form-control" name="txtCodigo" value="<?php echo $perfiles["PERID"] ?>" readonly placeholder="nombre...">
+                            </div>  
+                          </div>
+                        </div>  
 
-                    echo form_input(array('name' => 'txtCodigo', 'readOnly'=>'true','class'=>'form-control','value'=>$codigo));
-                    echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtNombre">Digite Nombre</label>
+                                <input type="text" class="form-control" name="txtNombre" placeholder="nombre..." readonly value="<?php echo $perfiles["PERNOMBRE"] ?>">
+                            </div>  
+                          </div>
 
-                    echo form_label('Nombre_Perfil:', 'Nombre'); //equivale al <label></label> en html
-                    echo "<br>";
-                    echo form_input(array('name' => 'txtNombre', 'placeholder' => 'Ingrese el Nombre', 'class'=>'form-control','value'=>$PERNOMBRE));
-                    echo "<br>";
-                    echo form_label('Estado:', 'Estado'); //equivale al <label></label> en html
-                    echo "<br>";
-                    echo form_input(array('name' => 'txtEstado', 'placeholder' => 'Ingrese el Nombre', 'class'=>'form-control','value'=>$PERESTADO));
-                    echo "<br>";
-
-                    echo form_button(array('name' => 'btnBorrar', 'type' => 'submit', 'class' => 'btn btn-danger', 'content' => 'ELIMINAR'));
-                    echo form_close();
-
-                    ?>
-          </div>
-                            </div>
                         </div>
+
+                        
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtEstado">Seleccione Estado</label>
+                                <?php 
+                                
+                                $options = [
+                                  'ACTIVO'  => 'ACTIVO',
+                                  'INACTIVO'    => 'INACTIVO'
+                                ];
+
+                                echo "<select class='form-control' readonly name='txtEstado' id='txtEstado'>";
+                                foreach ($options as $item){
+                                    if($perfiles["PERESTADO"]==$item) {
+										echo "<option value='" . $item . "'selected>" . $item . "</option>";
+									  }else{
+										  echo "<option value='" . $item . "'>" . $item . "</option>";
+									  }  
+                                }
+                                echo "</select>";                                
+                                
+                                ?>
+                            </div>  
+                          </div>
+                        </div>                          
+
+
+                        <div class="d-flex flex-column align-items-center">
+                          <div class="col-md-4">
+                            <button type="submit" class="btn btn-danger btn-block">Eliminar</button>
+                          </div>
+                        </div>  
+
+                        </form>            
                     </div>
                 </div>
+
             </div>
-        </section>
+        </div>
     </div>
+</div>

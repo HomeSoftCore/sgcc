@@ -1,96 +1,69 @@
-<div class="content-wrapper">
-	<?php
-	$codigo = $perfiles['PERID'];
-	$PERNOMBRE = $perfiles['PERNOMBRE'];
-	$PERESTADO = $perfiles['PERESTADO'];
-	?>
-	<section class="content-header">
-		<h1>
-			Perfiles - <?php echo $perfiles['PERNOMBRE']; ?>
-			<small><i class="fa fa-tags"></i></small>
-		</h1>
-	</section>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-					<div class="box-header with-border">
-						<h3 class="box-title">Agregar opción</h3>
-					</div>
-					<div class="box-body">
-						<div class="row">
-							<div class="col-xs-12">
-								<?php
 
-								$opcionesLista = ['0' => 'Seleccione una opción'];
-								foreach ($opciones as $opcion) {
-									$opcionesLista[$opcion['OPCID']] = $opcion['OPCNOMBRE'];
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Agregar Opci&oacute;n a <?php echo $perfiles['PERNOMBRE']; ?></h3>
+            <div class="card-header-right">
+				<button type="button" onclick="location.href='<?php echo base_url();?>/PerfilesController'" class="btn btn-light">Cancelar</button>
+            </div>
+
+            </div>
+            <div class="card-body">
+				<form action="<?php echo base_url(); ?>/PerfilesOpcionesController/nuevoPerfilOpcion?perid=<?php echo $perfiles['PERID']; ?>" method="post" accept-charset="utf-8">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<!-- <label for="txtEstado">Seleccione Opci&oacute;n</label> -->
+								<?php 
+								
+								echo "<select class='form-control' name='opcion' id='opcion'>";
+								echo "<option value=''>seleccione opci&oacute;n...</option>";
+								foreach ($opciones as $item){
+									echo "<option value='".$item['OPCID']."'>".$item['OPCNOMBRE']."</option>";
 								}
-
-								$base = base_url();
-								echo form_open('/PerfilesOpcionesController/nuevoPerfilOpcion?perid=' . $codigo); //equivale al <form></form> en html
+								echo "</select>";                                
+								
 								?>
+							</div> 
 
-								<br>
-								<div class="mb-3 row">
-									<?php echo form_label('Opción:', 'opcion', ['class' => 'col-sm-1 col-form-label']); ?>
-									<div class="col-sm-11">
-										<?php echo form_dropdown('opcion', $opcionesLista, '0', ['id' => 'opcion', 'class' => 'form-select']);
-
-										if (count($opciones) == 0) {
-											echo form_button(['name' => 'btnGuardar', 'type' => 'submit', 'class' => 'btn btn-success', 'style' => 'margin-left: 1rem;', 'content' => 'Agregar', 'disabled' => '']);
-										} else {
-											echo form_button(['name' => 'btnGuardar', 'type' => 'submit', 'class' => 'btn btn-success', 'style' => 'margin-left: 1rem;', 'content' => 'Agregar']);
-										} ?>
-
-									</div>
-								</div>
-								<?php
-								echo form_close();
-								?>
-								<div class="table-responsive">
-									<table id="example" class="table table-striped table-hover dt-responsive display nowrap"
-												 cellspacing="0">
-										<thead>
-										<tr>
-											<th>Código</th>
-											<th>Opción</th>
-											<th>Acciones</th>
-										</tr>
-										</thead>
-										<tbody>
-
-										<?php
-										if (count($perfilesOpciones) == 0) {
-											echo "<tr>";
-											echo "<td colspan='3'>No hay opciones asignadas</td>";
-											echo "</tr>";
-										} else {
-											foreach ($perfilesOpciones as $perfilOpcion) {
-												?>
-												<tr>
-													<th><?php echo $perfilOpcion['OPCID']; ?></th>
-													<td><?php echo $perfilOpcion['OPCNOMBRE']; ?></td>
-													<td>
-														<a class="btn btn-danger"
-															 href="<?php echo base_url() . '/PerfilesOpcionesController/borrarPerfilOpcion?popid=' . $perfilOpcion['POPID'] . '?perid=' . $codigo ?>">
-															<i class="fa fa-trash"></i>
-														</a>
-													</td>
-												</tr>
-												<?php
-											}
-										}
-										?>
-										</tbody>
-									</table>
-								</div>
-							</div>
 						</div>
+
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-primary">Agregar</button>							
+						</div>					
+
 					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+				</form>
+
+
+                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
+                    <thead>
+                        <tr>
+							<th>Opci&oacute;n</th>
+							<th>Acciones</th>
+                        </tr>
+                    </thead>
+
+					<tbody>                   
+					<?php 
+						foreach($perfilesOpciones as $item) {
+						?>
+						<tr>
+							<td><?php echo $item['OPCNOMBRE']; ?></td>
+							<td>
+								<button type="button" onclick="location.href='<?php echo base_url();?>/PerfilesOpcionesController/borrarPerfilOpcion?popid=<?php echo $item['POPID'].'?perid='. $perfiles['PERID'];?>'" class="btn btn-icon btn-danger"><i class="ik ik-trash-2"></i></button>
+							</td>
+						</tr>
+
+						<?php } ?>
+					</tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
 </div>
+

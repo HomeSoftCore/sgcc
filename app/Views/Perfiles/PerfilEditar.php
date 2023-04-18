@@ -1,53 +1,75 @@
-<div class="content-wrapper">
-	<?php
-	$codigo = $perfiles['PERID'];
-	$PERNOMBRE = $perfiles['PERNOMBRE'];
-	$PERESTADO = $perfiles['PERESTADO'];
-	?>
-	<section class="content-header">
-		<h1>
-			Perfiles - <?php echo $perfiles['PERNOMBRE']; ?>
-			<small><i class="fa fa-tags"></i></small>
-		</h1>
-	</section>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Actualizar Perfil</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/PerfilesController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/PerfilesController/modificar" method="post" accept-charset="utf-8">
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-					<div class="box-header with-border">
-						<h3 class="box-title">Editar Perfil</h3>
-					</div>
-					<div class="box-body">
-						<div class="row">
-							<div class="col-xs-12">
-								<?php
-								$base = base_url();
-								echo form_open('/PerfilesController/modificar'); //equivale al <form></form> en html
-								echo "<br>";
-								echo form_input(['name' => 'txtCodigo', 'readOnly' => 'true', 'class' => 'form-control', 'value' => $codigo]);
-								echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtCodigo">C&oacute;digo</label>
+                                <input type="text" class="form-control" name="txtCodigo" value="<?php echo $perfiles["PERID"] ?>" readonly placeholder="nombre...">
+                            </div>  
+                          </div>
+                        </div>  
 
-								echo form_label('Nombre:', 'Nombre');//equivale al <label></label> en html
-								echo "<br>";
-								echo form_input(['name' => 'txtNombre', 'placeholder' => 'Ingrese el Nombre', 'class' => 'form-control', 'value' => $PERNOMBRE]);
-								?>
-								<br>
-								<div class="custom-control custom-checkbox">
-									<?php echo form_checkbox(['name' => 'txtEstado', 'id' => 'estado', 'value' => '1', 'checked' => $PERESTADO == 'ACTIVO', 'class' => 'custom-control-input']); ?>
-									<?php echo form_label('Activo', 'estado', ['class' => 'custom-control-label']); ?>
-								</div>
-								<br>
-								<?php
-								echo form_button(['name' => 'btnGuardar', 'type' => 'submit', 'class' => 'btn btn-success', 'content' => 'Guardar']);
-								echo form_button(['name' => 'btnCancelar', 'type' => 'button', 'class' => 'btn btn-danger', 'content' => 'Cancelar', 'onclick' => 'location.href=\'' . $base . '/PerfilesController/index\'']);
-								echo form_close();
-								?>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtNombre">Digite Nombre</label>
+                                <input type="text" class="form-control" name="txtNombre" placeholder="nombre..." value="<?php echo $perfiles["PERNOMBRE"] ?>">
+                            </div>  
+                          </div>
+
+                        </div>
+
+                        
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtEstado">Seleccione Estado</label>
+                                <?php 
+                                
+                                $options = [
+                                  'ACTIVO'  => 'ACTIVO',
+                                  'INACTIVO'    => 'INACTIVO'
+                                ];
+
+                                echo "<select class='form-control' name='txtEstado' id='txtEstado'>";
+                                foreach ($options as $item){
+                                    if($perfiles["PERESTADO"]==$item) {
+										echo "<option value='" . $item . "'selected>" . $item . "</option>";
+									  }else{
+										  echo "<option value='" . $item . "'>" . $item . "</option>";
+									  }  
+                                }
+                                echo "</select>";                                
+                                
+                                ?>
+                            </div>  
+                          </div>
+                        </div>                          
+
+
+                        <div class="d-flex flex-column align-items-center">
+                          <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary btn-block">Actualizar</button>
+                          </div>
+                        </div>  
+
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

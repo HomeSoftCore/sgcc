@@ -1,94 +1,41 @@
-<div class="content-wrapper">
-	<section class="content-header">
-		<h1>
-			Perfiles
-			<small><i class="fa fa-tags"></i></small>
-		</h1>
-	</section>
+ <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+            <h3>Administrar Perfiles</h3>
+            <div class="card-header-right">
+                <button type="button" onclick="location.href='<?php echo base_url();?>/PerfilesController/nuevo'" class="btn btn-primary">Crear Perfil</button>
+            </div>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-					<div class="box-header with-border">
-						<h3 class="box-title">Administrar Perfiles</h3>
-					</div>
-					<div class="box-body">
-						<div class="row">
-							<div class="col-md-2">
-								<a href="<?php echo base_url(); ?>/PerfilesController/nuevo" class="btn btn-primary btn-block">
-									<i class="fa fa-user-tags"></i>
-									CREAR NUEVO PERFIL
-								</a>
-							</div>
-							
-						</div>
-						<div class="row" style="margin-top: 15px;">
-							<div class="col-xs-12">
-								<div class="table-responsive">
-									<table id="example" class="table table-striped table-hover dt-responsive display nowrap"
-												 cellspacing="0">
-										<thead>
-										<tr>
-											<th>Código</th>
-											<th>Nombre</th>
-											<th>Estado</th>
-											<th>Acciones</th>
+            </div>
+            <div class="card-body">
+                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
+                    <thead>
+                        <tr>
+							<th>Nombre</th>
+							<th>Estado</th>
+							<th>Acciones</th>
+                        </tr>
+                    </thead>
 
-										</tr>
-										</thead>
-										<?php
-										$cont = 0;
-										foreach ($perfiles
+                <tbody>                   
+                    <?php 
+                        foreach($perfiles as $item) {
+                    ?>
+                    <tr>
+                        <td><?php echo $item->PERNOMBRE; ?></td>
+                        <td><?php echo $item->PERESTADO; ?></td>
+                        <td>
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/PerfilesController/editar?id=<?php echo $item->PERID;?>'" class="btn btn-icon btn-info"><i class="ik ik-edit"></i></button>
+                            <button type="button" onclick="location.href='<?php echo base_url();?>/PerfilesController/borrar?id=<?php echo $item->PERID;?>'" class="btn btn-icon btn-danger"><i class="ik ik-trash-2"></i></button>
+							<button type="button" title="Asignar Opciones" onclick="location.href='<?php echo base_url();?>/PerfilesController/editarOpciones?id=<?php echo $item->PERID;?>'" class="btn btn-icon btn-success"><i class="ik ik-check-circle"></i></button>
+                        </td>
+                    </tr>
 
-										as $perfil) {
-										$cont++;
-										?>
-										<tbody>
-
-										<tr>
-										
-											<th><?php echo $perfil->PERID; ?></th>
-											<td><?php echo $perfil->PERNOMBRE; ?></td>
-											<td><?php echo $perfil->PERESTADO; ?></td>
-											<td>
-
-											<a class="btn btn-success btn-xs"
-													 href="<?php echo base_url(); ?>/PerfilesController/editar?id=<?php echo $perfil->PERID; ?>">
-													<i class="fa fa-pencil-square"> Editar </i></a>
-												
-												<a class="btn btn-danger btn-xs"
-													 href="<?php echo base_url(); ?>/PerfilesController/borrar?id=<?php echo $perfil->PERID; ?>">
-													<i class="fa fa-trash"> Eliminar </i></a>
-
-													<a class="btn btn-primary btn-xs"
-													 href="<?php echo base_url(); ?>/PerfilesController/editarOpciones?id=<?php echo $perfil->PERID; ?>">
-													<i class="fa fa-pencil-square"> Agregar Opciones </i>
-												</a>
-												
-											</td>
-										</tr>
-										<?php
-										}
-										?>
-										</tbody>
-									</table>
-									<!-- Pagination -->
-									<!--<div class="d-flex justify-content-end">-->
-										<?php //if ($pager) : ?>
-											<?php //$pagi_path = $pagi_path ?>
-											<?php //$pager->setPath($pagi_path); ?>
-											<?//= $pager->links() ?>
-										<?php// endif ?>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                    <?php } ?>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-
