@@ -23,7 +23,7 @@
                         <a href="#"><i class="ik ik-command"></i><span><?php echo $menu['OPCNOMBRE']?></span></a>
                         <div class="submenu-content">
                             <a href="<?php echo base_url($menu['OPCRUTA']); ?>" class="menu-item">Administrar</a>
-                            <?php if($menu['OPCNOMBRE'] === 'Docentes') : ?>
+                            <?php if($menu['OPCRUTA'] === 'DocentesController') : ?>
                                 <a href="<?php echo base_url('RegistroDocentesController'); ?>" class="menu-item">Asignar Curso</a>
                             <?php endif; ?>
                         </div>

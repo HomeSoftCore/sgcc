@@ -1,63 +1,86 @@
-<div class="content-wrapper">
-	<section class="content-header">
-		<h1>
-			Items
-			<small><i class="fa fa-tags"></i></small>
-		</h1>
-	</section>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Actualizar Item</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/ItemsController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/ItemsController/modificar" method="post" accept-charset="utf-8">
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-					<div class="box-header with-border">
-						<h3 class="box-title">Editar Items</h3>
-					</div>
-					<div class="box-body">
-						<div class="row" style="margin-top: 15px;">
-							<div class="col-xs-12">
-								<?php
-								$base = base_url();
-								echo form_open('/ItemsController/modificar'); //equivale al <form></form> en html
-								echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtCodigo">Digite Nombre</label>
+                                <input type="text" class="form-control" name="txtCodigo" disabled value="<?php echo $items["ITEID"] ?>" placeholder="nombre...">
+                            </div>  
+                          </div>
 
-								$codigo = 0;
-								foreach ($items as $value) {
-									$codigo = $value['ITEID'];
-									$ITENOMBRE = $value['ITENOMBRE'];
-                                    $ITEOBSERVACION = $value['ITEOBSERVACION'];
-                                    $ITEESTADO = $value['ITEESTADO'];
-								}
+                        </div>
 
-								echo form_input(['name' => 'txtCodigo', 'readOnly' => 'true', 'class' => 'form-control', 'value' => $codigo]);
-								echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtNombre">Digite Nombre</label>
+                                <input type="text" class="form-control" name="txtNombre" placeholder="nombre..." value="<?php echo $items["ITENOMBRE"] ?>">
+                            </div>  
+                          </div>
 
-								echo form_label('Nombre:', 'Nombre'); //equivale al <label></label> en html
-								echo "<br>";
-                                echo form_input(['name' => 'txtNombre', 'placeholder' => 'Ingrese el Nombre', 'class' => 'form-control', 'value' => $ITENOMBRE]);
-								echo "<br>";
-                                echo form_label('Observación:', 'Observación'); //equivale al <label></label> en html
-								echo "<br>";
-                                echo form_input(['name' => 'txtObservacion', 'placeholder' => 'Ingrese la Observación', 'class' => 'form-control', 'value' => $ITEOBSERVACION]);
-								echo "<br>";
-                                echo form_label('Estado:', 'Estado'); //equivale al <label></label> en html
-								echo "<br>";
-								$options = [
-									'ACTIVO'  => 'ACTIVO',
-									'INACTIVO'    => 'INACTIVO'
-								  ];
-								  $class = ['class'=>'form-control'];
-								  echo form_dropdown('txtEstado', $options, $ITEESTADO, $class);
-								echo "<br>";
-								echo form_button(['name' => 'btnGuardar', 'type' => 'submit', 'class' => 'btn btn-success', 'content' => 'Guardar']);
-								echo form_close();
+                        </div>
 
-								?>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtObservacion">Digite Observaci&oacute;n</label>
+                                <input type="text" class="form-control" name="txtObservacion" placeholder="observaci&oacute;n..." value="<?php echo $items["ITEOBSERVACION"] ?>">
+                            </div>  
+                          </div>
+
+                        </div>   
+                        
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtEstado">Seleccione Estado</label>
+                                  <?php 
+                                  
+                                  $options = [
+                                    'ACTIVO'  => 'ACTIVO',
+                                    'INACTIVO'    => 'INACTIVO'
+                                  ];
+
+                                  echo "<select class='form-control' name='txtEstado' id='txtEstado'>";
+                                  foreach ($options as $item){
+                                    if($items["ITEESTADO"]==$item) {
+										echo "<option value='" . $item . "'selected>" . $item . "</option>";
+									  }else{
+										  echo "<option value='" . $item . "'>" . $item . "</option>";
+									  } 
+                                  }
+                                  echo "</select>";                                
+                                  
+                                  ?>
+                              </div>  
+                            </div>
+                          </div>                          
+
+
+                          <div class="d-flex flex-column align-items-center">
+                            <div class="col-md-4">
+                              <button type="submit" class="btn btn-primary btn-block">Actualizar</button>
+                            </div>
+                          </div>  
+
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

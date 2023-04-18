@@ -15,7 +15,7 @@ class ItemsModel extends Model
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['ITENOMBRE','ITEOBSERVACION','ITEESTADO'];
+    protected $allowedFields = ['ITEID', 'ITENOMBRE','ITEOBSERVACION','ITEESTADO'];
 
     protected $useTimestamps = true;
     protected $createdField  = 'CREATED_AT';

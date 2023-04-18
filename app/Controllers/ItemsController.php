@@ -10,35 +10,24 @@ class ItemsController extends BaseController
 		$this->db =db_connect(); // loading database 
 		helper('form');
 	}
-	public function index()
-	{
-		/*$builder = $this->db->table("items");
+	public function index() {
+		$builder = $this->db->table("items");
 		$builder->select('*');
 		$items = $builder->get()->getResult();
-		$items=array('items'=>$items);*/
-		//metodo pager
-		$model = new ItemsModel();
 		$data = [
-			'items' => $model->paginate(3),
-			'pager' => $model->pager,
-			'pagi_path' => 'sgcc/ItemsController'
+			'items' => $items,
+			'content' => 'Items/ItemsListar'			
 		];
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasListar',$areas).view('Estructura/pie');
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Items/ItemsListar',$data).
-						view('Estructura/Footer');
-        return $estructura;
+
+		$estructura=	view('Estructura/layout/index', $data);
+        return $estructura;		
 	}
 
-    public function nuevo()
-	{
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Items/ItemsNuevo').
-						view('Estructura/Footer');
-
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasNuevo').view('Estructura/pie');
+    public function nuevo() {
+		$data = [
+			'content' => 'Items/ItemsNuevo'
+        ];
+		$estructura=	view('Estructura/layout/index', $data);
 		return $estructura;
 	}
 
@@ -65,16 +54,13 @@ class ItemsController extends BaseController
 
 		$ItemsModel=new ItemsModel($db);
 		$items=$ItemsModel->find($id);
-		$items=array('items'=>$items);
-		//var_dump($areas);
-		$data['items']=$items;
 		
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Items/ItemsEditar',$data).
-						view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasEditar',$data).view('Estructura/pie');
-		return $estructura;			
+		$data = [
+			'items' => $items,
+			'content' => 'Items/ItemsEditar'
+        ];
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;
 	}
 
 	public function modificar(){
@@ -100,16 +86,13 @@ class ItemsController extends BaseController
 
 		$ItemsModel=new ItemsModel($db);
 		$items=$ItemsModel->find($id);
-		$items=array('items'=>$items);
-		//var_dump($areas);
-		$data['items']=$items;
 		
-		$estructura=	view('Estructura/Header').
-		view('Estructura/Menu').
-		view('Items/ItemsBorrar',$data).
-		view('Estructura/Footer');
-		//$estructura=view('Estructura/Encabezado').view('Areas/AreasBorrar',$data).view('Estructura/pie');
-		return $estructura;		
+		$data = [
+			'items' => $items,
+			'content' => 'Items/ItemsBorrar'
+        ];
+		$estructura=	view('Estructura/layout/index', $data);
+		return $estructura;
 	}
 		
 	public function eliminar(){
@@ -117,7 +100,7 @@ class ItemsController extends BaseController
 		$ItemsModel=new ItemsModel($db);
 		$id=$request->getPostGet('txtCodigo');
 		$items=$ItemsModel->find($id);
-		$items=array('items'=>$items);
+		$items=array('opciones'=>$items);
 		
 		if($ItemsModel->delete($id)===false){
 			print_r($ItemsModel->errors());
@@ -125,8 +108,8 @@ class ItemsController extends BaseController
 			$ItemsModel->purgeDeleted($id);
 		}
 
-		//redirige a metodo index
 		return redirect()->to(site_url('/ItemsController'));	
+
 	}
 
 }
