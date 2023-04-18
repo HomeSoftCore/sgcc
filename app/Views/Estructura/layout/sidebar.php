@@ -68,7 +68,7 @@
                         </div>
                     </div>   
                     
-                    <!--<div class="nav-item has-sub">
+                    <div class="nav-item has-sub">
                         <a href="#"><i class="ik ik-command"></i><span>Opciones</span></a>
                         <div class="submenu-content">
                             <a href="<?php echo base_url('OpcionesController'); ?>" class="menu-item">Administrar</a>
@@ -82,7 +82,7 @@
                         </div>
                     </div>  
                     
-                    <div class="nav-item has-sub">
+                    <!--<div class="nav-item has-sub">
                         <a href="#"><i class="ik ik-command"></i><span>Auditorias</span></a>
                         <div class="submenu-content">
                             <a href="<?php echo base_url('AuditoriasController'); ?>" class="menu-item">Administrar</a>

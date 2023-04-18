@@ -1,52 +1,72 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Crear nueva Opci&oacute;n</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/OpcionesController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/OpcionesController/guardar" method="post" accept-charset="utf-8">
 
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-            Opciones
-            <small><i class="fa fa-tags"></i></small>
-        </h1>
-    </section>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtNombre">Digite Nombre</label>
+                                <input type="text" class="form-control" name="txtNombre" placeholder="nombre...">
+                            </div>  
+                          </div>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">CREAR NUEVA OPCION</h3>
-		            </div>
-		            <div class="box-body">
-		        		<div class="row" style="margin-top: 15px;">
-		        			<div class="col-xs-12">
-            <?php
-            echo form_open('/OpcionesController/guardar');
-            //<label></label>
-            echo form_label('Nombre:', 'Nombre');
-            echo "<br>";
-            echo form_input(array('name' => 'txtNombre', 'placeholder' => 'Ingrese el Nombre', 'class'=>'form-control'));
-            echo "<br>";
-            echo form_label('Ruta:', 'Ruta');
-            echo "<br>";
-            echo form_input(array('name' => 'txtRuta', 'placeholder' => 'Ingrese la ruta', 'class'=>'form-control'));
-            echo "<br>";
-            echo form_label('Estado:', 'Estado');
-            echo "<br>";
-            $options = [
-              'ACTIVO'  => 'ACTIVO',
-              'INACTIVO'    => 'INACTIVO'
-            ];
-            $class = ['class'=>'form-control'];
-            echo form_dropdown('txtEstado', $options,'' ,$class);
-            echo "<br>";
-            echo form_button(array('name'=>'btnGuardar','type'=>'submit','class'=>'btn btn-success','content'=>'Guardar'));
-            echo "<br>";
-            echo form_close();
+                        </div>
 
-            ?>
-   </div>
-		        		</div>
-		            </div>
-	          	</div>
-			</div>
-		</div>
-	</section>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtRuta">Digite Ruta</label>
+                                <input type="text" class="form-control" name="txtRuta" placeholder="ruta...">
+                            </div>  
+                          </div>
+
+                        </div>   
+                        
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtEstado">Seleccione Estado</label>
+                                  <?php 
+                                  
+                                  $options = [
+                                    'ACTIVO'  => 'ACTIVO',
+                                    'INACTIVO'    => 'INACTIVO'
+                                  ];
+
+                                  echo "<select class='form-control' name='txtEstado' id='txtEstado'>";
+                                  foreach ($options as $item){
+                                    echo "<option value='".$item."'>".$item."</option>";
+                                  }
+                                  echo "</select>";                                
+                                  
+                                  ?>
+                              </div>  
+                            </div>
+                          </div>                          
+
+
+                          <div class="d-flex flex-column align-items-center">
+                            <div class="col-md-4">
+                              <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                            </div>
+                          </div>  
+
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

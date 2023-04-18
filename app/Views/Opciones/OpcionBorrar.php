@@ -1,59 +1,85 @@
-    <div class="content-wrapper">
-        <section class="content-header">
-            <h1>
-                Opcion
-                <small><i class="fa fa-tags"></i></small>
-            </h1>
-        </section>
+   
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Eliminar Opci&oacute;n</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/OpcionesController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/OpcionesController/eliminar" method="post" accept-charset="utf-8">
 
-        <section class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-danger">
-                        <div class="box-header with-border">
-                        <h3 class="box-title">Borrar Opcion</h3>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtCodigo">C&oacute;digo</label>
+                                <input type="text" class="form-control" name="txtCodigo" value="<?php echo $opciones["OPCID"] ?>" readonly placeholder="nombre...">
+                            </div>  
+                          </div>
+                        </div>                        
+
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtNombre">Digite Nombre</label>
+                                <input type="text" class="form-control" name="txtNombre" value="<?php echo $opciones["OPCNOMBRE"] ?>" readonly placeholder="nombre...">
+                            </div>  
+                          </div>
                         </div>
-                        <div class="box-body">
-                            <div class="row" style="margin-top: 15px;">
-                                <div class="col-xs-12">
-                    <?php
-                    $base = base_url();
-                    echo form_open('OpcionesController/eliminar'); //equivale al <form></form> en html
-                    echo "<br>";
 
-                    $codigo=0;
-                    foreach($opciones as $value){
-                        $codigo=$value['OPCID'];
-                        $OPCNOMBRE=$value['OPCNOMBRE'];
-                        $OPCRUTA=$value['OPCRUTA'];
-                        $OPCESTADO=$value['OPCESTADO'];
-                    }
 
-                    echo form_input(array('name' => 'txtCodigo', 'readOnly'=>'true','class'=>'form-control','value'=>$codigo));
-                    echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtRuta">Digite Ruta</label>
+                                <input type="text" class="form-control" value="<?php echo $opciones["OPCRUTA"] ?>" name="txtRuta" readonly placeholder="ruta...">
+                            </div>  
+                          </div>
 
-                    echo form_label('Nombre:', 'Nombre'); //equivale al <label></label> en html
-                    echo "<br>";
-                    echo form_input(array('name' => 'txtNombre', 'placeholder' => 'Ingrese el nombre', 'class'=>'form-control','value'=>$OPCNOMBRE));
-                    echo "<br>";
-                    echo form_label('Ruta:', 'Ruta'); //equivale al <label></label> en html
-                    echo "<br>";
-                    echo form_input(array('name' => 'txtRuta', 'placeholder' => 'Ingrese la Ruta', 'class'=>'form-control','value'=>$OPCRUTA));
-                    echo "<br>";
-                    echo form_label('Estado:', 'Estado'); //equivale al <label></label> en html
-                    echo "<br>";
-                    echo form_input(array('name' => 'txtEstado', 'placeholder' => 'Ingrese el Estado', 'class'=>'form-control','value'=>$OPCESTADO));
-                    echo "<br>";
+                        </div>   
+                        
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="txtEstado">Seleccione Estado</label>
+                                  <?php 
+                                  
+                                  $options = [
+                                    'ACTIVO'  => 'ACTIVO',
+                                    'INACTIVO'    => 'INACTIVO'
+                                  ];
 
-                    echo form_button(array('name' => 'btnBorrar', 'type' => 'submit', 'class' => 'btn btn-danger', 'content' => 'ELIMINAR'));
-                    echo form_close();
-
-                    ?>
-                </div>
+                                  echo "<select class='form-control' readonly name='txtEstado' id='txtEstado'>";
+                                  foreach ($options as $item){
+                                    if($opciones["OPCESTADO"]==$item) {
+                                      echo "<option value='" . $item . "'selected>" . $item . "</option>";
+                                    }else{
+                                        echo "<option value='" . $item . "'>" . $item . "</option>";
+                                    }                                    
+                                  }
+                                  echo "</select>";                                
+                                  
+                                  ?>
+                              </div>  
                             </div>
-                        </div>
+                          </div>                          
+
+
+                          <div class="d-flex flex-column align-items-center">
+                            <div class="col-md-4">
+                              <button type="submit" class="btn btn-danger btn-block">Eliminar</button>
+                            </div>
+                          </div>  
+
+                        </form>            
                     </div>
                 </div>
+
             </div>
-        </section>
+        </div>
     </div>
+</div>
