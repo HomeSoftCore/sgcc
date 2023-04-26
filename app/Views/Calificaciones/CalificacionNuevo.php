@@ -1,56 +1,79 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Crear Calificaci&oacute;n</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/CalificacionesController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/CalificacionesController/guardar" method="post" accept-charset="utf-8">
 
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-            Calificaciones
-            <small><i class="fa fa-tags"></i></small>
-        </h1>
-    </section>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtDescripcion">Digite Descripci&oacute;n</label>
+                                <input type="text" class="form-control" name="txtDescripcion" placeholder="descripci&oacute;n...">
+                            </div>  
+                          </div>
+                        </div>
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-success">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">Crear Calificacion</h3>
-		            </div>
-		            <div class="box-body">
-		        		<div class="row" style="margin-top: 15px;">
-		        			<div class="col-xs-12">
-            <?php
-            echo form_open('/CalificacionesController/guardar');
-            //<label></label>
-            echo form_label('Descripcion:', 'Descripcion');
-            echo "<br>";
-            echo form_input(array('name' => 'txtDescripcion', 'placeholder' => 'Ingrese la Descripcion', 'class'=>'form-control'));
-            echo "<br>";
-            echo form_label('Puntaje:', 'Puntaje');
-            echo "<br>";
-            echo form_input(array('name' => 'txtPuntaje', 'placeholder' => 'Ingrese el Puntaje', 'class'=>'form-control'));
-            echo "<br>";
-            echo form_label('Aprobado:', 'Aprobado');
-            echo "<br>";
-            echo form_input(array('name' => 'txtAprobado', 'placeholder' => 'Ingrese lo Aprobado', 'class'=>'form-control'));
-            echo "<br>";
-            echo form_label('Estado:', 'Estado');
-            echo "<br>";
-            $options = [
-              'ACTIVO'  => 'ACTIVO',
-              'INACTIVO'    => 'INACTIVO'
-            ];
-            $class = ['class'=>'form-control'];
-            echo form_dropdown('txtEstado', $options,'' ,$class);
-            echo "<br>";
-            echo form_button(array('name'=>'btnGuardar','type'=>'submit','class'=>'btn btn-success','content'=>'Guardar'));
-            
-            echo form_close();
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtPuntaje">Digite Puntaje</label>
+                                <input type="number" class="form-control" name="txtPuntaje" placeholder="puntaje...">
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtAprobado">Digite Aprobado</label>
+                                <input type="number" class="form-control" name="txtAprobado" placeholder="aprobado...">
+                            </div>  
+                          </div>
+                        </div>                        
 
-            ?>
-       	</div>
-		        		</div>
-		            </div>
-	          	</div>
-			</div>
-		</div>
-	</section>
+                        
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtEstado">Seleccione Estado</label>
+                                <?php 
+                                
+                                $options = [
+                                  'ACTIVO'  => 'ACTIVO',
+                                  'INACTIVO'    => 'INACTIVO'
+                                ];
+
+                                echo "<select class='form-control' name='txtEstado' id='txtEstado'>";
+                                foreach ($options as $item){
+                                  echo "<option value='".$item."'>".$item."</option>";
+                                }
+                                echo "</select>";                                
+                                
+                                ?>
+                            </div>  
+                          </div>
+                        </div>                          
+
+
+                        <div class="d-flex flex-column align-items-center">
+                          <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                          </div>
+                        </div>  
+
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

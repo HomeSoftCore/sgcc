@@ -1,64 +1,93 @@
-<div class="content-wrapper">
-    <section class="content-header">
-        <h1>
-            Calificaciones
-            <small><i class="fa fa-tags"></i></small>
-        </h1>
-    </section>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+              <h3>Eliminar Calificaci&oacute;n</h3>
+              <div class="card-header-right">
+                  <button type="button" onclick="location.href='<?php echo base_url();?>/CalificacionesController'" class="btn btn-light">Cancelar</button>
+              </div>               
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="<?php echo base_url(); ?>/CalificacionesController/eliminar" method="post" accept-charset="utf-8">
 
-	<section class="content">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="box box-danger">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">Borrar Calificacion</h3>
-		            </div>
-		            <div class="box-body">
-		        		<div class="row" style="margin-top: 15px;">
-		        			<div class="col-xs-12">
-                <?php
-                $base = base_url();
-                echo form_open('CalificacionesController/eliminar'); //equivale al <form></form> en html
-                echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtCodigo">C&oacute;digo</label>
+                                <input type="text" readonly class="form-control" name="txtCodigo" value="<?php echo $calificaciones["CALID"] ?>" placeholder="c&oacute;digo...">
+                            </div>  
+                          </div>
+                        </div>
 
-                $codigo=0;
-                foreach($calificaciones as $value){
-                    $codigo=$value['CALID'];
-                    $CALDESCRIPCION=$value['CALDESCRIPCION'];
-                    $CALPUNTAJE=$value['CALPUNTAJE'];
-                    $CALPUNAPROBACION=$value['CALPUNAPROBACION'];
-                    $CALESTADO=$value['CALESTADO'];
-                }
 
-                echo form_input(array('name' => 'txtCodigo', 'readOnly'=>'true','class'=>'form-control','value'=>$codigo));
-                echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtDescripcion">Digite Descripci&oacute;n</label>
+                                <input type="text" readonly class="form-control" name="txtDescripcion" value="<?php echo $calificaciones["CALDESCRIPCION"] ?>" placeholder="descripci&oacute;n...">
+                            </div>  
+                          </div>
+                        </div>
 
-                echo form_label('Descripcion:', 'Descripcion');
-                echo "<br>";
-                echo form_input(array('name' => 'txtDescripcion', 'readOnly' => 'true','placeholder' => 'Ingrese la Descripcion', 'class'=>'form-control','value'=>$CALDESCRIPCION));
-                echo "<br>";
-                echo form_label('Puntaje:', 'Puntaje');
-                 echo "<br>";
-                echo form_input(array('name' => 'txtPuntaje','readOnly' => 'true', 'placeholder' => 'Ingrese el Puntaje', 'class'=>'form-control','value'=>$CALPUNTAJE));
-                echo "<br>";
-                echo form_label('Aprobado:', 'Aprobado');
-                echo "<br>";
-                echo form_input(array('name' => 'txtAprobado','readOnly' => 'true', 'placeholder' => 'Ingrese lo Aprobado', 'class'=>'form-control','value'=>$CALPUNAPROBACION));
-                echo "<br>";
-                echo form_label('Estado:', 'Estado');
-                 echo "<br>";
-                echo form_input(array('name' => 'txtEstado','readOnly' => 'true', 'placeholder' => 'Ingrese el Estado', 'class'=>'form-control','value'=>$CALESTADO));
-                echo "<br>";
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtPuntaje">Digite Puntaje</label>
+                                <input type="number" readonly class="form-control" name="txtPuntaje" value="<?php echo $calificaciones["CALPUNTAJE"] ?>" placeholder="puntaje...">
+                            </div>  
+                          </div>
+                        </div>
+                        
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtAprobado">Digite Aprobado</label>
+                                <input type="number" readonly class="form-control" name="txtAprobado" value="<?php echo $calificaciones["CALPUNAPROBACION"] ?>" placeholder="aprobado...">
+                            </div>  
+                          </div>
+                        </div>                        
 
-                echo form_button(array('name' => 'btnBorrar', 'type' => 'submit', 'class' => 'btn btn-danger', 'content' => 'ELIMINAR'));
-                echo form_close();
+                        
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtEstado">Seleccione Estado</label>
+                                <?php 
+                                
+                                $options = [
+                                  'ACTIVO'  => 'ACTIVO',
+                                  'INACTIVO'    => 'INACTIVO'
+                                ];
 
-                ?>
-         </div>
-		        		</div>
-		            </div>
-	          	</div>
-			</div>
-		</div>
-	</section>
+                                echo "<select class='form-control' readonly name='txtEstado' id='txtEstado'>";
+                                foreach ($options as $item){
+                                  if($calificaciones["CALESTADO"]==$item) {
+                                    echo "<option value='" . $item . "'selected>" . $item . "</option>";
+                                  }else{
+                                      echo "<option value='" . $item . "'>" . $item . "</option>";
+                                  }  
+                                }
+                                echo "</select>";                                
+                                
+                                ?>
+                            </div>  
+                          </div>
+                        </div>                          
+
+
+                        <div class="d-flex flex-column align-items-center">
+                          <div class="col-md-4">
+                            <button type="submit" class="btn btn-danger btn-block">Eliminar</button>
+                          </div>
+                        </div>  
+
+                        </form>            
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
