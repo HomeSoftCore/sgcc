@@ -18,7 +18,7 @@
             <td><?php echo $item['CITTIPO']; ?></td>
             <td>
                 <button type="button" 
-                    onclick="registrarCalificacion()"
+                    onclick="registrarCalificacion('<?php echo $item['ITENOMBRE']; ?>', <?php echo $item['CITID']; ?>)"
                     class="btn btn-success"
                     data-toggle="modal"
                     data-target="#modal-default">Calificar
@@ -33,15 +33,15 @@
 
 
 <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-    <form action="<?php echo base_url();?>/PagosController/registrarPago" method="POST" autocomplete="off">
+    <form action="<?php echo base_url();?>/RegistroCalificacionesController/guardar" method="POST" autocomplete="off">
+        <input type="hidden" id="CITID" name="CITID">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="demoModalLabel">Registro de Calificaci&oacute;n</h5>
+                    <h5 class="modal-title" id="demoModalLabel">Registro de Calificaci&oacute;n <div id="item-data"></div></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-
 
                     <div class="row">
                         <div class="col-md-12">
@@ -90,7 +90,7 @@
 
 
 <script>
-    function registrarCalificacion(){
+    function registrarCalificacion(item, CITID){
         // $("#modal-default #numeroCuota").find("option").remove().end().append();
         // console.log('valor: ', valorPago);
         // console.log('pagoId: ', pagoId);
@@ -102,8 +102,8 @@
         //     $(o).html(i, i);
         //     $("#modal-default #numeroCuota").append(o);
         // }
-        // $("#modal-default #numeroCuota").val(numeroCuotas);
-        // $("#modal-default #valorPago").val(valorPago);
+        $("#modal-default #item-data").html(item);
+        $("#modal-default #CITID").val(CITID);
         // $("#modal-default #numeroDocumento").val('');
         // $("#modal-default #pagoId").val(pagoId);
         // $("#modal-default #MATID").val(matid);
