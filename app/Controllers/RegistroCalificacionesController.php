@@ -7,6 +7,7 @@ use App\Models\MatriculasModel;
 use App\Models\DocentesModel;
 use App\Models\CalificacionesModel;
 use App\Models\CursosModel;
+use App\Models\EstudianteModel;
 
 class RegistroCalificacionesController extends BaseController
 {
@@ -71,15 +72,19 @@ class RegistroCalificacionesController extends BaseController
 
 	public function indexCalificacion()
 	{	
-		// $request=\Config\Services::request();
-		// $CURID = $request->getPostGet('id');
+		$request=\Config\Services::request();
+		$ESTID = $request->getPostGet('id');
 
 		$CalificacionesModel = new CalificacionesModel($db);
 		$calificacionData = $CalificacionesModel->findAll();
 
+		$EstudianteModel=new EstudianteModel($db);
+		$estudiante=$EstudianteModel->find($ESTID);
+
 		$data = [
 			'content' => 'RegistroCalificaciones/ListarCalificacion',
-			'calificaciones' => $calificacionData
+			'calificaciones' => $calificacionData,
+			'estudiante' => $estudiante
 		];
 
 		$estructura=	view('Estructura/layout/index', $data);						
