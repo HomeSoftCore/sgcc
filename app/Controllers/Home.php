@@ -70,7 +70,7 @@ class Home extends BaseController {
 					return redirect()->to(site_url('/MyCoursesController'));
 					break;
 				case '3':
-					return redirect()->to(site_url('/DocentesController/dashboardDocente'));
+					return redirect()->to(site_url('/CursosController'));
 					break;
 				default:
 					return redirect()->to('login');

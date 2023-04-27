@@ -13,26 +13,16 @@ class AuditoriasController extends BaseController
 	}
 	public function index()
 	{
-		/*
 		$builder = $this->db->table("auditorias");
-		$builder->select("*");
-		// $builder->join('usuarios', 'auditorias.USUID    = usuarios.USUID   ');
-		$builder->orderBy('CREATED_AT','desc');
-		$builder->orderBy('AUDHORA','desc');
-		$auditorias = $builder->get()->getResult();
-		$auditorias =array('auditorias'=>$auditorias);
-    	*/
-		//metodo pager
-		$model = new AuditoriasModel();
+		$builder->select('*');
+		$auditoria = $builder->get();
+
 		$data = [
-			'auditorias' => $model->paginateCustom(5),
-			'pager' => $model->pager,
-			'pagi_path' => 'sgcc/AuditoriasController'
+			'auditorias' => $auditoria->getResultArray(),
+			'content' => 'Auditorias/AuditoriaListar'
 		];
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Auditorias/AuditoriaListar', $data).
-						view('Estructura/Footer');
+
+		$estructura=	view('Estructura/layout/index', $data);
         return $estructura;
 
 	}
