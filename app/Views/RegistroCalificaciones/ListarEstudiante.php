@@ -2,13 +2,18 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3>Registrar Calificaciones a</h3>
+                <h3>Registrar Calificaciones</h3>
 
                 <div class="card-header-right">
                     <button type="button" onclick="location.href='<?php echo base_url();?>/RegistroCalificacionesController/index'" class="btn btn-light">Regresar</button>
                 </div>                
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">Curso: <b><?php echo $curso["CURNOMBRE"] ?></b></div>
+                    <div class="col-md-12">No. Estudiantes: <b><?php echo $curso["CURNUMESTUDIANTES"] ?></b></div>
+                    <div class="col-md-12">Modalidad: <b><?php echo $curso["CURMODALIDAD"] ?></b></div>
+                </div>
                 <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
                     <thead>
                         <tr>

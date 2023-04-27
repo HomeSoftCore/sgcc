@@ -6,6 +6,7 @@ use App\Models\CalificacionesItemsModel;
 use App\Models\MatriculasModel;
 use App\Models\DocentesModel;
 use App\Models\CalificacionesModel;
+use App\Models\CursosModel;
 
 class RegistroCalificacionesController extends BaseController
 {
@@ -55,9 +56,13 @@ class RegistroCalificacionesController extends BaseController
 		$query->select('est.*, rcu.*');
 		$estudiantes = $query->get()->getResultArray();
 
+		$CursosModel=new CursosModel($db);
+        $curso=$CursosModel->find($CURID);
+
 		$data = [
 			'content' => 'RegistroCalificaciones/ListarEstudiante',
-			'estudiantes' => $estudiantes
+			'estudiantes' => $estudiantes,
+			'curso' => $curso,
 		];
 
 		$estructura=	view('Estructura/layout/index', $data);						

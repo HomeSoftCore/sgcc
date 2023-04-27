@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3>Registrar Calificaciones</h3>
+                <h3>Registrar Calificaciones / Listado de cursos</h3>
             </div>
             <div class="card-body">
                 <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
