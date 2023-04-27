@@ -143,7 +143,7 @@ class MatriculasController extends BaseController
 		if($RegistroCursosModel->update($idCurso,$dataRegistroCurso)===false){
 			var_dump($RegistroCursosModel->errors());
 		}
-		return redirect()->to(site_url('/MatriculasController'));
+		return redirect()->to(site_url('/MatriculasController/pendientes'));
 	}
 
 }

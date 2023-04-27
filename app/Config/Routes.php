@@ -40,6 +40,8 @@ $routes->post('calificaciones/deleteItem', 'CalificacionesController::deleteItem
 
 $routes->resource('RestEstudianteController', ['controller' => 'RestEstudianteController']);
 
+$routes->post('registro/calificaciones/items', 'RegistroCalificacionesController::viewItem');
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing
