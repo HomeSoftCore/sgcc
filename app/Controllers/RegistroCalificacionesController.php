@@ -126,8 +126,6 @@ class RegistroCalificacionesController extends BaseController
 
 	}
 
-
-
 	public function nuevo(){
 		$request=\Config\Services::request();
 		$id = $request->getPostGet('id');

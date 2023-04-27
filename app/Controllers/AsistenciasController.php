@@ -2,6 +2,8 @@
 namespace App\Controllers;
 
 use App\Models\AsistenciasModel;
+use App\Models\DocentesModel;
+use App\Models\CursosModel;
 
 class AsistenciasController extends BaseController
 {
@@ -13,28 +15,54 @@ class AsistenciasController extends BaseController
 
 	public function index()
 	{
-		$data = [];
-		//asistencias registradas
-		$asistencias = $this->db->table("asistencias t1")
-								->select('*')
-								->join('matriculas t2 ', 't2.MATID = t1.MATID')
-								->join('registrocursos t3 ', 't3.RCUID = t2.RCUID ')
-								->join('cursos t4 ', 't4.CURID = t3.CURID ')
-								->join('estudiantes t5 ', 't5.ESTID = t3.ESTID ')
-								->get()->getResultArray();
-		$data['asistencias'] = $asistencias;
-		//listado alumnos
-		$alumnos = $this->db->table("matriculas t1")
-								->select('*')
-								->join('registrocursos t3 ', 't3.RCUID = t1.RCUID ')
-								->join('cursos t4 ', 't4.CURID = t3.CURID ')
-								->join('estudiantes t5 ', 't5.ESTID = t3.ESTID ')
-								->get()->getResultArray();
-		$data['alumnos'] = $alumnos;					
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Asistencias/Listar', $data).
-						view('Estructura/Footer');
+		$session=session();
+		$perfilId=$session->get('perfilId');
+		
+		$query = $this->db->table("cursos cur");
+		$query->join('registrodocente rdo', 'cur.CURID = rdo.CURID');
+
+		if ( $perfilId <> 1 ) {
+			$usuCedula=$session->get('usuCedula');
+			$docenteModel=new DocentesModel($db);
+			$docente=$docenteModel->where('DOCCEDULA', $usuCedula)->first();
+			$DOCID = $docente['DOCID'];			
+			$query->where('rdo.DOCID =', $DOCID);
+		}
+		
+		$query->select('cur.*, rdo.DOCID');
+		$cursos = $query->get()->getResultArray();
+
+		$data = [
+			'content' => 'Asistencias/Listar',
+			'cursos' => $cursos
+		];
+
+		$estructura=	view('Estructura/layout/index', $data);						
+        return $estructura;
+	}
+
+	public function indexEstudiantes()
+	{	
+		$request=\Config\Services::request();
+		$CURID = $request->getPostGet('id');
+
+		$query = $this->db->table("matriculas mat");
+		$query->join('registrocursos rcu', 'mat.RCUID = rcu.RCUID');
+		$query->join('estudiantes est', 'est.ESTID = rcu.ESTID');
+		$query->where('rcu.CURID =', $CURID);
+		$query->select('est.*, rcu.*, mat.MATID');
+		$estudiantes = $query->get()->getResultArray();
+
+		$CursosModel=new CursosModel($db);
+        $curso=$CursosModel->find($CURID);
+
+		$data = [
+			'content' => 'Asistencias/ListarEstudiantes',
+			'estudiantes' => $estudiantes,
+			'curso' => $curso,
+		];
+
+		$estructura=	view('Estructura/layout/index', $data);						
         return $estructura;
 	}
 
