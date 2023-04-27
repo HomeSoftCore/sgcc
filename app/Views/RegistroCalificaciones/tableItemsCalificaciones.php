@@ -36,6 +36,7 @@
     <form action="<?php echo base_url();?>/RegistroCalificacionesController/guardar" method="POST" autocomplete="off">
         <input type="hidden" id="CITID" name="CITID">
         <input type="hidden" id="MATID" name="MATID" value="<?php echo $MATID; ?>">
+        <input type="hidden" id="ESTID" name="ESTID" value="<?php echo $ESTID; ?>">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

@@ -86,7 +86,8 @@ class RegistroCalificacionesController extends BaseController
 			'content' => 'RegistroCalificaciones/ListarCalificacion',
 			'calificaciones' => $calificacionData,
 			'estudiante' => $estudiante,
-			'MATID' => $MATID
+			'MATID' => $MATID,
+			'ESTID' => $ESTID,
 		];
 
 		$estructura=	view('Estructura/layout/index', $data);						
@@ -98,6 +99,7 @@ class RegistroCalificacionesController extends BaseController
 		$request = \Config\Services::request();
 		$CALID = $request->getPostGet('calificacion');
 		$MATID = $request->getPostGet('MATID');
+		$ESTID = $request->getPostGet('ESTID');
 
 		$calificacionesItems = $this->db->table("calificacionesitems t1")
         ->join('calificaciones t2', 't2.CALID = t1.CALID')
@@ -109,7 +111,8 @@ class RegistroCalificacionesController extends BaseController
 		$data = [
 			'calificacionesItems' => $calificacionesItems,
 			'fecha_actual' => date('Y-m-d'),
-			'MATID' => $MATID,			
+			'MATID' => $MATID,		
+			'ESTID' => $ESTID,			
 		];		
 
 		$html = view('RegistroCalificaciones/tableItemsCalificaciones', $data);
@@ -160,8 +163,11 @@ class RegistroCalificacionesController extends BaseController
 		$request=\Config\Services::request();
 		$RegistroCalificacionesModel= new RegistroCalificacionesModel($db);
 		
+		$ESTID = $request->getPostGet('ESTID');
+		$MATID = $request->getPostGet('MATID');
+
 		$data=array(
-			'MATID'=>$request->getPostGet('MATID'),
+			'MATID'=>$MATID,
 			'CITID'=>$request->getPostGet('CITID'),
 			'RCAFECHA'=>$request->getPostGet('fecha'),
 			'RCANOTA'=>$request->getPostGet('nota'),
@@ -175,7 +181,7 @@ class RegistroCalificacionesController extends BaseController
 		}
 
 		//redirige a metodo index
-		return redirect()->to(site_url('/RegistroCalificacionesController'));	
+		return redirect()->to(site_url('/RegistroCalificacionesController/indexCalificacion?id='.$ESTID.'&mat='.$MATID ));	
 	}
 
 	public function eliminar(){

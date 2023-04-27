@@ -11,6 +11,7 @@
             <div class="card-body">
 				<form accept-charset="utf-8">
                     <input type="hidden" id="MATID" name="MATID" value="<?php echo $MATID; ?>">
+                    <input type="hidden" id="ESTID" name="ESTID" value="<?php echo $ESTID; ?>">
                     <div class="row">
                         <div class="col-md-4">
 							<div class="form-group">
@@ -52,6 +53,7 @@
     function selectedChange( data) {
         CALID = data.value
         MATID = $('#MATID').val();
+        ESTID = $('#ESTID').val();
         
         var baseurl = "<?php echo base_url(); ?>";
 
@@ -60,7 +62,8 @@
              url: "<?= base_url('registro/calificaciones/items'); ?>",
              data: {
                 calificacion: CALID,
-                MATID
+                MATID,
+                ESTID
              },
              dataType: "json",
              success: function(response) {
