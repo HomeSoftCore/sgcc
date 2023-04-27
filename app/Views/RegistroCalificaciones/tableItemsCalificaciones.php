@@ -4,6 +4,9 @@
             <th>Item</th>
             <th>Ponderaci&oacute;n</th>
             <th>Tipo</th>
+            <th>Nota</th>
+            <th>Equivalente</th>
+            <th>Observaci&oacute;n</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -16,6 +19,9 @@
             <td><?php echo $item['ITENOMBRE']; ?></td>
             <td><?php echo $item['CITPONDERACION']; ?></td>
             <td><?php echo $item['CITTIPO']; ?></td>
+            <td><?php echo $item['RCANOTA']; ?></td>
+            <td><?php echo $item['RCAEQUIVALENTE']; ?></td>
+            <td><?php echo $item['RCAOBSERVACION']; ?></td>
             <td>
                 <button type="button" 
                     onclick="registrarCalificacion('<?php echo $item['ITENOMBRE']; ?>', <?php echo $item['CITID']; ?>)"

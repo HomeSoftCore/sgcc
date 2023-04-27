@@ -104,7 +104,9 @@ class RegistroCalificacionesController extends BaseController
 		$calificacionesItems = $this->db->table("calificacionesitems t1")
         ->join('calificaciones t2', 't2.CALID = t1.CALID')
         ->join('items t3', 't3.ITEID = t1.ITEID ')
+		->join('registrocalificaciones registro', 'registro.CITID = t1.CITID', 'left')
 		->where('t1.CALID ', $CALID)
+		->select('t3.ITENOMBRE, t1.CITPONDERACION,  t1.CITTIPO, registro.RCANOTA, registro.RCAEQUIVALENTE, registro.RCAOBSERVACION, t1.CITID')
         ->get()
         ->getResultArray();	
 		
