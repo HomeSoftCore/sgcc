@@ -74,7 +74,7 @@
                         <div class="col-md-12">
                               <div class="form-group">
                                   <label for="fecha">Fecha</label>
-                                  <input type="date" class="form-control" id="fecha" name="fecha" value="" placeholder="fecha...">
+                                  <input type="date" class="form-control" id="fecha" name="fecha" value="<?php echo $fecha_actual ?>" placeholder="fecha...">
                               </div>
                         </div>                      
                     </div>                     

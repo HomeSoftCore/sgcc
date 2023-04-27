@@ -32,7 +32,7 @@
                         <td><?php echo $item['ESTNOMBRE']; ?></td>
                         <td><?php echo $item['ESTCEDULA']; ?></td>
                         <td><?php echo $item['ESTCORREO']; ?></td>
-                        <td><button type="button" onclick="location.href='<?php echo base_url();?>/RegistroCalificacionesController/indexCalificacion?id=<?php echo $item['ESTID'];?>'" class="btn btn-primary">Ver Calificaciones</button></td>                        
+                        <td><button type="button" onclick="location.href='<?php echo base_url();?>/RegistroCalificacionesController/indexCalificacion?id=<?php echo $item['ESTID'];?>&MATID=<?php echo $item['MATID'];?>'" class="btn btn-primary">Ver Calificaciones</button></td>                        
                     </tr>
 
                     <?php } ?>

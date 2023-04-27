@@ -54,7 +54,7 @@ class RegistroCalificacionesController extends BaseController
 		$query->join('registrocursos rcu', 'mat.RCUID = rcu.RCUID');
 		$query->join('estudiantes est', 'est.ESTID = rcu.ESTID');
 		$query->where('rcu.CURID =', $CURID);
-		$query->select('est.*, rcu.*');
+		$query->select('est.*, rcu.*, mat.MATID');
 		$estudiantes = $query->get()->getResultArray();
 
 		$CursosModel=new CursosModel($db);
@@ -104,7 +104,8 @@ class RegistroCalificacionesController extends BaseController
         ->getResultArray();	
 		
 		$data = [
-			'calificacionesItems' => $calificacionesItems
+			'calificacionesItems' => $calificacionesItems,
+			'fecha_actual' => date('Y-m-d')
 		];		
 
 		$html = view('RegistroCalificaciones/tableItemsCalificaciones', $data);
@@ -152,8 +153,12 @@ class RegistroCalificacionesController extends BaseController
 
 	public function guardar(){
 
-		$RegistroCalificacionesModel= new RegistroCalificacionesModel($db);
 		$request=\Config\Services::request();
+		echo($request->getPostGet('MATID'));
+		die();
+
+		$RegistroCalificacionesModel= new RegistroCalificacionesModel($db);
+		
 		$data=array(
 			'MATID'=>$request->getPostGet('MATID'),
 			'CITID'=>$request->getPostGet('item'),
