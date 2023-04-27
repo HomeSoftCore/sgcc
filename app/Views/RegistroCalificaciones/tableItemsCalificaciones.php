@@ -35,6 +35,7 @@
 <div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
     <form action="<?php echo base_url();?>/RegistroCalificacionesController/guardar" method="POST" autocomplete="off">
         <input type="hidden" id="CITID" name="CITID">
+        <input type="hidden" id="MATID" name="MATID" value="<?php echo $MATID; ?>">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

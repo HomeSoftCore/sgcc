@@ -74,6 +74,7 @@ class RegistroCalificacionesController extends BaseController
 	{	
 		$request=\Config\Services::request();
 		$ESTID = $request->getPostGet('id');
+		$MATID = $request->getPostGet('mat');
 
 		$CalificacionesModel = new CalificacionesModel($db);
 		$calificacionData = $CalificacionesModel->findAll();
@@ -84,7 +85,8 @@ class RegistroCalificacionesController extends BaseController
 		$data = [
 			'content' => 'RegistroCalificaciones/ListarCalificacion',
 			'calificaciones' => $calificacionData,
-			'estudiante' => $estudiante
+			'estudiante' => $estudiante,
+			'MATID' => $MATID
 		];
 
 		$estructura=	view('Estructura/layout/index', $data);						
@@ -95,6 +97,7 @@ class RegistroCalificacionesController extends BaseController
 	{
 		$request = \Config\Services::request();
 		$CALID = $request->getPostGet('calificacion');
+		$MATID = $request->getPostGet('MATID');
 
 		$calificacionesItems = $this->db->table("calificacionesitems t1")
         ->join('calificaciones t2', 't2.CALID = t1.CALID')
@@ -105,7 +108,8 @@ class RegistroCalificacionesController extends BaseController
 		
 		$data = [
 			'calificacionesItems' => $calificacionesItems,
-			'fecha_actual' => date('Y-m-d')
+			'fecha_actual' => date('Y-m-d'),
+			'MATID' => $MATID,			
 		];		
 
 		$html = view('RegistroCalificaciones/tableItemsCalificaciones', $data);
@@ -154,14 +158,11 @@ class RegistroCalificacionesController extends BaseController
 	public function guardar(){
 
 		$request=\Config\Services::request();
-		echo($request->getPostGet('MATID'));
-		die();
-
 		$RegistroCalificacionesModel= new RegistroCalificacionesModel($db);
 		
 		$data=array(
 			'MATID'=>$request->getPostGet('MATID'),
-			'CITID'=>$request->getPostGet('item'),
+			'CITID'=>$request->getPostGet('CITID'),
 			'RCAFECHA'=>$request->getPostGet('fecha'),
 			'RCANOTA'=>$request->getPostGet('nota'),
 			'RCAEQUIVALENTE'=>$request->getPostGet('equivalente'),
