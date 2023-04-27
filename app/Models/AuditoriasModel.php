@@ -25,9 +25,9 @@ class AuditoriasModel extends Model
     protected $validationMessages = [];
     protected $skipValidation     = false;
 
-    public function paginateCustom(int $nb_page) {
-        return $this->select()->join('usuarios', 'usuarios.USUID = auditorias.USUID')->paginate($nb_page);
-    }
+    // public function paginateCustom(int $nb_page) {
+    //     return $this->select()->join('usuarios', 'usuarios.USUID = auditorias.USUID')->paginate($nb_page);
+    // }
 
     
 }   

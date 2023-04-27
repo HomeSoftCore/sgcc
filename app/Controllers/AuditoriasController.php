@@ -15,10 +15,11 @@ class AuditoriasController extends BaseController
 	{
 		$builder = $this->db->table("auditorias");
 		$builder->select('*');
-		$auditoria = $builder->get();
+		$builder->join('usuarios', 'usuarios.USUID = auditorias.USUID');
+		$aud = $builder->get()->getResult();
 
 		$data = [
-			'auditorias' => $auditoria->getResultArray(),
+			'auditorias' => $aud,
 			'content' => 'Auditorias/AuditoriaListar'
 		];
 
