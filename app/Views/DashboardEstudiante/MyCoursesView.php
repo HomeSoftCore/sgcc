@@ -7,19 +7,9 @@
 
 
 <div class="row">
-  <div class="col-lg-4 col-md-5">
-    <div class="card">
-      <div class="card-body">
-          <div class="text-center"> 
-              <img src="<?php echo base_url();?>/public/tema/img/user.png" class="rounded-circle" width="150" />
-              <h4 class="card-title mt-10"><?php echo $session->get('usuNombre') ?></h4>
-              <p class="card-subtitle"><?php echo $session->get('usuCedula') ?></p>
-          </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="col-lg-8 col-md-7">
+
+  <div class="col-lg-12 col-md-7">
 
     <div class="row">
       <div class="col-lg-12 col-md-12">
@@ -108,13 +98,14 @@
                               <td><?php echo $curso->CURFECINICIO; ?></td>
                               <td><?php echo $curso->CURFECFINAL; ?></td>
                               <td><?php echo $curso->CURPRECIO; ?></td>
-                              <td>
-                              <?php
+                               <td>
+                                <span class="badge badge-pill <?php echo $curso->RCUESTADO  == "ACTIVO" ?"badge-warning":"badge-success" ; ?> "><?php echo $curso->RCUESTADO  == "ACTIVO"?"PENDIENTE":"MATRICULADO" ; ?></span> 
+                              <!-- <?php
                                     echo form_open('MyCoursesController/unmatricular');
                                     echo form_input(array('type' => 'hidden','name' => 'curid', 'value'=> $curso->RCUID));
                                     echo form_button(array('name' => 'btnAbandonar', 'type' => 'submit', 'class' => 'btn btn-danger', 'content' => 'Abandonar'));
                                     echo form_close();
-                                ?>
+                                ?> -->
                           </td>
                           </tr>
                         <?php

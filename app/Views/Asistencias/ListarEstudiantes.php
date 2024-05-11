@@ -8,19 +8,29 @@
                     <button type="button" onclick="location.href='<?php echo base_url();?>/AsistenciasController/index'" class="btn btn-light">Regresar</button>
                 </div>                
             </div>
+             <?php
+
+                $fechaActual = date('Y-m-d');
+                ?>    
+                 <form action="<?php echo base_url();?>/AsistenciasController/guardar" method="POST" autocomplete="off">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">Curso: <b><?php echo $curso["CURNOMBRE"] ?></b></div>
-                    <div class="col-md-12">No. Estudiantes: <b><?php echo $curso["CURNUMESTUDIANTES"] ?></b></div>
-                    <div class="col-md-12">Modalidad: <b><?php echo $curso["CURMODALIDAD"] ?></b></div>
-                </div>
-                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
-                    <thead>
+                    <div class="row">
+                        <div class="col-md-12">Curso: <b><?php echo $curso["CURNOMBRE"] ?></b></div>
+                        <div class="col-md-12">No. Estudiantes: <b><?php echo $curso["CURNUMESTUDIANTES"] ?></b></div>
+                        <div class="col-md-12">Modalidad: <b><?php echo $curso["CURMODALIDAD"] ?></b></div>
+                        <div class="col-md-12 d-flex align-items-center">
+                        <b><span class="mr-2">Fecha :</span></b>
+                <input type="date" style="width: 220px;" class="form-control"  id="txtFecha_Final" name="txtFecha_Final" placeholder="seleccione fecha" value="<?php echo $fechaActual; ?>">
+                    </div>                
+             </div>
+                <input type="hidden" id="MATID" name="MATID" value="<?php echo count($estudiantes)==0 ? 0: $estudiantes[0]['MATID']; ?>"><br><br><br><br>
+                <table id="table" class="table nowrap" data-paging="true" data-info="true" data-searching="true">
+                    <thead >
                         <tr>
-                            <th>Nombre Estudiante</th>
-                            <th>C&eacute;dula</th>
-                            <th>Correo</th>
-                            <th>Acciones</th>
+                            <th style="width:100px;border:1px solid #BDBBBA; text-align:center;" >Nombre Estudiante</th>
+                            <th style="width:100px;border:1px solid #BDBBBA; text-align:center;" >Cédula</th>
+                            <th style="width:100px;border:1px solid #BDBBBA; text-align:center;" >Correo</th>
+                            <th style="width:100px;border:1px solid #BDBBBA; text-align:center;" >Asistencia</th>
                         </tr>
                     </thead>
 
@@ -29,23 +39,31 @@
                         foreach($estudiantes as $item) {
                     ?>
                     <tr>
-                        <td><?php echo $item['ESTNOMBRE']; ?></td>
-                        <td><?php echo $item['ESTCEDULA']; ?></td>
-                        <td><?php echo $item['ESTCORREO']; ?></td>
-                        <td>
-                            <button type="button" 
+                        <td style="display:none"><input type="hidden" style="border:none" type="text" name="ESTID[]" readonly value="<?php echo $item['ESTID']; ?>"> </td>
+                        <td style="width:100px;border:1px solid #BDBBBA; text-align:center;" ><input style="border:none" type="text"  readonly value="<?php echo $item['ESTNOMBRE']; ?>"> </td>
+                        <td style="width:100px;border:1px solid #BDBBBA; text-align:center;" ><input style="border:none" type="text"  readonly value="<?php echo $item['ESTCEDULA']; ?>"> </td>
+                        <td style="width:100px;border:1px solid #BDBBBA; text-align:center;" ><input style="border:none" type="text"  readonly value="<?php echo $item['ESTCORREO']; ?>"> </td>
+                       
+                        <td style="width:10px;border:1px solid #BDBBBA; text-align:center;" >
+                            <!-- <button type="button" 
                                 onclick="registrarAsistencia(<?php echo $item['MATID']; ?>, '<?php echo $item['ESTNOMBRE']; ?>')"
                                 class="btn btn-success"
                                 data-toggle="modal"
                                 data-target="#modal-default-asistencia">Marcar Asistencia
-                            </button>
-
+                            </button> -->
+                            <center>
+                            <input style="width:50px;border:1px solid #BDC3F7; text-align:center;" type="text" name="ASIESTADO[]" maxlength="1" style="text-align:center;width:60px;box-sizing:border-box;border: solid 1px black;"  class="form-control" min="0" max="2"  aria-label="Username" aria-describedby="basic-addon1">   
+                            </center>
                         </td>                        
                     </tr>
 
                     <?php } ?>
                 </tbody>
                 </table>
+                <div class="text-center">
+  <button type="submit" class="col-2 btn btn-success">Guardar</button>
+                        </form>
+</div>
             </div>
         </div>
     </div>

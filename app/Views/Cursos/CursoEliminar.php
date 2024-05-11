@@ -7,6 +7,7 @@
                   <button type="button" onclick="location.href='<?php echo base_url();?>/CursosController'" class="btn btn-light">Cancelar</button>
               </div>              
             </div>
+            
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
@@ -15,10 +16,28 @@
                         <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtNombre">C&oacute;digo</label>
-                                  <input type="text" class="form-control" name="txtCodigo" readonly="true" placeholder="codigo..." value="<?php echo $cursos["CURID"] ?>">
+                                <label for="txtNombre">C&oacute;digo</label>
+                                <input type="text" class="form-control" name="txtCodigo" readonly="true" placeholder="codigo..." value="<?php echo $cursos["CURID"] ?>">
                               </div>
-
+                            </div>
+                            <div class="col-md-6">
+                              <label for="txtNombre">Seleccione el Docente</label>
+                              <input type="hidden" name="idRegistroDocente" id="idRegistroDocente" value="<?=$registroDocente['RDOID']?>">
+                              <select name="docente" id="docente" class="form-control" readonly='true'>
+                                <?php 
+                                  foreach($docentes as $docente){ 
+                                    if($docente->DOCID === $registroDocente['DOCID']){
+                                ?>
+                                      <option value="<?=$docente->DOCID?>" selected><?=$docente->DOCNOMBRE?></option>
+                                <?php 
+                                    }else{
+                                ?>
+                                      <option value="<?=$docente->DOCID?>"><?=$docente->DOCNOMBRE?></option>
+                                <?php
+                                    }
+                                  }
+                                ?>
+                              </select>
                             </div>
                           </div>
 
@@ -143,7 +162,11 @@
                         </form>            
                     </div>
                 </div>
-
+                <?php if (session()->getFlashdata('mensaje')): ?>
+    <script>
+        alert('<?= session()->getFlashdata('mensaje') ?>');
+    </script>
+<?php endif; ?>        
             </div>
         </div>
     </div>

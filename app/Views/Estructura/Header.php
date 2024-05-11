@@ -28,6 +28,11 @@
 <script src="<?php echo base_url();?>/public/AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="<?php echo base_url();?>/public/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script src="<?php echo base_url();?>/public/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="../styleReloj.css">
 <script src="<?php echo base_url();?>/public/AdminLTE/dist/js/adminlte.min.js"></script>
 <script src="<?php echo base_url();?>/public/SweetAlertJs/sweetalert.js"></script>
 
@@ -40,7 +45,7 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini"  onload="startTime()">
 <div class="wrapper">
 
   <header class="main-header">

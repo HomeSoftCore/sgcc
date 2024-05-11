@@ -7,6 +7,7 @@ use App\Models\CursosModel;
 
 class AsistenciasController extends BaseController
 {
+	protected $db;
     public function __construct(){
 
 		$this->db =db_connect(); // loading database 
@@ -52,7 +53,7 @@ class AsistenciasController extends BaseController
 		$query->where('rcu.CURID =', $CURID);
 		$query->select('est.*, rcu.*, mat.MATID');
 		$estudiantes = $query->get()->getResultArray();
-
+		
 		$CursosModel=new CursosModel($db);
         $curso=$CursosModel->find($CURID);
 
@@ -92,19 +93,40 @@ class AsistenciasController extends BaseController
     public function guardar(){
 		$AsistenciasModel= new AsistenciasModel($db);
 		$request=\Config\Services::request();
-		$MATID = $request->getPostGet('MATID');
+		$ESTIDS = $request->getPostGet('ESTID');
+		$ASISESTADOS = $request->getPostGet('ASIESTADO');
+		$MATERIAID = $request->getPostGet('MATID');
+		$txtFecha_Final = $request->getPostGet('txtFecha_Final');
+
+		// Convertir la fecha al formato 'Y-m-d' (año-mes-día)
+		$fechaNormalizada = date('Y-m-d', strtotime($txtFecha_Final));
+		//var_dump( $MATERIAID);
+		// var_dump($ESTIDS);
+		// var_dump($ASISESTADOS);
+		// die();
+
+        for ($i = 0; $i < count($ESTIDS); $i++) {
+            $data = array(
+				'MATID' => $MATERIAID,
+				'ASIFECHA'=>$fechaNormalizada,
+                'ASIOBSERVACION' => $ESTIDS[$i],
+                'ASIESTADO' => $ASISESTADOS[$i],
+            );
+
+			$AsistenciasModel->add($data);
+        }
+
+		// $data = array(
+		// 	'MATID' => $MATID,
+		// 	'ASIFECHA'=>$request->getPostGet('fecha'),
+		// 	'ASIESTADO'=>$request->getPostGet('asistencia'),
+		// 	'ASIOBSERVACION'=>$request->getPostGet('observacion'),
+		// );
+		session()->setFlashdata('mensaje', 'Se ha registrado la asistencia manera correctamente');
+		session()->setFlashdata('title', 'Asistencia Registrada Correctamente');
+		session()->setFlashdata('status', 'success');
 		
-		$data = array(
-			'MATID' => $MATID,
-			'ASIFECHA'=>$request->getPostGet('fecha'),
-			'ASIESTADO'=>$request->getPostGet('asistencia'),
-			'ASIOBSERVACION'=>$request->getPostGet('observacion'),
-		);
-		/*
-		if($AsistenciasModel->insert($data)===false){
-			var_dump($AsistenciasModel->errors());
-		}*/
-		$AsistenciasModel->add($data);
+		// $AsistenciasModel->add($data);
 
 		//redirige a metodo index
 		return redirect()->to(site_url('/AsistenciasController'));
@@ -123,5 +145,5 @@ class AsistenciasController extends BaseController
 		//recargar apgina
 		return redirect()->to(site_url('/AsistenciasController'));	
 	}
-
+		
 }

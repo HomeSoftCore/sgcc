@@ -21,9 +21,9 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'http://localhost:8080/';
+	//public $baseURL = 'http://localhost:8080/';
 	//public $baseURL = 'http://192.168.1.127/gestionescolar/';
-
+	public $baseURL = 'http://localhost/sgcc';
 	/*
 	|--------------------------------------------------------------------------
 	| Index File

@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -13,31 +14,35 @@
                   <table class="table">
                       <thead>
                           <tr>
-                            <th>Estudiante</th>
-                            <th>Curso</th>
-                            <th>Cuota</th>
-                            <th>No. Cuota</th>
-                            <th>Fecha de Pago</th>
-                            <th>Forma Pago</th>
-                            <th>Número Documento</th>
-                            <th>Estado</th>
-                            <th>Accion</th>
+                            <th style="text-align:center">Código</th>
+                            <th style="text-align:center" >Estudiante</th>
+                            <th style="text-align:center" >Curso</th>
+                            <th style="text-align:center" >Cuota</th>
+                            <th style="text-align:center" >Nº.Cuota</th>
+                            <th style="text-align:center" >Fecha de Pago</th>
+                            <th style="text-align:center" >Forma de Pago</th>
+                            <th style="text-align:center" >Número Documento</th>
+                            <th style="text-align:center" >Estado</th>
+                            <th style="text-align:center" >Accion</th>
                           </tr>
                       </thead>
                       <tbody>
                       <?php
+                      $contador =0;
                         foreach ($pagosPendientes as $pago) {
+                            $contador = $contador + 1;
                         ?>
                         <tr>
-                            <td><?=$pago['ESTNOMBRE']?></td>
-                            <td><?=$pago['CURNOMBRE']?></td>
-                            <td><?=$pago['PAGCUOTA']?></td>
-                            <td><?=$pago['PAGNUMCUOTA']?></td>
-                            <td><?=$pago['PAGFECREGPAGO']?></td>
-                            <td><?=$pago['FORMAPAGO']?></td>
-                            <td><?=$pago['NUMDOCPAGO']?></td>
-                            <td><?=$pago['PAGESTADO']?></td>
-                            <td>
+                            <td style="text-align:center"><?=$contador;?></td>
+                            <td style="text-align:center" ><?=$pago['ESTNOMBRE']?></td>
+                            <td style="text-align:center" ><?=$pago['CURNOMBRE']?></td>
+                            <td style="text-align:center" >$<?=$pago['PAGCUOTA']?></td>
+                            <td style="text-align:center" ><?=$pago['PAGNUMCUOTA']?></td>
+                            <td style="text-align:center" ><?=$pago['PAGFECREGPAGO']?></td>
+                            <td style="text-align:center" ><?=$pago['FORMAPAGO']?></td>
+                            <td style="text-align:center" ><?=$pago['NUMDOCPAGO']?></td>
+                            <td style="text-align:center" ><?=$pago['PAGESTADO']?></td>
+                            <td style="text-align:center"> 
                                 <?php if($pago['PAGESTADO'] == 'PENDIENTE') { ?> 
                                     <button type="button" 
                                         onclick="registrarPago(<?=$pago['PAGCUOTA']?>, <?=$pago['PAGID']?>, <?=$pago['PAGNUMCUOTA']?>,<?=$pago['MATID']?>)"
@@ -47,7 +52,7 @@
                                     </button>
                                 <?php } else { ?>
 
-                                    <button type="button" onclick="location.href='<?php echo base_url();?>/PagosController/generarFactura?id=<?php echo $pago['PAGID'];?>'" class="btn btn-xs btn-success">Ver</button>
+                                    <button  type="button" onclick="location.href='<?php echo base_url();?>/PagosController/generarFactura?id=<?php echo $pago['PAGID'];?>'" class="btn btn-xs btn-success">Comprobante</button>
 
                                 <?php } ?>
 
@@ -145,3 +150,24 @@
     }
 </script>
 
+
+<?php if (session()->getFlashdata('mensaje')): ?>
+    <script>
+        var msg = '<?php echo session()->getFlashdata('mensaje'); ?>'
+        var title = '<?php echo session()->getFlashdata('title'); ?>'
+        var status = '<?php echo session()->getFlashdata('status'); ?>'
+         function showSuccessSweetAlert(icon) {
+            Swal.fire({
+                title: title,
+                text: msg,
+                icon: 'success'
+            }).then((result) => {
+            });
+        }
+        if(status === 'success'){
+            showSuccessSweetAlert('success')
+        }else{
+            showSuccessSweetAlert('error')
+        }
+    </script>
+<?php endif; ?>

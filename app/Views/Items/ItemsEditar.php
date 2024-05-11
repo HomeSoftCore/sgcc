@@ -16,7 +16,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtCodigo">Digite Nombre</label>
-                                <input type="text" class="form-control" name="txtCodigo" disabled value="<?php echo $items["ITEID"] ?>" placeholder="nombre...">
+                                <input type="text" class="form-control" name="txtCodigo" readonly="true" value="<?php echo $items["ITEID"] ?>" placeholder="nombre...">
                             </div>  
                           </div>
 

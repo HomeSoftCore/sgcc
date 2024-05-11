@@ -8,6 +8,7 @@ require_once APPPATH . 'ThirdParty' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY
 
 class PagosController extends BaseController
 {
+    protected $db;
     public function __construct(){
 
 		$this->db =db_connect(); 
@@ -73,6 +74,9 @@ class PagosController extends BaseController
 		if($PagosModel->update($pagoId, $data)===false){
 			var_dump($PagosModel->errors());
 		}
+        session()->setFlashdata('mensaje', 'Se ha registrado el pago de manera correctamente');
+		session()->setFlashdata('title', 'Pago  Registrado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/PagosController/index?id='.$MATID));
     }
 
@@ -98,14 +102,17 @@ class PagosController extends BaseController
         
         $data['pago'] = $pagosPendientes;
 		//invocar dompdf
-		$dompdf = new \Dompdf\Dompdf(array('enable_remote' => true)); 
-		//carga el template dompdf
-		$dompdf->loadHtml(view('Pagos/factura', $data));
-		//set paramatros pdf
-		$dompdf->setPaper('A4', 'landscape');
-		$dompdf->render();
-		//retorna pdf download
-		$dompdf->stream('FACTURA.pdf');
+		// $dompdf = new \Dompdf\Dompdf(array('enable_remote' => true)); 
+		// //carga el template dompdf
+		// $dompdf->loadHtml(view('Pagos/factura', $data));
+		// //set paramatros pdf
+		// $dompdf->setPaper('A4', 'landscape');
+		// $dompdf->render();
+		// //retorna pdf download
+		// $dompdf->stream('FACTURA.pdf');
+
+        $estructura=	view('Pagos/factura', $data);
+        return $estructura;
     }
 
     public function indexPagoPendiente() {
@@ -116,16 +123,28 @@ class PagosController extends BaseController
         ,cur.CURNOMBRE
         ,est.ESTNOMBRE
         ,cur.CURPRECIO
-        ,mat.MATCUOTAS
+        ,mat.MATCUOTAS,
+        'PENDIENTE' AS ESTADO
         FROM matriculas AS mat
         JOIN registrocursos as regc on mat.RCUID = regc.RCUID
         JOIN cursos AS cur on regc.CURID = cur.CURID
         JOIN estudiantes as est on regc.ESTID = est.ESTID");
 
-        $lv_pago_pendientes = $this->db->query($query);
+        $lv_pago_pendientes = $this->db->query($query)->getResult();
+        foreach($lv_pago_pendientes as $kPP => $vPP){
+            $arrayConditions = array('MATID =' => $vPP->MATID, 'PAGESTADO =' => 'CANCELADO');
+            $registros = $this->db->table("pagos")
+                            ->where($arrayConditions)
+							->get()->getResultArray();
+                          
+            if(sizeof($registros) == $vPP->MATCUOTAS){
+                $vPP->ESTADO = "CANCELADO";
+            }	
+        
+        }
 
 		$data = [
-			'matriculas' => $lv_pago_pendientes->getResult(),
+			'matriculas' => $lv_pago_pendientes,
 			'content' => 'Pagos/pagoPendientes'			
 		];
 

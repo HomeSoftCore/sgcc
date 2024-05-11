@@ -7,6 +7,8 @@ use CodeIgniter\I18n\Time;
 
 class PagosModel extends Model
 {
+    //aqui se muestra la tabla, en la base de datos no existe esa columna, 
+    //es por eso que le marca ese error en el navegador
     protected $table      = 'pagos';
     protected $primaryKey = 'PAGID ';
 

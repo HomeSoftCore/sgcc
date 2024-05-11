@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -9,17 +10,17 @@
 
             </div>
             <div class="card-body">
-                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
+                <table id="table" class="table nowrap" data-paging="true" data-info="false" data-searching="true">
                     <thead>
                         <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>C&eacute;dula</th>
-                            <th>Direcci&oacute;n</th>
-							<th>Tel&eacute;</th>
-                            <th>Correo</th>
-							<th>Estado</th>
-                            <th>Acciones</th>
+                            <th style="text-align:center">Código</th>
+                            <th style="text-align:center">Nombre</th>
+                            <th style="text-align:center">C&eacute;dula</th>
+                            <th style="text-align:center">Direcci&oacute;n</th>
+							<th style="text-align:center">Tel&eacute;</th>
+                            <th style="text-align:center">Correo</th>
+							<th style="text-align:center">Estado</th>
+                            <th style="text-align:center">Acciones</th>
                         </tr>
                     </thead>
 
@@ -28,14 +29,14 @@
                         foreach($estudiantes as $item) {
                     ?>
                     <tr>
-                        <td><?php echo $item->ESTID; ?></td>
-                        <td><?php echo $item->ESTNOMBRE; ?></td>
-                        <td><?php echo $item->ESTCEDULA; ?></td>
-                        <td><?php echo $item->ESTDIRECCION; ?></td>
-                        <td><?php echo $item->ESTTELEFONO; ?></td>
-                        <td><?php echo $item->ESTCORREO; ?></td>
-                        <td><?php echo $item->ESTESTADO; ?></td>
-                        <td>
+                        <td style="text-align:center"><?php echo $item->ESTID; ?></td>
+                        <td style="text-align:center"><?php echo $item->ESTNOMBRE; ?></td>
+                        <td style="text-align:center"><?php echo $item->ESTCEDULA; ?></td>
+                        <td style="text-align:center"><?php echo $item->ESTDIRECCION; ?></td>
+                        <td style="text-align:center"><?php echo $item->ESTTELEFONO; ?></td>
+                        <td style="text-align:center"><?php echo $item->ESTCORREO; ?></td>
+                        <td style="text-align:center"><?php echo $item->ESTESTADO; ?></td>
+                        <td style="text-align:center">
                             <button type="button" onclick="location.href='<?php echo base_url();?>/EstudianteController/editar?id=<?php echo $item->ESTID;?>'" class="btn btn-icon btn-info"><i class="ik ik-edit"></i></button>
                             <button type="button" onclick="location.href='<?php echo base_url();?>/EstudianteController/borrar?id=<?php echo $item->ESTID;?>'" class="btn btn-icon btn-danger"><i class="ik ik-trash-2"></i></button>
                         </td>
@@ -48,3 +49,23 @@
         </div>
     </div>
 </div>
+<?php if (session()->getFlashdata('mensaje')): ?>
+    <script>
+        var msg = '<?php echo session()->getFlashdata('mensaje'); ?>'
+        var title = '<?php echo session()->getFlashdata('title'); ?>'
+        var status = '<?php echo session()->getFlashdata('status'); ?>'
+         function showSuccessSweetAlert(icon) {
+            Swal.fire({
+                title: title,
+                text: msg,
+                icon: 'success'
+            }).then((result) => {
+            });
+        }
+        if(status === 'success'){
+            showSuccessSweetAlert('success')
+        }else{
+            showSuccessSweetAlert('error')
+        }
+    </script>
+<?php endif; ?>

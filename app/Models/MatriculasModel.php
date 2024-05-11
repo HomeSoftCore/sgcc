@@ -25,8 +25,16 @@ class MatriculasModel extends Model
     protected $validationRules    = [];
     protected $validationMessages = [];
     protected $skipValidation     = false;
-
-
+    
+    public function matriculadosResult(){
+        $estado = "ACTIVO";
+        return $this->db->table("matriculas t1")
+            ->join('registrocursos t2', 't2.RCUID = t1.RCUID')
+            ->join('cursos t3', 't2.CURID = t3.CURID')
+            ->join('estudiantes t4', 't2.ESTID = t4.ESTID')
+            ->where('t1.MATESTADO',  $estado)
+            ->get();
+    }
 
     //Aqui se llama al metodo auditar luego de realizar el insert
     protected $afterInsert = ["auditar"];

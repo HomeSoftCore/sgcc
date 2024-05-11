@@ -16,7 +16,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtNombre">Digite Nombre</label>
-                                <input type="text" class="form-control" name="txtNombre" placeholder="nombre...">
+                                <input type="text" class="form-control" name="txtNombre" placeholder="Nombre del Items">
                             </div>  
                           </div>
 
@@ -27,7 +27,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label for="txtObservacion">Digite Observaci&oacute;n</label>
-                                <input type="text" class="form-control" name="txtObservacion" placeholder="observaci&oacute;n...">
+                                <input type="text" class="form-control" name="txtObservacion" placeholder="Observaci&oacute;n">
                             </div>  
                           </div>
 

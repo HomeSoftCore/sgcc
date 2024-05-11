@@ -2,9 +2,13 @@
 namespace App\Controllers;
 
 use App\Models\EstudianteModel;
+use App\Models\UsuariosModel;
+use App\Models\PerfilesModel;
+use App\Models\RegistroCursosModel;
 
 class EstudianteController extends BaseController
 {
+	protected $db;
     public function __construct(){
 		$this->db =db_connect(); // loading database 
 		helper('form');
@@ -13,6 +17,7 @@ class EstudianteController extends BaseController
 	{
 		$builder = $this->db->table("estudiantes");
 		$builder->select('*');
+		$builder->where('ESTESTADO', 'ACTIVO');
 		$estudiantes = $builder->get()->getResult();
 		
 		//metodo pager
@@ -52,7 +57,9 @@ class EstudianteController extends BaseController
 		if($EstudianteModel->insert($data)===false){
 			var_dump($EstudianteModel->errors());
 		}
-		
+		session()->setFlashdata('mensaje', 'Se ha registrado el estudiante de manera correctamente');
+		session()->setFlashdata('title', 'Estudiante Registrado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/EstudianteController'));
 	}
 
@@ -60,12 +67,14 @@ class EstudianteController extends BaseController
 		$request=\Config\Services::request();
 		$id=$request->getPostGet('id');
 
-		$EstudianteModel=new EstudianteModel($db);
-		$estudiante=$EstudianteModel->find($id);
+		$builder = $this->db->table("estudiantes");
+		$builder->select('*');
+		$builder->where('ESTID',$id);
+		$estudiantes = $builder->get()->getResultArray();
 
 		$data = [
 			'content' => 'Estudiantes/EstEditar',
-			'estudiantes' => $estudiante
+			'estudiantes' => $estudiantes[0]
 		];
 
 		$estructura =	view('Estructura/layout/index', $data);		
@@ -90,6 +99,9 @@ class EstudianteController extends BaseController
 		if($EstudianteModel->update($ESTID,$data)===false){
 			var_dump($EstudianteModel->errors());
 		}
+		session()->setFlashdata('mensaje', 'Se ha actualizado el estudiante de manera correctamente');
+		session()->setFlashdata('title', 'Estudiante Actualizado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/EstudianteController'));
 		
 	}
@@ -98,43 +110,73 @@ class EstudianteController extends BaseController
 		$request=\Config\Services::request();
 		$id=$request->getPostGet('id');
 
-		$EstudianteModel=new EstudianteModel($db);
-		$estudiante=$EstudianteModel->find($id);
+		$builder = $this->db->table("estudiantes");
+		$builder->select('*');
+		$builder->where('ESTID',$id);
+		$estudiantes = $builder->get()->getResultArray();
 	
 		$data = [
 			'content' => 'Estudiantes/EstBorrar',
-			'estudiantes' => $estudiante
+			'estudiantes' => $estudiantes[0]
 		];
 
 		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;		
 	}
+
+
 		
 	public function eliminar(){
-		$request=\Config\Services::request();
-		$EstudianteModel=new EstudianteModel($db);
-		$id=$request->getPostGet('txtCodigo');
-		$estudiante=$EstudianteModel->find($id);
-		$estudiante=array('estudiantes'=>$estudiante);
-		
-		if($EstudianteModel->delete($id)===false){
-			print_r($EstudianteModel->errors());
-		}else{
-			$EstudianteModel->purgeDeleted($id);
+		$request = \Config\Services::request();
+		$EstudianteModel = new EstudianteModel($db);
+		$id = $request->getPostGet('txtCodigo');
+		$estudiante = $EstudianteModel->find($id);
+	
+		$RegistroCursosModel = new RegistroCursosModel($db);
+		$count = $RegistroCursosModel->where('ESTID', $id)->countAllResults();
+	
+		if ($count > 0) {
+			$mensaje = "No se puede eliminar el estudiante porque tiene $count cursos asignados.";
+    		session()->setFlashdata('mensaje', $mensaje);
+			//$mensajeError = "No se puede eliminar el estudiante porque tiene $count cursos asignados.";
+		} else {
+			/*if ($EstudianteModel->delete($id) === false) {
+				$mensajeError = "Error al eliminar el estudiante: " . print_r($EstudianteModel->errors(), true);
+			} else {
+				$EstudianteModel->purgeDeleted($id);
+				return redirect()->to(site_url('/EstudianteController'));
+			}*/
+			$EstudianteModel->update($id, ['ESTESTADO' => 'INACTIVO']);
+
 		}
-
-		return redirect()->to(site_url('/EstudianteController'));	
+		session()->setFlashdata('mensaje', 'Se ha eliminado el estudiante de manera correctamente');
+		session()->setFlashdata('title', 'Estudiante Eliminado Correctamente');
+		session()->setFlashdata('status', 'success');
+		//$data = ['mensajeError' => $mensajeError,	];
+	
+		return redirect()->to(site_url('/EstudianteController'));
 	}
+	
 
+
+
+	
 	public function nuevoreg(){
 		$data['validation'] = $this->validator;
+		session()->setFlashdata('mensaje', 'Se ha registrado el estudiante de manera correctamente');
+			session()->setFlashdata('title', 'Estudiante Registrado Correctamente');
+			session()->setFlashdata('status', 'success');
 		$estructura =	view('Estudiantes/EstNuevoReg',$data);		
-
 		return $estructura;
+		
 	}
 
-	public function guardarreg(){
 
+
+	
+	public function guardarreg(){
+		$session = session();
+		$request=\Config\Services::request();
         $rules = [
             'txtNombre' => 
 			[ 
@@ -157,13 +199,18 @@ class EstudianteController extends BaseController
 				'errors' => [
 					'required' => 'Campo Correo es requerido',
 					'valid_email' => 'Digite un correo valido...'
+					
 				]
-			],				
+				
+			],	
+		
+			
         ];
+		
 
 		if ( $this->validate($rules) ) { 
 			$EstudianteModel= new EstudianteModel($db);
-			$request=\Config\Services::request();
+			
 			$data=array(
 					
 					'ESTCEDULA'=>$request->getPostGet('txtCedula'),
@@ -171,18 +218,36 @@ class EstudianteController extends BaseController
 					'ESTDIRECCION'=>$request->getPostGet('txtDreccion'),
 					'ESTTELEFONO'=>$request->getPostGet('txtTelefono'),
 					'ESTCORREO'=>$request->getPostGet('txtCorreo'),
-					'ESTESTADO'=>$request->getPostGet('txtEstado'),
+					'ESTESTADO'=>'ACTIVO',
 			);
 			
 			if($EstudianteModel->insert($data)===false){
 				var_dump($EstudianteModel->errors());
 			}
-			return redirect()->to(site_url('/login'));
+
+			$UsuariosModel= new UsuariosModel($db);
+			$data=array(
+				'PERID'=>2,
+				'USUNOMBRE'=>$request->getPostGet('txtNombre'),
+				'USUCEDULA'=>$request->getPostGet('txtCedula'),
+				'USUCLAVE'=>$request->getPostGet('txtCedula'),
+				'USUCORREO'=>$request->getPostGet('txtCorreo'),
+				'USUESTADO'=>'ACTIVO',	
+			);
+			if($UsuariosModel->save($data)===false){
+				var_dump($UsuariosModel->errors());
+			}
+			
+			
+			$estructura = view('Login/Login');
+			return $estructura;
+			
 		} else {
 			$data['validation'] = $this->validator;
+			
 			$estructura =	view('Estudiantes/EstNuevoReg', $data);
 			return $estructura;
 		}
-
+		
 	}
 }

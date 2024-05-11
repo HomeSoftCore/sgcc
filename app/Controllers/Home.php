@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\UsuariosModel;
 use App\Models\PagosModel;
 use App\Models\PerfilesModel;
+use App\Models\DocentesModel;
 
 class Home extends BaseController {
 	// public function index() {
@@ -19,6 +20,7 @@ class Home extends BaseController {
 	public function login() {
 		
 		$estructura = view('Login/Login');
+		// $estructura = view('Pagos/factura copy.php');
 		return $estructura;
 	}
 
@@ -26,6 +28,8 @@ class Home extends BaseController {
 		$session = session();
 		$request = \config\Services::request();
 		$UsuariosModel = new UsuariosModel($db);
+		$DocentesModel = new DocentesModel($db);
+
 		$usuario = $request->getPostGet('txtUsuario');
 		$clave = $request->getPostGet('txtClave');
 		$usuario = $UsuariosModel->where('USUCEDULA', $usuario)->findAll();
@@ -38,8 +42,6 @@ class Home extends BaseController {
 				$session->set('usuCedula', $usuLogin['USUCEDULA']);
 				$session->set('perfilId', $usuLogin['PERID']);
 				$session->set('correo', $usuLogin['USUCORREO']);
-
-				//$session->set('ip',$_SERVER['REMOTE_ADDR']);
 				$session->set('ip',$request->getIPAddress());
 				$session->set('login', TRUE);
 				$estado = true;
@@ -57,8 +59,10 @@ class Home extends BaseController {
 		$session->set('totalPagosPendientes', count($totalPagosPendientes));
 
 		// menu
+		
 		$PerfilesModel = new PerfilesModel($db);
 		$menu = $PerfilesModel->getOptions($perfilId);
+		
 		$session->set('menu', $menu);
 
 		if ($estado == true) {
@@ -70,6 +74,10 @@ class Home extends BaseController {
 					return redirect()->to(site_url('/MyCoursesController'));
 					break;
 				case '3':
+					$docente = $DocentesModel->where('DOCCEDULA', $request->getPostGet('txtUsuario'))->findAll();
+					foreach ($docente as $doc) {
+						$session->set('docenteId', $doc['DOCID']);
+					}
 					return redirect()->to(site_url('/CursosController'));
 					break;
 				default:

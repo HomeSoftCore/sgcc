@@ -76,6 +76,68 @@ class AreasModel extends Model
             'AUDSENTENCIA'=>$audsentencia,  
         ));
     }
+    public function obtenerCantidadUsuarios() {
+        $query = $this->db->query('SELECT COUNT(*) AS cantidad_usuarios FROM usuarios');
+        $resultado = $query->getRow();
+    
+        if ($resultado) {
+            return $resultado->cantidad_usuarios;
+        } else {
+            return 0; // Devuelve 0 si no se encontraron resultados.
+        }
+    }
+    public function calcularPorcentajeUsuariosCreadosEsteMes() {
+        // Consulta SQL
+        $sql = "SELECT 
+                    COUNT(*) AS usuarios_mes_actual,
+                    (SELECT COUNT(*) FROM usuarios WHERE DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m')) AS usuarios_mes_pasado,
+                    (COUNT(*) / (SELECT COUNT(*) FROM usuarios WHERE DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m'))) * 100 AS porcentaje_creacion
+                FROM usuarios
+                WHERE DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT(CURRENT_DATE, '%Y-%m')";
 
+        // Ejecutar la consulta y devolver el resultado como un arreglo
+        return $this->db->query($sql)->getResultArray();
+    }
 
+    public function contarEstudiantes() {
+          $query = $this->db->query('SELECT COUNT(*) as total_estudiantes from estudiantes');
+          $resultado = $query->getRow();
+      
+          if ($resultado) {
+              return $resultado->total_estudiantes;
+          } else {
+              return 0; // Devuelve 0 si no se encontraron resultados.
+          }
+    }
+    public function calcularPorcentajeEstudiantesCreadosEsteMes() {
+        $sql = "SELECT 
+                    COUNT(*) AS estudiantes_mes_actual,
+                    (SELECT COUNT(*) FROM estudiantes WHERE DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m')) AS estudiantes_mes_pasado,
+                    (COUNT(*) / (SELECT COUNT(*) FROM estudiantes WHERE DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m'))) * 100 AS porcentaje_creacion
+                FROM estudiantes
+                WHERE DATE_FORMAT(created_at, '%Y-%m') = DATE_FORMAT(CURRENT_DATE, '%Y-%m')";
+    
+        return $this->db->query($sql)->getResultArray();
+    }
+    
+    public function contarDocentes() {
+        $query = $this->db->query('SELECT COUNT(*) as total_docentes from docentes');
+        $resultado = $query->getRow();
+    
+        if ($resultado) {
+            return $resultado->total_docentes;
+        } else {
+            return 0; // Devuelve 0 si no se encontraron resultados.
+        }
+  }
+  public function contarCursos() {
+    $query = $this->db->query('SELECT COUNT(*) as total_cursos from cursos');
+    $resultado = $query->getRow();
+
+    if ($resultado) {
+        return $resultado->total_cursos;
+    } else {
+        return 0; // Devuelve 0 si no se encontraron resultados.
+    }
+}
 }   

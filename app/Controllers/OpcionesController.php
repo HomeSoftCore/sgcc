@@ -1,10 +1,13 @@
 <?php 
 namespace App\Controllers;
 
+
 use App\Models\OpcionesModel;
+use App\Models\PerfilesOpcionesModel;
 
 class OpcionesController extends BaseController
 {
+	protected $db;
     public function __construct(){
 		$this->db =db_connect(); // loading database 
 		helper('form');
@@ -50,7 +53,9 @@ class OpcionesController extends BaseController
 		if($OpcionesModel->insert($data)===false){
 			var_dump($OpcionesModel->errors());
 		}
-		
+		session()->setFlashdata('mensaje', 'Se ha registrado la opción de manera correctamente');
+		session()->setFlashdata('title', 'Opción  Registrada Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/OpcionesController'));	
 	}
 
@@ -87,6 +92,9 @@ class OpcionesController extends BaseController
 		if($OpcionesModel->update($OPCID,$data)===false){
 			var_dump($OpcionesModel->errors());
 		}
+		session()->setFlashdata('mensaje', 'Se ha actualizado la opción de manera correctamente');
+		session()->setFlashdata('title', 'Opción  Actualizada Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/OpcionesController'));	
 	}
 
@@ -106,20 +114,37 @@ class OpcionesController extends BaseController
 		return $estructura;			
 	}
 	
-	public function eliminar(){
-		$request=\Config\Services::request();
-		$OpcionesModel=new OpcionesModel($db);
-		$id=$request->getPostGet('txtCodigo');
-		$opciones=$OpcionesModel->find($id);
-		$opciones=array('opciones'=>$opciones);
+	public function eliminar() {
+		$request = \Config\Services::request();
+		$OpcionesModel = new OpcionesModel($db);
+		$id = $request->getPostGet('txtCodigo');
 		
-		if($OpcionesModel->delete($id)===false){
-			print_r($OpcionesModel->errors());
-		}else{
-			$OpcionesModel->purgeDeleted($id);
-		}
+		$PerfilesOpcionesModel = new PerfilesOpcionesModel($db);
+		$count = $PerfilesOpcionesModel->where('OPCID', $id)->countAllResults();
+		
+		if ($count > 0) {
 
-		return redirect()->to(site_url('/OpcionesController'));	
+			$mensaje = "No se puede eliminar la opción porque existe $count registro relacionado";
+			session()->setFlashdata('mensaje', $mensaje);
+			//$message = "No se puede eliminar la opción porque existen $count registros relacionados.";
+			return redirect()->to(site_url('/OpcionesController'))->with('message', $mensaje);
+		} else {
+			if ($OpcionesModel->delete($id) === false) {
+				$message = "Error al eliminar la opción: " . print_r($OpcionesModel->errors(), true);
+			} else {
+				$message = "Opción eliminada con éxito.";
+				$OpcionesModel->purgeDeleted($id);
+			}
+		}
+		session()->setFlashdata('mensaje', 'Se ha eliminado la opción de manera correctamente');
+		session()->setFlashdata('title', 'Opción  Eliminada Correctamente');
+		session()->setFlashdata('status', 'success');
+		
+		return redirect()->to(site_url('/OpcionesController'))->with('message', $message);
 	}
+	
+	
+
+
 
 }

@@ -27,10 +27,44 @@ class CursosModel extends Model
     protected $skipValidation     = false;
 
     public function paginateCustom(int $nb_page) {
-        return $this->select()->join('areas', 'cursos.AREID  = areas.AREID')->paginate($nb_page);
+        $session = session();
+        if ($_SESSION['perfilId'] === '3'){
+            $data = $this->select()->join('areas', 'cursos.AREID  = areas.AREID')
+            ->join('registrodocente', 'cursos.CURID = registrodocente.CURID')
+            ->join('docentes', 'registrodocente.DOCID = docentes.DOCID')
+            ->where('registrodocente.DOCID', $_SESSION['docenteId'])
+            ->paginate($nb_page);
+            //d($data);
+           return $data;
+        }else{
+            return $this->select()->join('areas', 'cursos.AREID  = areas.AREID')
+                // ->join('registrodocente', 'cursos.CURID = registrodocente.CURID')
+                // ->join('docentes', 'registrodocente.DOCID = docentes.DOCID')
+                ->paginate($nb_page);
+        }
     }
-
-
+    public function getAllData() {
+        $session = session();
+        if ($_SESSION['perfilId'] === '3') {
+            $data = $this->select()
+                ->join('areas', 'cursos.AREID  = areas.AREID')
+                ->join('registrodocente', 'cursos.CURID = registrodocente.CURID')
+                ->join('docentes', 'registrodocente.DOCID = docentes.DOCID')
+                ->where('registrodocente.DOCID', $_SESSION['docenteId'])
+                ->where('CURESTADO', 'ACTIVO')
+                ->get()
+                ->getResultArray();
+    
+            return $data;
+        } else {
+            return $this->select()
+                ->join('areas', 'cursos.AREID  = areas.AREID')
+                ->where('CURESTADO', 'ACTIVO')
+                ->get()
+                ->getResultArray();
+        }
+    }
+    
     //Aqui se llama al metodo auditar luego de realizar el insert
     protected $afterInsert = ["auditar"];
 
@@ -59,7 +93,7 @@ class CursosModel extends Model
         if($audaccion=='UPDATE' || $audaccion=='DELETE'){
             $audtabla = explode(" ", $this->getLastQuery())[1];
         }
-
+        
 
         $audfecha = (new Time('now'))->toDateString();
         $audhora = (new Time('now'))->toTimeString();

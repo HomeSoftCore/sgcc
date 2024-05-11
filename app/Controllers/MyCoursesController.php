@@ -6,6 +6,7 @@ use App\Models\EstudianteModel;
 
 class MyCoursesController extends BaseController
 {
+	protected $db;
     public function __construct(){
 
 		$this->db =db_connect(); // loading database 
@@ -23,8 +24,9 @@ class MyCoursesController extends BaseController
 		
 		$builder = $this->db->query("select * from registrocursos as rg join cursos as c on c.CURID=rg.CURID where ESTID=$estid");
 		$registrocursos = $builder->getResult();
-
-		$builder = $this->db->query("select c.* from cursos as c where c.CURID not in (select rc.CURID from registrocursos as rc where ESTID='$estid')");
+		// var_dump($registrocursos);
+		// die();
+		$builder = $this->db->query("select c.* from cursos as c where c.CURID not in (select rc.CURID from registrocursos as rc where ESTID='$estid') and c.CURESTADO = 'ACTIVO'");
 		$cursos = $builder->getResult();
 
         $data = [

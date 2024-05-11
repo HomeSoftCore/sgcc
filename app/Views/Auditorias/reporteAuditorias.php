@@ -45,15 +45,14 @@
     </style>
     
     <header>
-        <img src="<?=base_url('/public/img/headerPdf.jpeg')?>" width="700" height="60">
+        <img src="<?=base_url('/public/img/logo.jpeg')?>" width="90" height="100">
         
     </header>
 
-    <footer>
-    <img src="<?=base_url('/public/img/footerPdf.jpeg')?>" width="700" height="80">
-    </footer>
-    <main>
-    <h1>REPORTE AUDITORIAS </h1><BR></BR>
+    
+    <main><br><br><br>
+    <h1>REPORTE AUDITORIAS </h1>
+    
     <table >
       <thead>
         <tr>
@@ -75,6 +74,7 @@
             $contador++;
         ?>
         <tr>
+          
           <td><?=$contador?></td>
           <td><?=$auditoria['USUNOMBRE']?></td>
           <td><?=$auditoria['AUDACCION']?></td>

@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -23,7 +24,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="calificacionPuntaje">Calificaci&oacute;n Puntaje</label>
-                                <input type="text" disabled class="form-control" name="calificacionPuntaje" value="<?php echo $calificacion['CALPUNTAJE'] ?>" placeholder="calificaci&oacute;n puntaje...">
+                                <input type="text" disabled class="form-control" id="calificacionPuntaje" name="calificacionPuntaje" value="<?php echo $calificacion['CALPUNTAJE'] ?>" placeholder="calificaci&oacute;n puntaje...">
                             </div>
 						</div>       
 
@@ -81,15 +82,18 @@
                                   ?>
                               </div>  
                         </div>                        
+                            
+                        <div class="col-md-2"><br><br>
+                            <div class="form-group">
+                                 <button type="button" id="agregarBtn" class="btn btn-primary" onclick="insertarItem();">Agregar</button>
+                            </div>
+						</div> 
 
-
-						<div class="col-md-4">
-							<button type="button" class="btn btn-primary" onclick="insertarItem();">Agregar</button>							
-						</div>	                        
+                        
                     </div>
 				</form>
 
-                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
+                <table id="table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
                     <thead>
                         <tr>
                             <th>Calificaci&oacute;n</th>
@@ -102,7 +106,11 @@
 
 					<tbody>                   
 					<?php 
+                    $totalPonderacion = 0; // Inicializa la variable de suma
+
 						foreach($calificacionesItems as $item) {
+                            $totalPonderacion += $item['CITPONDERACION']; // Suma el valor actual al total
+
 						?>
 						<tr>
 							<td><?php echo $item['CALDESCRIPCION']; ?></td>
@@ -116,6 +124,16 @@
 
 						<?php } ?>
 					</tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="1"></td> <!-- Colspan para que ocupe las celdas vacías -->
+                            <td>Total:</td>
+                            <td style="background-color: #f0f0f0; font-weight: bold;"><?php echo $totalPonderacion; ?> 
+
+                        </td> <!-- Aplicar estilos al total -->
+                        </tr>
+                    </tfoot>
+
                 </table>
 
             </div>
@@ -123,11 +141,76 @@
     </div>
 </div>
 
+<script>
+    // Obtén el valor total ponderado
+   // Obtén el valor total ponderado
+var totalPonderacion = <?php echo $totalPonderacion; ?>;
+var tipoCalificacion = '';
+// Obtén el elemento del botón por su ID
+var agregarBtn = document.getElementById("agregarBtn");
+var ponderacionInput = document.getElementById("calificacionPuntaje");
+
+// Función para verificar si el input ponderado es mayor al total ponderado
+function verificarPonderacion() {
+    var ponderacion = parseInt(ponderacionInput.value);
+    // Compara la ponderación inicial con el total ponderado
+    if (totalPonderacion >= ponderacion) {
+        // Si es mayor, deshabilita el botón
+        agregarBtn.disabled = true;
+    } else {
+        // Si no es mayor, habilita el botón
+        agregarBtn.disabled = false;
+    }
+}
+// Función para verificar si el input ponderado es mayor al total ponderado
+function verificarPorcentaje() {
+    var porcentaje = parseInt(ponderacionInput.value);
+    // Compara la ponderación inicial con el total ponderado
+    if (totalPonderacion >= ponderacion) {
+        // Si es mayor, deshabilita el botón
+        agregarBtn.disabled = true;
+    } else {
+        // Si no es mayor, habilita el botón
+        agregarBtn.disabled = false;
+    }
+}
+
+// Llama a la función cuando el valor del input ponderado cambia
+ponderacionInput.addEventListener("input", verificarPonderacion);
+
+
+// Verifica la ponderación inicial al cargar la página
+window.addEventListener("load", verificarPonderacion);
+window.addEventListener("load", verificarPorcentaje);
+verificarPonderacion();
+
+document.getElementById('tipo').addEventListener('change', function(){
+    tipoCalificacion = this.value;
+    if(this.value === 'VALOR'){
+     //   totalPonderacion  = 10
+        var inputCalificacion = document.getElementById('calificacionPuntaje');
+        inputCalificacion.value = '10.0'
+        verificarPonderacion();
+    }else{
+       // totalPonderacion = 100
+        var inputCalificacion = document.getElementById('calificacionPuntaje');
+        inputCalificacion.value = '100.0'
+        verificarPonderacion();
+    }
+    
+})
+
+</script>
+
 
 <script type="text/javascript">
-
+    
+    
     function insertarItem()
     {
+        var tableId = document.getElementById("table");
+        var cell = table.rows[1].cells[3];
+
         var txtCalificacion = $("#txtCalificacion").val();
         if (txtCalificacion =="" || txtCalificacion== null ){
             alert("Error al seleccionar la calificacion !");
@@ -141,11 +224,17 @@
         }
 
         var tipo = $("#tipo option:selected").val();
+
         if (tipo =="" || tipo== null || tipo=="Seleccione:"){
             alert("Seleccione un Tipo !");
             return false;
         }
-
+        tipoPoneracion = tipo;
+        if(cell?.textContent && tipo != cell.textContent){
+            alert("El tipo de ponderacion debe ser el mismo");
+            return;
+        }
+        
         var ponderacion = $("#ponderacion").val();
         if (ponderacion =="" || ponderacion== null ){
             alert("Digite valor de ponderacion");
@@ -200,3 +289,23 @@
     }
 </script>
 
+<?php if (session()->getFlashdata('mensaje')): ?>
+    <script>
+        var msg = '<?php echo session()->getFlashdata('mensaje'); ?>'
+        var title = '<?php echo session()->getFlashdata('title'); ?>'
+        var status = '<?php echo session()->getFlashdata('status'); ?>'
+         function showSuccessSweetAlert(icon) {
+            Swal.fire({
+                title: title,
+                text: msg,
+                icon: 'success'
+            }).then((result) => {
+            });
+        }
+        if(status === 'success'){
+            showSuccessSweetAlert('success')
+        }else{
+            showSuccessSweetAlert('error')
+        }
+    </script>
+<?php endif; ?>

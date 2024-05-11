@@ -8,26 +8,36 @@
             <div class="card-body">
 
             <div class="table-responsive">
-                  <table class="table">
+                  <table id="table"  class="table nowrap" data-paging="true" data-info="false" data-searching="true">
                       <thead>
                           <tr>
-                            <th>Estudiante</th>
-                            <th>Curso</th>
-                            <th>Valor del Curso</th>
-                            <th>No. de Cuotas</th>
-                            <th>Acción</th> 
+                          <th style="text-align:center">Código</th>
+                            <th style="text-align:center">Estudiante</th>
+                            <th style="text-align:center">Curso</th>
+                            <th style="text-align:center">Precio</th>
+                            <th style="text-align:center">Nº de Cuotas</th>
+                            <th style="text-align:center">Estado</th>
+                            <th style="text-align:center">Acción</th> 
                           </tr>
                       </thead>
                       <tbody>
                       <?php
+                        $contador =0;
                         foreach ($matriculas as $matricula) {
+                            $contador = $contador + 1;
                         ?>
                         <tr>
-                            <td><?php echo $matricula->ESTNOMBRE ; ?></td>
-                            <td><?php echo $matricula->CURNOMBRE; ?></td>
-                            <td>$<?php echo $matricula->CURPRECIO; ?></td>
-                            <td><?php echo $matricula->MATCUOTAS; ?></td>
-                            <td><button type="button" onclick="location.href='<?php echo base_url();?>/PagosController/index?id=<?php echo $matricula->MATID;?>'" class="btn btn-primary">Pagar</button></td>
+                            <td style="text-align:center"><?=$contador;?></td>
+                            <td style="text-align:center"><?php echo $matricula->ESTNOMBRE ; ?></td>
+                            <td style="text-align:center"><?php echo $matricula->CURNOMBRE; ?></td>
+                            <td style="text-align:center"> $ <?php echo $matricula->CURPRECIO; ?></td>
+                            <td style="text-align:center"><?php echo $matricula->MATCUOTAS; ?></td>
+                            <td style="text-align:center"><?php echo $matricula->ESTADO; ?></td>
+                            <?php if($matricula->ESTADO != "CANCELADO"){ ?>
+                            <td style="text-align:center"><button type="button" onclick="location.href='<?php echo base_url();?>/PagosController/index?id=<?php echo $matricula->MATID;?>'" class="btn btn-primary">Pagar</button></td>
+                            <?php }else{?>
+                                <td style="text-align:center">  <button type="button" onclick="location.href='<?php echo base_url();?>/PagosController/index?id=<?php echo $matricula->MATID;?>'" class="btn btn-success">Ver Comprobantes</button></td>
+                                <?php } ?>
                         </tr>
                         <?php
                         }

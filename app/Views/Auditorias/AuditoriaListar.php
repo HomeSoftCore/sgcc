@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-20">
         <div class="card">
             <div class="card-header">
             <h3>Administrar Auditorias</h3>
@@ -9,7 +9,7 @@
 
             </div>
             <div class="card-body">
-                <table id="advanced_table" class="table nowrap" data-paging="true" data-info="true" data-searching="true">
+                <table id="table" class="table nowrap" data-paging="true" data-info="false" data-searching="true">
                     <thead>
                         <tr>
                             <th scope="col">CODIGO</th>

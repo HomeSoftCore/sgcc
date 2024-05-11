@@ -6,6 +6,7 @@ use App\Models\ItemsModel;
 
 class CalificacionesItemsController extends BaseController
 {
+	protected $db;
     public function __construct(){
 
 		$this->db =db_connect(); // loading database 

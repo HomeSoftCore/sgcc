@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtCedula">Digite No. C&eacute;dula</label>
+                                  <label for="txtCedula">Digite Nº de C&eacute;dula</label>
                                   <input type="text" class="form-control" name="txtCedula" placeholder="c&eacute;dula...">
                               </div>                               
                             </div>
@@ -30,14 +30,14 @@
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtTitulo">Digite Titulo</label>
+                                  <label for="txtTitulo">Digite el Titulo</label>
                                   <input type="text" class="form-control" name="txtTitulo" placeholder="titulo...">
                               </div>  
 
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtTelefono">Digite Tel&eacute;fono</label>
+                                  <label for="txtTelefono">Digite el Tel&eacute;fono</label>
                                   <input type="phone" class="form-control" name="txtTelefono" placeholder="tel&eacute;fono...">
                               </div> 
                             </div>
@@ -46,7 +46,7 @@
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtCorreo">Digite Correo</label>
+                                  <label for="txtCorreo">Digite el  Correo</label>
                                   <input type="email" class="form-control" name="txtCorreo" placeholder="correo...">
                               </div>    
 
@@ -71,7 +71,9 @@
                               </div>  
                             </div>
                           </div>
-
+                          <div class="col-md-12">
+                            <label class="text-primary">*Recuerde: su Usuario y Clave serán su Cédula.</label>
+                          </div>
                           <div class="d-flex flex-column align-items-center">
                             <div class="col-md-4">
                               <button type="submit" class="btn btn-primary btn-block">Crear</button>

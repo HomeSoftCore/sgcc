@@ -11,15 +11,15 @@
                 <div class="row">
                     <div class="col-md-12">
                         <form action="<?php echo base_url(); ?>/CursosController/modificar" method="post" accept-charset="utf-8">
-
                         <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtNombre">C&oacute;digo</label>
+                                  <label for="txtNombre">Código</label>
                                   <input type="text" class="form-control" name="txtCodigo" readonly="true" placeholder="codigo..." value="<?php echo $cursos["CURID"] ?>">
                               </div>
-
                             </div>
+                           
+                           
                           </div>
 
 
@@ -61,18 +61,16 @@
                                   <input type="number" class="form-control" name="txtNº_Estudiantes" placeholder="#" value="<?php echo $cursos["CURNUMESTUDIANTES"] ?>">
                               </div>                               
                             </div>
-
+                             
                             <div class="col-md-6">
                               <div class="form-group">
                                   <label for="txtModalidad">Seleccione Modalidad</label>
                                   <?php 
-                                  
                                   $options = [
                                     'PRESENCIAL'  => 'PRESENCIAL',
                                     'VIRTUAL'    => 'VIRTUAL',
                                     'NOCTURNA'    => 'NOCTURNA'
                                   ];
-
                                   echo "<select class='form-control' name='txtModalidad' id='txtModalidad'>";
                                   foreach ($options as $item){
                                     if($cursos["CURMODALIDAD"]==$item) {
@@ -82,11 +80,11 @@
                                     }
                                   }
                                   echo "</select>";                                
-                                  
                                   ?>
                               </div>  
                             </div>
-                          </div>   
+                          </div> 
+                            
                           
                           
                           <div class="row">
@@ -113,10 +111,10 @@
                                   ?>
                               </div>  
                             </div>
-
+                                   
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="cmbAreas">Seleccione &Aacute;rea</label>
+                                  <label for="cmbAreas">Área</label>
                                   <?php 
                                   
                                   echo "<select class='form-control' name='cmbAreas' id='cmbAreas'>";
@@ -132,6 +130,7 @@
                                   ?>
                               </div>  
                             </div>
+                           
                           </div>
 
                           <div class="d-flex flex-column align-items-center">

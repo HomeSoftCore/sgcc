@@ -6,6 +6,7 @@ use App\Models\PerfilesModel;
 use App\Models\PerfilesOpcionesModel;
 
 class PerfilesOpcionesController extends BaseController {
+	protected $db;
 	public function __construct() {
 		$this->db = db_connect(); // loading database
 		helper('form');
@@ -36,6 +37,9 @@ class PerfilesOpcionesController extends BaseController {
 		];
 
 		if ($perfilesOpcionesModel->save($data)) {
+			session()->setFlashdata('mensaje', 'Se ha agregado la opción de manera correctamente');
+			session()->setFlashdata('title', 'Opción  Agregado Correctamente');
+			session()->setFlashdata('status', 'success');
 			return redirect()->to(site_url('/PerfilesController/editarOpciones?id=' . $perid));
 		} else {
 			var_dump($perfilesOpcionesModel->errors());
@@ -54,6 +58,9 @@ class PerfilesOpcionesController extends BaseController {
 		$perid = $perfilOpcion['PERID'];
 
 		if ($perfilesOpcionesModel->delete(intval($popid), true)) {
+			session()->setFlashdata('mensaje', 'Se ha eliminado la opción de manera correctamente');
+			session()->setFlashdata('title', 'Opción  Eliminado Correctamente');
+			session()->setFlashdata('status', 'success');
 			return redirect()->to(site_url('/PerfilesController/editarOpciones?id=' . $perid));
 		} else {
 			var_dump($perfilesOpcionesModel->errors());
@@ -158,6 +165,9 @@ $perfiles=array('perfiles'=>$perfiles);*/
 		if ($PerfilesModel->update($PERID, $data) === false) {
 			var_dump($PerfilesModel->errors());
 		}
+		session()->setFlashdata('mensaje', 'Se ha actualizado el perfil de manera correctamente');
+		session()->setFlashdata('title', 'Perfil  Actualizado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/PerfilesController'));
 
 	}
@@ -192,7 +202,9 @@ $perfiles=array('perfiles'=>$perfiles);*/
 		} else {
 			$PerfilesModel->purgeDeleted($id);
 		}
-
+		session()->setFlashdata('mensaje', 'Se ha eliminado el perfil de manera correctamente');
+		session()->setFlashdata('title', 'Perfil  Eliminado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/PerfilesController'));
 	}
 

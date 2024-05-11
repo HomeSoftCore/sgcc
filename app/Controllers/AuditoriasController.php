@@ -6,6 +6,7 @@ use App\Models\AuditoriasModel;
 require_once APPPATH . 'ThirdParty' . DIRECTORY_SEPARATOR . 'dompdf' . DIRECTORY_SEPARATOR . 'autoload.inc.php'; 
 class AuditoriasController extends BaseController
 {
+	protected $db;
     public function __construct(){
 
 		$this->db =db_connect(); // loading database 

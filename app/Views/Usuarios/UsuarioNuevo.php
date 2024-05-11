@@ -44,13 +44,26 @@
                           </div>
 
                           <div class="row">
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                  <label for="txtEstado">Digite Estado</label>
-                                  <input type="text" class="form-control" name="txtEstado" placeholder="estado...">
-                              </div>    
+                          <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="txtEstado">Seleccione Estado</label>
+                                <?php 
+                                
+                                $options = [
+                                  'ACTIVO'  => 'ACTIVO',
+                                  'INACTIVO'    => 'INACTIVO'
+                                ];
 
-                            </div>
+                                echo "<select class='form-control' name='txtEstado' id='txtEstado'>";
+                                foreach ($options as $usuario){
+                                  echo "<option value='".$usuario."'>".$usuario."</option>";
+                                }
+                                echo "</select>";                                
+                                
+                                ?>
+                            </div>  
+                          </div>
+                        
                             <div class="col-md-6">
                               <div class="form-group">
                                   <label for="cmbPerfiles">Seleccione Perfil</label>

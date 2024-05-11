@@ -8,15 +8,34 @@ function filterColumn ( i ) {
         $('#col'+i+'_filter').val()
     ).draw();
 }
+
 $(document).ready(function() {
-    var table = $('#data_table').DataTable({
-        responsive: true,
+    $('#table').DataTable({
+        responsive: false,
         select: true,
-        'aoColumnDefs': [{
-            'bSortable': false,
-            'aTargets': ['nosort']
-        }]
+        'columnDefs': [{
+            'type': "num",
+            'targets': 0,
+        }],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-MX.json"
+        }
     });
+    
+   $(document).ready(function(){
+        $('#table1').DataTable({
+            responsive: false,
+            select: true,
+            'columnDefs': [{
+                'type': "num",
+                'targets': 0,
+            }],
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-MX.json"
+            }
+            })
+        });
+    
     $('#data_table tbody').on( 'click', 'tr', function() {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -42,3 +61,4 @@ $(document).ready(function() {
         filterColumn( $(this).attr('data-column') );
     });
 });
+

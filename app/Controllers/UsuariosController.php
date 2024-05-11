@@ -2,9 +2,11 @@
 namespace App\Controllers;
 
 use App\Models\UsuariosModel;
+use App\Models\AuditoriasModel;
 
 class UsuariosController extends BaseController
 {
+	protected $db;
     public function __construct(){
 		$this->db =db_connect(); // loading database 
 		helper('form');
@@ -13,6 +15,7 @@ class UsuariosController extends BaseController
 		$builder = $this->db->table("usuarios");
 		$builder->select("*");
 		$builder->join('perfiles', 'usuarios.PERID   = perfiles.PERID  ');
+		//$builder->where('usuarios.deleted_at', null);
 		$builder->orderBy('USUID ','asc');
 		$usuarios = $builder->get()->getResult();
 
@@ -20,7 +23,7 @@ class UsuariosController extends BaseController
             'usuarios' => $usuarios,
 			'content' => 'Usuarios/UsuarioListar'
         ];
-
+		
 		$estructura=	view('Estructura/layout/index', $data);		
         return $estructura;
 	}
@@ -53,6 +56,9 @@ class UsuariosController extends BaseController
 		if($UsuariosModel->save($data)===false){
 			var_dump($UsuariosModel->errors());
 		}
+		session()->setFlashdata('mensaje', 'Se ha registrado el usuario de manera correctamente');
+		session()->setFlashdata('title', 'Usuario  Registrado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/UsuariosController'));
 	}
 
@@ -102,6 +108,9 @@ class UsuariosController extends BaseController
 		if($UsuariosModel->update($USUID,$data)===false){
 			var_dump($UsuariosModel->errors());
 		}
+		session()->setFlashdata('mensaje', 'Se ha actualizado el usuario de manera correctamente');
+		session()->setFlashdata('title', 'Usuario  Actualizado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/UsuariosController'));
 	}
 	
@@ -126,21 +135,28 @@ class UsuariosController extends BaseController
 		return $estructura;	
 	}	
 		
-	public function eliminar(){
-		$request=\Config\Services::request();
-		$UsuariosModel=new UsuariosModel($db);
-		$id=$request->getPostGet('txtCodigo');
-		$usuarios=$UsuariosModel->find($id);
-		$usuarios=array('usuarios'=>$usuarios);
+	public function eliminar() {
+		$request = \Config\Services::request();
+		$UsuariosModel = new UsuariosModel($db);
+		$id = $request->getPostGet('txtCodigo');
 		
-		if($UsuariosModel->delete($id)===false){
+		$AuditoriasModel = new AuditoriasModel($db);
+		$count = $AuditoriasModel->where('USUID', $id)->countAllResults();
+	
+		if ($count > 0) {
+			$AuditoriasModel->where('USUID', $id)->delete();
+		}
+	
+		if ($UsuariosModel->delete($id) === false) {
 			print_r($UsuariosModel->errors());
-		}else{
+		} else {
 			$UsuariosModel->purgeDeleted($id);
 		}
-
-		return redirect()->to(site_url('/UsuariosController'));	
-
+		session()->setFlashdata('mensaje', 'Se ha eliminado el usuario de manera correctamente');
+		session()->setFlashdata('title', 'Usuario  Eliminado Correctamente');
+		session()->setFlashdata('status', 'success');
+		return redirect()->to(site_url('/UsuariosController'));
 	}
+	
 		
 	}

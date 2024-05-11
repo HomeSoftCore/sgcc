@@ -1,6 +1,9 @@
-<?php 
+<?php
+
 namespace App\Controllers;
+
 use App\Models\CalificacionesItemsModel as ciModels;
+use App\Models\CalificacionesItemsModel;
 use App\Models\CalificacionesModel;
 use App\Models\ItemsModel as itemModel;
 
@@ -8,124 +11,153 @@ use CodeIgniter\HTTP\IncomingRequest;
 
 class CalificacionesController extends BaseController
 {
-    public function __construct(){
-		$this->db =db_connect(); // loading database 
+	protected $db;
+	public function __construct()
+	{
+		$this->db = db_connect(); // loading database 
 		helper('form');
-		
 	}
-	public function index() {
+	public function index()
+	{
 		$builder = $this->db->table("calificaciones");
 		$builder->select('*');
 		$calificaciones = $builder->get()->getResult();
 
-        $data = [
+		$data = [
 			'calificaciones' => $calificaciones,
 			'content' => 'Calificaciones/CalificacionListar'
-        ];
+		];
 
-		$estructura=	view('Estructura/layout/index', $data);
-		return $estructura;			
+		$estructura =	view('Estructura/layout/index', $data);
+		return $estructura;
 	}
 
-    public function nuevo() {
+	public function nuevo()
+	{
 		$data = [
 			'content' => 'Calificaciones/CalificacionNuevo'
 		];
 
-		$estructura=	view('Estructura/layout/index', $data);
-		return $estructura;							
+		$estructura =	view('Estructura/layout/index', $data);
+		return $estructura;
 	}
 
-    public function guardar() {
-		$CalificacionesModel= new CalificacionesModel($db);
-		$request=\Config\Services::request();
-		$data=array(
-			    
-				'CALDESCRIPCION'=>$request->getPostGet('txtDescripcion'),
-                'CALPUNTAJE'=>$request->getPostGet('txtPuntaje'),
-                'CALPUNAPROBACION'=>$request->getPostGet('txtAprobado'),
-				'CALESTADO'=>$request->getPostGet('txtEstado'),
-                
+	public function guardar()
+	{
+		$CalificacionesModel = new CalificacionesModel($db);
+		$request = \Config\Services::request();
+		$data = array(
+
+			'CALDESCRIPCION' => $request->getPostGet('txtDescripcion'),
+			'CALPUNTAJE' => $request->getPostGet('txtPuntaje'),
+			'CALPUNAPROBACION' => $request->getPostGet('txtAprobado'),
+			'CALESTADO' => $request->getPostGet('txtEstado'),
+
 		);
-		
-		if($CalificacionesModel->insert($data)===false){
+		if ($data['CALESTADO'] == 'ACTIVO') {
+			$CalificacionesModel->set(array('CALESTADO' => 'INACTIVO'))->update();
+		}
+
+		if ($CalificacionesModel->insert($data) === false) {
 			var_dump($CalificacionesModel->errors());
 		}
-		
-		return redirect()->to(site_url('/CalificacionesController'));	
-	}
+		session()->setFlashdata('mensaje', 'Se ha registrado la califiacación de manera correctamente');
+		session()->setFlashdata('title', 'Calificación Registrada Correctamente');
+		session()->setFlashdata('status', 'success');
 
-	public function editar(){
-		$request=\Config\Services::request();
-		$id=$request->getPostGet('id');
-
-		$CalificacionesModel=new CalificacionesModel($db);
-		$calificaciones=$CalificacionesModel->find($id);
-
-        $data = [
-			'calificaciones' => $calificaciones,
-			'content' => 'Calificaciones/CalificacionEditar'
-        ];
-
-		$estructura=	view('Estructura/layout/index', $data);
-		return $estructura;				
-	}
-
-	public function modificar() {
-		$CalificacionesModel= new CalificacionesModel($db);
-		$request=\Config\Services::request();
-		$data=array(
-			
-			'CALDESCRIPCION'=>$request->getPostGet('txtDescripcion'),
-			'CALPUNTAJE'=>$request->getPostGet('txtPuntaje'),
-			'CALPUNAPROBACION'=>$request->getPostGet('txtAprobado'),
-			'CALESTADO'=>$request->getPostGet('txtEstado'),
-			
-		);
-		$CALID=$request->getPostGet('txtCodigo');
-		echo($CALID);
-		
-		if($CalificacionesModel->update($CALID,$data)===false){
-			var_dump($CalificacionesModel->errors());
-		}
-			
 		return redirect()->to(site_url('/CalificacionesController'));
 	}
-	
-	public function borrar() {
-		$request=\Config\Services::request();
-		$id=$request->getPostGet('id');
 
-		$CalificacionesModel=new CalificacionesModel($db);
-		$calificaciones=$CalificacionesModel->find($id);
+	public function editar()
+	{
+		$request = \Config\Services::request();
+		$id = $request->getPostGet('id');
+
+		$CalificacionesModel = new CalificacionesModel($db);
+		$calificaciones = $CalificacionesModel->find($id);
+
+		$data = [
+			'calificaciones' => $calificaciones,
+			'content' => 'Calificaciones/CalificacionEditar'
+		];
+		session()->setFlashdata('mensaje', 'Se ha actualizado la califiacación de manera correctamente');
+		session()->setFlashdata('title', 'Calificación Actualizada Correctamente');
+		session()->setFlashdata('status', 'success');
+		$estructura =	view('Estructura/layout/index', $data);
+		return $estructura;
+	}
+
+	public function modificar()
+	{
+		$CalificacionesModel = new CalificacionesModel($db);
+		$request = \Config\Services::request();
+		$data = array(
+
+			'CALDESCRIPCION' => $request->getPostGet('txtDescripcion'),
+			'CALPUNTAJE' => $request->getPostGet('txtPuntaje'),
+			'CALPUNAPROBACION' => $request->getPostGet('txtAprobado'),
+			'CALESTADO' => $request->getPostGet('txtEstado'),
+
+		);
+		$CALID = $request->getPostGet('txtCodigo');
+		echo ($CALID);
+
+		if ($CalificacionesModel->update($CALID, $data) === false) {
+			var_dump($CalificacionesModel->errors());
+		}
+		session()->setFlashdata('mensaje', 'Se ha actualizado la califiacación de manera correctamente');
+		session()->setFlashdata('title', 'Calificación Actualizada Correctamente');
+		session()->setFlashdata('status', 'success');
+
+		return redirect()->to(site_url('/CalificacionesController'));
+	}
+
+	public function borrar()
+	{
+		$request = \Config\Services::request();
+		$id = $request->getPostGet('id');
+
+		$CalificacionesModel = new CalificacionesModel($db);
+		$calificaciones = $CalificacionesModel->find($id);
 
 		$data = [
 			'calificaciones' => $calificaciones,
 			'content' => 'Calificaciones/CalificacionBorrar'
 		];
-
-		$estructura=	view('Estructura/layout/index', $data);
-		return $estructura;							
+		session()->setFlashdata('mensaje', 'Se ha eliminado la califiacación de manera correctamente');
+		session()->setFlashdata('title', 'Calificación Eliminada Correctamente');
+		session()->setFlashdata('status', 'success');
+		$estructura =	view('Estructura/layout/index', $data);
+		return $estructura;
 	}
-		
-	public function eliminar(){
-		$request=\Config\Services::request();
-		$CalificacionesModel=new CalificacionesModel($db);
-		$id=$request->getPostGet('txtCodigo');
-		$calificaciones=$CalificacionesModel->find($id);
-		$calificaciones=array('calificaciones'=>$calificaciones);
-		
-		if($CalificacionesModel->delete($id)===false){
+
+	public function eliminar()
+	{
+		$request = \Config\Services::request();
+		$CalificacionesModel = new CalificacionesModel($db);
+		$CalificacionesItem = new CalificacionesItemsModel($db);
+		$id = $request->getPostGet('txtCodigo');
+		$calificaciones = $CalificacionesModel->find($id);
+		$calificaciones = array('calificaciones' => $calificaciones);
+
+		$CalificacionesItem->where('CALID', $id)->delete();
+		$CalificacionesItem->purgeDeleted($id);
+
+		if ($CalificacionesModel->delete($id) === false) {
 			print_r($CalificacionesModel->errors());
-		}else{
+		} else {
 			$CalificacionesModel->purgeDeleted($id);
 		}
-			
-		return redirect()->to(site_url('/CalificacionesController'));	
+		session()->setFlashdata('mensaje', 'Se ha eliminado la califiacación de manera correctamente');
+		session()->setFlashdata('title', 'Calificación Eliminada Correctamente');
+		session()->setFlashdata('status', 'success');
+
+		return redirect()->to(site_url('/CalificacionesController'));
 	}
 
 
-	public function registrarItems(){
+	public function registrarItems()
+	{
 
 		$request = \Config\Services::request();
 		$idCalificacion = $request->getPostGet('id');
@@ -137,25 +169,26 @@ class CalificacionesController extends BaseController
 		$itemsData = $ItemsModel->findAll();
 		//get data calificaciones-items
 		$calificacionesItems = $this->db->table("calificacionesitems t1")
-        ->join('calificaciones t2', 't2.CALID = t1.CALID')
-        ->join('items t3', 't3.ITEID = t1.ITEID ')
-		->where('t1.CALID ', $idCalificacion)
-        ->get()
-        ->getResultArray();
+			->join('calificaciones t2', 't2.CALID = t1.CALID')
+			->join('items t3', 't3.ITEID = t1.ITEID ')
+			->where('t1.CALID ', $idCalificacion)
+			->get()
+			->getResultArray();
 
 		$data = [
 			'calificacion' => $calificacionData,
 			'items' => $itemsData,
 			'calificacionesItems' => $calificacionesItems,
 			'content' => 'Calificaciones/RegistrarItems'
-        ];
-
-		$estructura=	view('Estructura/layout/index', $data);
-		return $estructura;	
+		];
+		
+		$estructura =	view('Estructura/layout/index', $data);
+		return $estructura;
 	}
 
 
-	public function insertItem(){
+	public function insertItem()
+	{
 		$request = \Config\Services::request();
 		$txtCalificacion = $request->getPostGet('txtCalificacion');
 		$item = $request->getPostGet('item');
@@ -175,16 +208,17 @@ class CalificacionesController extends BaseController
 			//"txtCalificacion" => $txtCalificacion,
 			//"item" => $item
 		));
-
+		session()->setFlashdata('mensaje', 'Se ha registrado el items de manera correcta');
+		session()->setFlashdata('title', 'Items Registrado Correctamente');
+		session()->setFlashdata('status', 'success');	
 	}
 
-	public function deleteItem() {
+	public function deleteItem()
+	{
 		$request = \Config\Services::request();
 		$item = $request->getPostGet('item');
-        $CalificacionesItemsModel = new ciModels();
-        $CalificacionesItemsModel->delete_item($item);
-        echo json_encode(array("status" => TRUE));
-    }
-
+		$CalificacionesItemsModel = new ciModels();
+		$CalificacionesItemsModel->delete_item($item);
+		echo json_encode(array("status" => TRUE));
+	}
 }
-

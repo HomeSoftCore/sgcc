@@ -65,7 +65,8 @@
 
                         <div class="d-flex flex-column align-items-center">
                           <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                            <button type="button" onclick="verificarEstado()" class="btn btn-primary btn-block">Crear</button>
+                            <button type="submit" id="hiddenSubmitButton" name="submit" class="btn btn-primary btn-block" style="display: none;">Crear</button>
                           </div>
                         </div>  
 
@@ -77,3 +78,17 @@
         </div>
     </div>
 </div>
+<script>
+  function verificarEstado(){
+    var estado = document.getElementById('txtEstado')
+    var hiddenButton = document.getElementById('hiddenSubmitButton');
+    if(estado.value == 'ACTIVO'){
+      var confirmacion = confirm('Desea cambiar el modo de calificacion');
+      if(confirmacion){
+        hiddenButton.click();
+      }
+    }else{
+      hiddenButton.click();
+    }
+  }
+</script>

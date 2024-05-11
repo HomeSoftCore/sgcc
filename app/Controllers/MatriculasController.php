@@ -7,6 +7,7 @@ use App\Models\PagosModel;
 
 class MatriculasController extends BaseController
 {
+	protected $db;
     public function __construct(){
 
 		$this->db =db_connect(); // loading database 
@@ -14,34 +15,58 @@ class MatriculasController extends BaseController
 	}
 	public function index()
 	{
-
+		$model = new RegistroCursosModel();
+		$estadoMat = "ACTIVO";
 		$matriculasData = $this->db->table("matriculas t1")
         ->join('registrocursos t2', 't2.RCUID = t1.RCUID')
 		->join('cursos t3', 't2.CURID = t3.CURID')
 		->join('estudiantes t4', 't2.ESTID = t4.ESTID')
 		->join('pagos t5', 't1.MATID = t5.MATID')
+		->where('t1.MATESTADO', $estadoMat)
+		->groupBy('t1.RCUID')
 		->get();
+		/*
        foreach ($matriculasData->getResult() as $matriculas) {
 			$pagos = $this->db->table("pagos")
 			->where('MATID', $matriculas->MATID)->orderBy('PAGFECREGPAGO', 'DESC')
 			->get()->getResultArray();
-
 			$matriculas->pagos = $pagos;
-		}
-		$data['matriculas'] = $matriculasData->getResultArray();
-		
-		$estructura=	view('Estructura/Header').
-						view('Estructura/Menu').
-						view('Matriculas/listar', $data).
-						view('Estructura/Footer');
+		}*/
+		//$data['matriculados'] = $matriculasData->getResultArray();
+
+		$data = [
+			'matriculados' => $matriculasData->getResultArray(),
+			'matriculas' => $model->paginatePendientes(3),
+			'pager' => $model->pager,
+			'pagi_path' => 'sgcc/MatriculasController/pendientes',
+			'content' => 'Matriculas/pendientes'			
+		];
+		$estructura=	view('Estructura/layout/index', $data);
         return $estructura;
-
 	}
-
 	public function pendientes()
 	{
 		$model = new RegistroCursosModel();
+		$estadoMat = "ACTIVO";
+		$matriculasData = $this->db->table("matriculas t1")
+        ->join('registrocursos t2', 't2.RCUID = t1.RCUID')
+		->join('cursos t3', 't2.CURID = t3.CURID')
+		->join('estudiantes t4', 't2.ESTID = t4.ESTID')
+		->join('pagos t5', 't1.MATID = t5.MATID')
+		->where('t1.MATESTADO', $estadoMat)
+		->groupBy('t1.RCUID')
+		->get();
+		/*
+       foreach ($matriculasData->getResult() as $matriculas) {
+			$pagos = $this->db->table("pagos")
+			->where('MATID', $matriculas->MATID)->orderBy('PAGFECREGPAGO', 'DESC')
+			->get()->getResultArray();
+			$matriculas->pagos = $pagos;
+		}*/
+		//$data['matriculados'] = $matriculasData->getResultArray();
+
 		$data = [
+			'matriculados' => $matriculasData->getResultArray(),
 			'matriculas' => $model->paginatePendientes(3),
 			'pager' => $model->pager,
 			'pagi_path' => 'sgcc/MatriculasController/pendientes',
@@ -122,7 +147,12 @@ class MatriculasController extends BaseController
 					'PAGCUOTA' => $valorCuota,
 					'PAGNUMCUOTA' => $i
 				);
+				//$pagosModel es el modelo de
 				$PagosModel->add($data);
+				//redirige a metodo index
+		session()->setFlashdata('mensaje', 'Se ha registrado el area de manera correctamente');
+		session()->setFlashdata('title', 'Area Registrada Correctamente');
+		session()->setFlashdata('status', 'success');
 			}
 		}else{
 			$data = array(

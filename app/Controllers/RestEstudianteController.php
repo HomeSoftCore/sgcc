@@ -3,10 +3,12 @@
 namespace App\Controllers;
 
 use App\Models\EstudianteModel;
+use App\Models\UsuariosModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class RestEstudianteController extends ResourceController
 {
+    
     protected $modelName = 'App\Models\EstudianteModel';
     protected $format    = 'json';
 
@@ -23,14 +25,14 @@ class RestEstudianteController extends ResourceController
     }
     //ELIMINAR 
     public function delete($id = NULL){
-        $usuario = new UsuarioModel();
+        $usuario = new UsuariosModel();
         $usuario->delete($id);
         return $this->respond("Registro eliminado");
 
     }
     //INSERTAR UN REGISTRO EN UNA TABLA 
     public function create(){
-        $usuario= new UsuarioModel();
+        $usuario= new UsuariosModel();
         $data = $this->request->getRawInput();
         $data = [ 
             'NOMBRE' => $data['NOMBRE'],
@@ -44,7 +46,7 @@ class RestEstudianteController extends ResourceController
 //METODO PARA ACTUALIZAR
 public function update($id = NULL)
 {
-    $usuario = new UsuarioModel();
+    $usuario = new UsuariosModel();
     $data = $this->request->getRawInput();
     $data = [
         'ID' => $data['ID'],

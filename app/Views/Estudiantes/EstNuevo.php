@@ -15,14 +15,14 @@
                             <div class="col-md-6">
                               <div class="form-group">
                                   <label for="txtNombre">Digite el Nombre</label>
-                                  <input type="text" class="form-control" name="txtNombre" placeholder="nombres...">
+                                  <input type="text" class="form-control" name="txtNombre" placeholder="Nombre del Estudiante">
                               </div>
 
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtCedula">Digite No. C&eacute;dula</label>
-                                  <input type="text" class="form-control" name="txtCedula" placeholder="c&eacute;dula...">
+                                  <label for="txtCedula">Digite Nº de C&eacute;dula</label>
+                                  <input type="text" class="form-control" name="txtCedula" placeholder="C&eacute;dula">
                               </div>                               
                             </div>
                           </div>
@@ -30,15 +30,15 @@
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtDreccion">Digite Direcci&oacute;n</label>
-                                  <input type="text" class="form-control" name="txtDreccion" placeholder="direcci&oacute;...">
+                                  <label for="txtDreccion">Digite la Direcci&oacute;n</label>
+                                  <input type="text" class="form-control" name="txtDreccion" placeholder="Direcci&oacute;n">
                               </div>  
 
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtTelefono">Digite Tel&eacute;fono</label>
-                                  <input type="phone" class="form-control" name="txtTelefono" placeholder="tel&eacute;fono...">
+                                  <label for="txtTelefono">Digite el Tel&eacute;fono</label>
+                                  <input type="phone" class="form-control" name="txtTelefono" placeholder="Tel&eacute;fono">
                               </div> 
                             </div>
                           </div>
@@ -46,8 +46,8 @@
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="txtCorreo">Digite Correo</label>
-                                  <input type="email" class="form-control" name="txtCorreo" placeholder="correo...">
+                                  <label for="txtCorreo">Digite el Correo</label>
+                                  <input type="email" class="form-control" name="txtCorreo" placeholder="Correo">
                               </div>    
 
                             </div>

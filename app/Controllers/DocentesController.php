@@ -2,9 +2,11 @@
 namespace App\Controllers;
 
 use App\Models\DocentesModel;
+use App\Models\UsuariosModel;
 
 class DocentesController extends BaseController
 {
+	protected $db;
     public function __construct(){
 		$this->db =db_connect(); // loading database 
 		helper('form');
@@ -13,6 +15,7 @@ class DocentesController extends BaseController
 	public function index(){
 		$builder = $this->db->table("docentes");
 		$builder->select('*');
+		$builder->where('DOCESTADO', 'ACTIVO');
 		$docentes = $builder->get()->getResult();
 		//$docentes=array('docentes'=>$docentes);
 
@@ -37,9 +40,11 @@ class DocentesController extends BaseController
 
     public function guardar(){
 		$DocentesModel= new DocentesModel($db);
+		$UsuariosModel= new UsuariosModel($db);
 		$request=\Config\Services::request();
+
+		//docente
 		$data=array(
-			    
 			'DOCCEDULA'=>$request->getPostGet('txtCedula'),
 			'DOCNOMBRE'=>$request->getPostGet('txtNombre'),
 			'DOCTITULO'=>$request->getPostGet('txtTitulo'),
@@ -47,11 +52,26 @@ class DocentesController extends BaseController
 			'DOCCORREO'=>$request->getPostGet('txtCorreo'),
 			'DOCESTADO'=>$request->getPostGet('txtEstado'),
 		);
-		
 		if($DocentesModel->insert($data)===false){
 			var_dump($DocentesModel->errors());
 		}
-		
+
+		//usuario
+		$request=\Config\Services::request();
+		$data=array(
+			'PERID'=>3,
+			'USUNOMBRE'=>$request->getPostGet('txtNombre'),
+			'USUCEDULA'=>$request->getPostGet('txtCedula'),
+			'USUCLAVE'=>$request->getPostGet('txtCedula'),
+			'USUCORREO'=>$request->getPostGet('txtCorreo'),
+			'USUESTADO'=>$request->getPostGet('txtEstado'),	
+		);
+		if($UsuariosModel->save($data)===false){
+			var_dump($UsuariosModel->errors());
+		}
+			session()->setFlashdata('mensaje', 'Se ha registrado el docente de manera correctamente');
+			session()->setFlashdata('title', 'Docente Registrado Correctamente');
+			session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/DocentesController'));
 	}
 
@@ -91,6 +111,9 @@ class DocentesController extends BaseController
 		if($DocentesModel->update($DOCID,$data)===false){
 			var_dump($DocentesModel->errors());
 		}
+			session()->setFlashdata('mensaje', 'Se ha actualizado el docente de manera correctamente');
+			session()->setFlashdata('title', 'Docente Actualizado Correctamente');
+			session()->setFlashdata('status', 'success');
 		   
 		return redirect()->to(site_url('/DocentesController'));
 	}
@@ -118,12 +141,17 @@ class DocentesController extends BaseController
 		$docentes=$DocentesModel->find($id);
 		$docentes=array('estudiadocentesntes'=>$docentes);
 		
-		if($DocentesModel->delete($id)===false){
+		/*if($DocentesModel->delete($id)===false){
 			print_r($DocentesModel->errors());
 		}else{
 			$DocentesModel->purgeDeleted($id);
-		}
-		
+		}*/
+
+		$DocentesModel->update($id, ['DOCESTADO' => 'INACTIVO']);
+
+			session()->setFlashdata('mensaje', 'Se ha eliminado el docente de manera correctamente');
+			session()->setFlashdata('title', 'Docente Eliminado Correctamente');
+			session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/DocentesController'));	
 	}
 

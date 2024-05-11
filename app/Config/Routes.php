@@ -33,7 +33,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::login');
 $routes->get('/login', 'Home::login');
 
-$routes->get('/areas', 'AreasController::index',['filter' => 'auth']);
+$routes->get('/areas', 'AreasController::home',['filter' => 'auth']);
 //ajax
 $routes->post('calificaciones/insertItem', 'CalificacionesController::insertItem');
 $routes->post('calificaciones/deleteItem', 'CalificacionesController::deleteItem');

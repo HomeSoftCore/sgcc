@@ -4829,11 +4829,14 @@ span.value {
   font-size: .9rem;
   width: 70%;
   display: block;
-  padding: 100px 0; }
+  padding: 100px 0; 
+
+}
   .auth-wrapper .authentication-form .logo-centered {
     width: 60px;
     margin: 0 auto;
-    margin-bottom: 40px; }
+    margin-bottom: 40px;
+  }
   .auth-wrapper .authentication-form h3 {
     font-size: 20px;
     color: #272d36;

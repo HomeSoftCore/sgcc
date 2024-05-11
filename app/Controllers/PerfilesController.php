@@ -4,8 +4,11 @@ namespace App\Controllers;
 
 use App\Models\PerfilesModel;
 use App\Models\OpcionesModel;
+use App\Models\PerfilesOpcionesModel;
+use App\Models\UsuariosModel;
 
 class PerfilesController extends BaseController {
+	protected $db;
 	public function __construct() {
 		$this->db = db_connect(); // loading database
 		helper('form');
@@ -47,7 +50,9 @@ class PerfilesController extends BaseController {
 		if ($PerfilesModel->insert($data) === false) {
 			var_dump($PerfilesModel->errors());
 		}
-
+		session()->setFlashdata('mensaje', 'Se ha registrado el perfil de manera correctamente');
+		session()->setFlashdata('title', 'Perfil  Registrado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/PerfilesController'));	
 	}
 
@@ -92,7 +97,7 @@ class PerfilesController extends BaseController {
 			'perfilesOpciones' => $perfilesOpciones,
 			'content' => 'Perfiles/PerfilAgregarOpciones'
 		];
-
+		
 		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;
 	}
@@ -110,6 +115,9 @@ class PerfilesController extends BaseController {
 		if ($PerfilesModel->update($PERID, $data) === false) {
 			var_dump($PerfilesModel->errors());
 		}
+		session()->setFlashdata('mensaje', 'Se ha actualizado el perfil de manera correctamente');
+		session()->setFlashdata('title', 'Perfil  Actualizado Correctamente');
+		session()->setFlashdata('status', 'success');
 		return redirect()->to(site_url('/PerfilesController'));
 	}
 
@@ -124,7 +132,9 @@ class PerfilesController extends BaseController {
 			'perfiles' => $perfiles,
 			'content' => 'Perfiles/PerfilBorrar'
 		];
-
+		session()->setFlashdata('mensaje', 'Se ha eliminado la  de manera correctamente');
+		session()->setFlashdata('title', 'Opción  Eliminado Correctamente');
+		session()->setFlashdata('status', 'success');
 		$estructura =	view('Estructura/layout/index', $data);		
 		return $estructura;
 	}
@@ -133,15 +143,36 @@ class PerfilesController extends BaseController {
 		$request = \Config\Services::request();
 		$PerfilesModel = new PerfilesModel($db);
 		$id = $request->getPostGet('txtCodigo');
-		$perfiles = $PerfilesModel->find($id);
-		$perfiles = ['perfiles' => $perfiles];
-		var_dump($perfiles);
+	
+		$UsuariosModel = new UsuariosModel($db);
+		$countUsuarios = $UsuariosModel->where('PERID', $id)->countAllResults();
+	
+		if ($countUsuarios > 0) {
+			$mensaje = "No se puede eliminar el perfil porque existen $countUsuarios usuarios relacionados.";
+			session()->setFlashdata('mensaje', $mensaje);
+			return redirect()->to(site_url('/PerfilesController'))->with('message', $mensaje);
+		}
+	
+		$PerfilesOpcionesModel = new PerfilesOpcionesModel($db);
+		$countPerfilesOpciones = $PerfilesOpcionesModel->where('PERID', $id)->countAllResults();
+	
+		if ($countPerfilesOpciones > 0) {
+			$mensaje = "No se puede eliminar el perfil porque existen $countPerfilesOpciones registros relacionados en perfilesopciones.";
+			session()->setFlashdata('mensaje', $mensaje);
+			return redirect()->to(site_url('/PerfilesController'))->with('message', $mensaje);
+		}
+	
 		if ($PerfilesModel->delete($id) === false) {
-			print_r($PerfilesModel->errors());
+			$message = "Error al eliminar el perfil: " . print_r($PerfilesModel->errors(), true);
 		} else {
+			$message = "Perfil eliminado con éxito.";
 			$PerfilesModel->purgeDeleted($id);
 		}
-
-		return redirect()->to(site_url('/PerfilesController'));
+		session()->setFlashdata('mensaje', 'Se ha eliminado el perfil de manera correctamente');
+		session()->setFlashdata('title', 'Perfil  Eliminado Correctamente');
+		session()->setFlashdata('status', 'success');
+	
+		return redirect()->to(site_url('/PerfilesController'))->with('message', $message);
 	}
+	
 }

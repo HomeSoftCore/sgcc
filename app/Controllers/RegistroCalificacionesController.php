@@ -11,6 +11,7 @@ use App\Models\EstudianteModel;
 
 class RegistroCalificacionesController extends BaseController
 {
+	protected $db;
     public function __construct(){
 
 		$this->db =db_connect(); // loading database 
@@ -50,21 +51,59 @@ class RegistroCalificacionesController extends BaseController
 		$request=\Config\Services::request();
 		$CURID = $request->getPostGet('id');
 
-		$query = $this->db->table("matriculas mat");
-		$query->join('registrocursos rcu', 'mat.RCUID = rcu.RCUID');
-		$query->join('estudiantes est', 'est.ESTID = rcu.ESTID');
-		$query->where('rcu.CURID =', $CURID);
-		$query->select('est.*, rcu.*, mat.MATID');
-		$estudiantes = $query->get()->getResultArray();
+		$query = $this->db->table("matriculas mat")
+		->join('registrocursos rcu', 'mat.RCUID = rcu.RCUID')
+		->join('estudiantes est', 'est.ESTID = rcu.ESTID')
+		->join('registrocalificaciones reg', 'mat.MATID = reg.MATID', 'left')
+		->where('rcu.CURID', $CURID)
+		->select('est.ESTID, est.ESTNOMBRE, est.ESTCEDULA, est.ESTCORREO,mat.MATID,reg.RCAFECHA, GROUP_CONCAT(reg.RCANOTA ORDER BY reg.RCANOTA ASC SEPARATOR ", ") AS Notas')
+		->groupBy('est.ESTID, est.ESTNOMBRE, est.ESTCEDULA, est.ESTCORREO,reg.RCAFECHA')
+		->get();
+
+		$estudiantes = $query->getResultArray();
+	
 
 		$CursosModel=new CursosModel($db);
         $curso=$CursosModel->find($CURID);
-
+		
+		$RegistroCalificacionesModel= new RegistroCalificacionesModel($db);
+		$notasITEMS = $RegistroCalificacionesModel->obtenerCalificacionesItems();
+		$notamax = $RegistroCalificacionesModel->notamax();
+		// Recorrer los resultados de estudiantes
+		foreach ($estudiantes as $estudiante) {
+			$MATID = $estudiante['MATID'];
+			$Notas = $estudiante['Notas'];
+			
+			// Verificar si las notas son NULL para el estudiante actual
+			if ($Notas === NULL) {
+				// Recorrer los resultados de calificaciones items y obtener ITEID
+				foreach ($notasITEMS as $nota) {
+					$ITEID = $nota['ITEID'];
+					
+					// Insertar la nota en la base de datos
+					$RegistroCalificacionesModel->insertarNota($MATID, $ITEID, 0);
+				}
+			} 
+		}
+		$query = $this->db->table("matriculas mat")
+		->join('registrocursos rcu', 'mat.RCUID = rcu.RCUID')
+		->join('estudiantes est', 'est.ESTID = rcu.ESTID')
+		->join('registrocalificaciones reg', 'mat.MATID = reg.MATID', 'left')
+		->where('rcu.CURID', $CURID) 
+		->select("est.ESTID, est.ESTNOMBRE, est.ESTCEDULA, est.ESTCORREO, mat.MATID,reg.RCAFECHA, GROUP_CONCAT(CONCAT(reg.RCAID, ':', reg.RCANOTA) ORDER BY reg.RCAID ASC SEPARATOR ', ') AS Notas")
+		->groupBy("est.ESTID, est.ESTNOMBRE, est.ESTCEDULA, est.ESTCORREO,mat.MATID,reg.RCAFECHA")
+		->get();
+	
+		$estudiantes = $query->getResultArray();
 		$data = [
 			'content' => 'RegistroCalificaciones/ListarEstudiante',
 			'estudiantes' => $estudiantes,
 			'curso' => $curso,
+			'notas' => $notasITEMS,	
+			'notamax' => $notamax,
+			'tipoCalificacion' => $notasITEMS[0]['CITTIPO']
 		];
+		
 
 		$estructura=	view('Estructura/layout/index', $data);						
         return $estructura;
@@ -116,7 +155,7 @@ class RegistroCalificacionesController extends BaseController
 			'MATID' => $MATID,		
 			'ESTID' => $ESTID,			
 		];		
-
+		
 		$html = view('RegistroCalificaciones/tableItemsCalificaciones', $data);
 
 		echo json_encode(array(
@@ -165,11 +204,15 @@ class RegistroCalificacionesController extends BaseController
 		
 		$ESTID = $request->getPostGet('ESTID');
 		$MATID = $request->getPostGet('MATID');
+		$txtFecha_Final = $request->getPostGet('txtFecha_Final');
+
+		// Convertir la fecha al formato 'Y-m-d' (año-mes-día)
+		$fechaNormalizada = date('Y-m-d', strtotime($txtFecha_Final));
 
 		$data=array(
 			'MATID'=>$MATID,
 			'CITID'=>$request->getPostGet('CITID'),
-			'RCAFECHA'=>$request->getPostGet('fecha'),
+			'RCAFECHA'=>$fechaNormalizada,
 			'RCANOTA'=>$request->getPostGet('nota'),
 			'RCAEQUIVALENTE'=>$request->getPostGet('equivalente'),
 			'RCAOBSERVACION'=>$request->getPostGet('observacion'),
@@ -178,8 +221,9 @@ class RegistroCalificacionesController extends BaseController
 		
 		if($RegistroCalificacionesModel->add($data)===false){
 			var_dump($RegistroCalificacionesModel->errors());
+			
 		}
-
+			
 		//redirige a metodo index
 		return redirect()->to(site_url('/RegistroCalificacionesController/indexCalificacion?id='.$ESTID.'&mat='.$MATID ));	
 	}
@@ -200,4 +244,82 @@ class RegistroCalificacionesController extends BaseController
 		return redirect()->to(site_url('/RegistroCalificacionesController'));	
 	}
 
+	//----------------------registrarNotas------------------------
+
+	
+
+
+
+public function registrarNotas()
+	{
+		$request = \Config\Services::request();
+		$CURID = $request->getPost('CURID');
+		
+		$cantidadNotas = $request->getPost('cantidaditems');
+		$APROB = $request->getPost('aprobado');
+		$txtFecha_Final = $request->getPost('txtFecha_Final');
+		// Obtén todas las entradas POST que comienzan con 'reg_'
+		$inputData = $request->getPost();
+		$notasActualizadas = [];
+		// Obtén todos los RCAID enviados en el formulario
+		$rcaids = [];
+	
+		foreach ($inputData as $inputName => $inputValue) {
+			// Verifica si el nombre de entrada comienza con 'reg_'
+			if (strpos($inputName, 'reg_') === 0) {
+				// Extrae el RCAID de la entrada
+				$RCAID = substr($inputName, strlen('reg_'));
+				$rcaids[] =$RCAID;
+				// Agrega el RCAID y su valor correspondiente al arreglo de notas actualizadas
+				$notasActualizadas[$RCAID] = $inputValue;
+			}
+		}
+		// Obtén todos los datos POST
+				$postData = $request->getPost();
+
+				// Inicializa un arreglo para almacenar los valores de equivalente y MATID
+				$equivalenteData = [];
+
+				// Recorre los datos POST para identificar los campos de equivalente
+				foreach ($postData as $fieldName => $fieldValue) {
+					// Verifica si el campo comienza con 'equivalente_'
+					if (strpos($fieldName, 'equivalente_') === 0) {
+						// Extrae el valor MATID del nombre del campo
+						$MATID = substr($fieldName, strlen('equivalente_'));
+
+						// Agrega el valor de equivalente y MATID al arreglo
+						$equivalenteData[$MATID] = $fieldValue;
+					}
+				}
+
+				$RegistroCalificacionesModel = new RegistroCalificacionesModel();
+
+		foreach ($notasActualizadas as $RCAID => $nota) {
+			// Llama a la función del modelo para obtener los datos por RCAID específico
+					$resultado = $RegistroCalificacionesModel->obtenerNotasPorRCAIDs([$RCAID]);
+
+					// Supongamos que $resultado contiene un solo elemento, ya que estás buscando un RCAID específico
+					if (!empty($resultado) && count($resultado) == 1) {
+						$MATID = $resultado[0]['MATID']; // Obtiene el MATID del resultado
+					}
+					if (array_key_exists($MATID, $equivalenteData)) {
+						$equivalente = $equivalenteData[$MATID]; // Obtiene el equivalente utilizando el MATID
+					}
+					if (floatval($APROB) <= floatval($equivalente)) {
+						$observacion = "Aprobado";
+					} else {
+						$observacion = "Reprobado";
+					}
+			// Realiza la actualización en la base de datos para cada RCAID
+			$RegistroCalificacionesModel->actualizarNota($RCAID, $nota,$equivalente,$observacion,$txtFecha_Final);
+		}	
+		session()->setFlashdata('mensaje', 'Se ha registrado las notas de manera correctamente');
+		session()->setFlashdata('title', 'Notas Registradas Correctamente');
+		session()->setFlashdata('status', 'success');
+		
+		// Redirecciona a donde necesites después de actualizar las notas
+		return redirect()->to(base_url('/RegistroCalificacionesController'));
+	}
+
+	
 }

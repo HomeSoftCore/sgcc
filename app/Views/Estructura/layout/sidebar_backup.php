@@ -1,4 +1,5 @@
-                <?php if (session('perfilId') === '1'): ?>
+              
+               <?php if (session('perfilId') === '1'): ?>
                     <div class="nav-item has-sub">
                         <a href="#"><i class="ik ik-command"></i><span>Usuarios</span></a>
                         <div class="submenu-content">
@@ -6,7 +7,7 @@
                         </div>
                     </div>
 
-                    <div class="nav-item has-sub">
+                    <div class="nav-item has-sub "> 
                         <a href="#"><i class="ik ik-command"></i><span>Areas</span></a>
                         <div class="submenu-content">
                             <a href="<?php echo base_url('/AreasController'); ?>" class="menu-item">Administrar</a>

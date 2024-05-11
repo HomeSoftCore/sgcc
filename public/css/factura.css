@@ -1,0 +1,112 @@
+/* Factura */
+
+html {
+    max-width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    
+}
+
+body{
+    width: 60%; height: 100%;
+    position: relative;
+    margin: 0 auto;
+    box-shadow: 9px 5px 27px 10px rgba(0,0,0,0.1);
+    /* background: #f9f7f7; */
+
+}
+
+
+
+.encabezado{
+    height: 300px;
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     position: absolute;
+     top: 0;
+     padding-top: 10px;
+  }
+  
+.encabezado-logo{
+    height: 100px;
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    opacity: 60%;
+}
+.encabezado-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.info-factura{
+    text-align: center;
+}
+
+.logo-rounded{
+    border-radius: 100%;
+}
+
+.main-content{
+    padding-top: 150px;
+    padding-left: 50px;
+    padding-right: 50px;
+ }
+
+
+
+ .firmas-group {
+    /* margin-top: 75px; */
+    width: 100%;
+ }
+
+
+ .firma-autorizada{
+    height: 60px;
+    width: auto;
+ }
+
+
+ .firmas-img, .firmas-labels{
+    display: flex;
+    justify-content: space-around;
+ }
+
+ .firma-label{
+    border-top: 1px solid;
+ }
+
+ 
+ 
+.pie_pagina{
+    height: auto;
+    width: 100%;
+    position: absolute;
+    bottom: 0; left: 0;
+    right: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+
+.img-footer{
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+
+}
+
+
+
+
+
+.input-group-text, .form-control{
+    border: none ;
+    background-color: white;
+}
+
+.input-group-text{
+    font-weight: 700;
+}
+  

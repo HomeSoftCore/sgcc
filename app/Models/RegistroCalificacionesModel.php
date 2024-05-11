@@ -79,4 +79,82 @@ class RegistroCalificacionesModel extends Model
         ));
  
     }
+    
+    public function insertarNota($MATID, $CITID,$nota)
+    {
+        // Verifica si la nota1 no es nula o vacía antes de insertarla
+        if ($nota !== null && $nota !== '') {
+            try {
+                $FECHA = date('Y-m-d'); // Cambia el formato según tus necesidades
+                $data = [
+                    'MATID' => $MATID,
+                    'CITID' => $CITID,
+                    'RCANOTA' => $nota,
+                    'RCAFECHA'=> $FECHA
+                    // Agrega aquí otros campos si los tienes
+                ];
+    
+                // Inserta los datos en la tabla registrocalificaciones
+                $this->db->table('registrocalificaciones')->insert($data);
+    
+                // Verifica si la inserción fue exitosa
+                if ($this->db->affectedRows() > 0) {
+                    // La inserción se realizó con éxito
+                    return true;
+                } else {
+                    // No se insertaron filas, lo que indica un error
+                    return false;
+                }
+            } catch (\Exception $e) {
+                // Ocurrió una excepción, maneja el error según tus necesidades
+                log_message('error', $e->getMessage()); // Registra el mensaje de error en el registro
+                return false;
+            }
+        } else {
+            // La nota es nula o vacía, por lo que no se inserta y se devuelve false
+            return false;
+        }
+    }
+    public function obtenerCalificacionesItems()
+{
+    $builder = $this->db->table('calificacionesitems ca');
+    $builder->join('calificaciones fi', 'ca.CALID = fi.CALID');
+    $builder->join('items it', 'ca.ITEID = it.ITEID');
+    $builder->where(['fi.CALESTADO'=>'ACTIVO']);
+    $query = $builder->get();
+    return $query->getResultArray();
+}
+    
+public function actualizarNota($RCAID, $nota,$RCAEQUIVALENTE,$RCAOBSERVACION,$FECHA)
+{
+    $data = ['RCANOTA' => $nota,
+            'RCAEQUIVALENTE' =>$RCAEQUIVALENTE,
+            'RCAOBSERVACION' =>$RCAOBSERVACION,
+            'RCAFECHA' => $FECHA];
+
+    $this->db->table('registrocalificaciones')->where('RCAID', $RCAID)->update($data);
+}
+
+    
+public function notamax()
+{
+        $builder = $this->db->table('calificaciones');
+        $query = $builder->get();
+            return $query->getResultArray();
+}   
+public function obtenerNotasPorRCAIDs($RCAIDs)
+{
+    // Realiza una consulta select utilizando los IDs proporcionados
+    $builder = $this->db->table('registrocalificaciones');
+    $builder->whereIn('RCAID', $RCAIDs);
+    $query = $builder->get();
+
+    // Devuelve los resultados de la consulta en forma de arreglo
+    return $query->getResultArray();
+}
+
+
+
+
+
 }   

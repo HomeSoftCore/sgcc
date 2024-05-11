@@ -8,14 +8,15 @@ use CodeIgniter\I18n\Time;
 class RegistroDocentesModel extends Model
 {
     protected $table      = 'registrodocente';
-    protected $primaryKey = 'RDOID ';
+    protected $primaryKey = 'RDOID';
 
     protected $useAutoIncrement = true;
 
     protected $returnType     = 'array';
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ['RDOID  ','DOCID ','CURID ','RDOFECHA','RDOESTADO'];
+    protected $allowedFields = ['RDOID','DOCID','CURID','RDOFECHA','RDOESTADO'];
+    // protected $allowedFields = ['RDOID  ','DOCID '];
 
     protected $useTimestamps = true;
     protected $createdField  = 'CREATED_AT';
@@ -25,12 +26,16 @@ class RegistroDocentesModel extends Model
     protected $validationRules    = [];
     protected $validationMessages = [];
     protected $skipValidation     = false;
+    protected $cleanValidationRules     = true;
+    
 
     public function add($data) {
 		return $this->db
                     ->table('registrodocente')
                     ->insert($data);
 	}
+
+    
 
     //Aqui se llama al metodo auditar luego de realizar el insert
     protected $afterInsert = ["auditar"];
@@ -40,7 +45,6 @@ class RegistroDocentesModel extends Model
 
     //Aqui se llama al metodo auditar luego de realizar el delete
     protected $afterDelete = ["auditar"];
-
 
     //Metodo que se llama al momento de hacer algun cambio en la tabla
     protected function auditar(array $data)

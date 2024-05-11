@@ -1,5 +1,4 @@
-
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -38,7 +37,7 @@
 				</form>
 
 
-                <table id="advanced_table" class="table nowrap" data-paging="false" data-info="false" data-searching="true">
+                <table id="table" class="table nowrap" data-paging="true" data-info="false" data-searching="true">
                     <thead>
                         <tr>
 							<th>Opci&oacute;n</th>
@@ -66,4 +65,23 @@
         </div>
     </div>
 </div>
-
+<?php if (session()->getFlashdata('mensaje')): ?>
+    <script>
+        var msg = '<?php echo session()->getFlashdata('mensaje'); ?>'
+        var title = '<?php echo session()->getFlashdata('title'); ?>'
+        var status = '<?php echo session()->getFlashdata('status'); ?>'
+         function showSuccessSweetAlert(icon) {
+            Swal.fire({
+                title: title,
+                text: msg,
+                icon: 'success'
+            }).then((result) => {
+            });
+        }
+        if(status === 'success'){
+            showSuccessSweetAlert('success')
+        }else{
+            showSuccessSweetAlert('error')
+        }
+    </script>
+<?php endif; ?>

@@ -15,7 +15,7 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                                <label for="txtNombre">Digite Nombre</label>
+                                <label for="txtNombre">Digite el Nombre</label>
                                 <input type="text" class="form-control" name="txtNombre" placeholder="nombre...">
                             </div>  
                           </div>
@@ -26,7 +26,7 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                                <label for="txtEstado">Seleccione Estado</label>
+                                <label for="txtEstado">Seleccione el Estado</label>
                                 <?php 
                                 
                                 $options = [

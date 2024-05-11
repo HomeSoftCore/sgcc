@@ -17,7 +17,8 @@
                             <div class="form-group">
                                 <label for="txtCodigo">C&oacute;digo</label>
                                 <input type="text" class="form-control" name="txtCodigo" disabled value="<?php echo $items["ITEID"] ?>" placeholder="codigo...">
-                            </div>  
+                            </div> 
+                            <input type="hidden" name="id"value="<?php echo $items["ITEID"] ?>"> <!-- agregar en vista -->
                           </div>
 
                         </div>
